@@ -78,11 +78,11 @@ int main(int argc, char *argv[]) {
   }
   start_time = clock();
 
-  vector<vector<int>> directions;
+  std::vector<std::vector<int>> directions;
   // directions = generate_directions(4);
   directions.push_back({1, 0, 0});
 
-  vector<wilson_result> wilson_offaxis_result =
+  std::vector<wilson_result> wilson_offaxis_result =
       wilson_offaxis(conf.array, directions, R_min, R_max, T_min, T_max);
 
   end_time = clock();
