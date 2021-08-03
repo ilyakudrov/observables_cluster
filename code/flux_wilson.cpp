@@ -142,7 +142,7 @@ int main(int argc, char *argv[]) {
   start_time = clock();
   std::map<int, FLOAT> res1 = wilson_plaket_correlator_electric(
       vec.array, vec_plaket_time.array, R, T, x_trans, d_min, d_max);
-  vector<FLOAT> res2 = wilson_plaket_correlator_magnetic(
+  std::vector<FLOAT> res2 = wilson_plaket_correlator_magnetic(
       vec.array, vec_plaket_space.array, R, T, x_trans, d_min, d_max);
 
   end_time = clock();
