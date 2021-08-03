@@ -6,6 +6,7 @@
 #include "result.h"
 
 #include <iostream>
+#include <map>
 
 int x_size;
 int y_size;
@@ -139,7 +140,7 @@ int main(int argc, char *argv[]) {
             << std::endl;
 
   start_time = clock();
-  vector<FLOAT> res1 = wilson_plaket_correlator_electric(
+  std::map<int, FLOAT> res1 = wilson_plaket_correlator_electric(
       vec.array, vec_plaket_time.array, R, T, x_trans, d_min, d_max);
   vector<FLOAT> res2 = wilson_plaket_correlator_magnetic(
       vec.array, vec_plaket_space.array, R, T, x_trans, d_min, d_max);
@@ -162,8 +163,8 @@ int main(int argc, char *argv[]) {
   stream_electric << "d,wilson-plaket-correlator,wilson-loop,plaket"
                   << std::endl;
 
-  for (int i = 0; i < res1.size(); i++) {
-    stream_electric << d_min + i << "," << res1[i] << "," << b << "," << c1
+  for (auto it = res1.begin(); it != res1.end(); ++it) {
+    stream_electric << it->first << "," << it->second << "," << b << "," << c1
                     << std::endl;
   }
 

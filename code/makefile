@@ -21,6 +21,12 @@ wilson: wilson.o $(OBJ_FILES)
 wilson.o: wilson.cpp
 	$(GCC) -O3 -c wilson.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX=$(MATRIX) -o wilson.o
 
+wilson_spatial: wilson_spatial.o $(OBJ_FILES)
+	$(GCC) wilson_spatial.o $(OBJ_FILES) -o exe/wilson_spatial_$(MATRIX)
+	rm wilson_spatial.o
+wilson_spatial.o: wilson_spatial.cpp
+	$(GCC) -O3 -c wilson_spatial.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX=$(MATRIX) -o wilson_spatial.o
+
 flux_wilson_x: flux_wilson_x.o $(OBJ_FILES)
 	$(GCC) flux_wilson_x.o $(OBJ_FILES) -o flux_wilson_x
 	rm flux_wilson_x.o
