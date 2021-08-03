@@ -151,8 +151,8 @@ int main(int argc, char *argv[]) {
             << " calculating time: " << search_time * 1. / CLOCKS_PER_SEC
             << std::endl;
 
-  ofstream stream_electric;
-  ofstream stream_magnetic;
+  std::ofstream stream_electric;
+  std::ofstream stream_magnetic;
 
   stream_electric.precision(17);
   stream_magnetic.precision(17);
