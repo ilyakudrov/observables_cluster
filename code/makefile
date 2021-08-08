@@ -5,7 +5,7 @@ OBJ_PATH=/home/clusters/rrcmpi/kudrov/general_code/lib/cpu/obj
 OBJ_FILES=$(OBJ_PATH)/link.o $(OBJ_PATH)/data.o $(OBJ_PATH)/basic_observables.o $(OBJ_PATH)/result.o $(OBJ_PATH)/matrix.o $(OBJ_PATH)/flux_tube.o
 FLOAT=double
 FLAGS=-D DOUBLE
-MATRIX=abelian
+MATRIX=su2
 
 all: flux_wilson wilson
 
