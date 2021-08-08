@@ -4,7 +4,6 @@
 #include "matrix.h"
 #include "result.h"
 
-
 #include <iostream>
 
 int x_size;
@@ -102,7 +101,7 @@ int main(int argc, char *argv[]) {
 
   ofstream_wilson.open(output_path_wilson);
 
-  ofstream_wilson << "#time_size,space_size,wilson_loop" << std::endl;
+  ofstream_wilson << "time_size,space_size,wilson_loop" << std::endl;
 
   for (int i = 0; i < wilson_offaxis_result.size(); i++) {
     ofstream_wilson << wilson_offaxis_result[i].time_size << ","

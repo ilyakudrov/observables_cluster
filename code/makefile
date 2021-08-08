@@ -32,3 +32,9 @@ flux_wilson_x: flux_wilson_x.o $(OBJ_FILES)
 	rm flux_wilson_x.o
 flux_wilson_x.o: flux_wilson_x.cpp
 	$(GCC) -O3 -c flux_wilson_x.cpp -I$(INCLUDE_PATH) $(FLAGS)
+
+monopole_observables: monopole_observables.o $(OBJ_FILES) $(OBJ_PATH)/monopoles.o $(OBJ_PATH)/loop.o
+	$(GCC) monopole_observables.o $(OBJ_FILES) $(OBJ_PATH)/monopoles.o $(OBJ_PATH)/loop.o -o exe/monopole_observables_$(MATRIX)
+	rm monopole_observables.o
+monopole_observables.o: monopole_observables.cpp
+	$(GCC) -O3 -c monopole_observables.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX=$(MATRIX) -o monopole_observables.o
