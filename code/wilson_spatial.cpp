@@ -21,8 +21,7 @@ int main(int argc, char *argv[]) {
   std::string output_path_wilson;
   std::string output_path_sizes;
   int L_spat, L_time;
-  int T_min, T_max;
-  FLOAT R_min, R_max;
+  int R_min, R_max;
   for (int i = 1; i < argc; i++) {
     if (std::string(argv[i]) == "-conf_format") {
       conf_format = argv[++i];
@@ -36,10 +35,6 @@ int main(int argc, char *argv[]) {
       L_spat = stoi(std::string(argv[++i]));
     } else if (std::string(argv[i]) == "-L_time") {
       L_time = stoi(std::string(argv[++i]));
-    } else if (std::string(argv[i]) == "-T_min") {
-      T_min = stoi(std::string(argv[++i]));
-    } else if (std::string(argv[i]) == "-T_max") {
-      T_max = stoi(std::string(argv[++i]));
     } else if (std::string(argv[i]) == "-R_min") {
       R_min = stoi(std::string(argv[++i]));
     } else if (std::string(argv[i]) == "-R_max") {
@@ -53,8 +48,6 @@ int main(int argc, char *argv[]) {
   std::cout << "output_path_sizes " << output_path_sizes << std::endl;
   std::cout << "L_spat " << L_spat << std::endl;
   std::cout << "L_time " << L_time << std::endl;
-  std::cout << "T_min " << T_min << std::endl;
-  std::cout << "T_max " << T_max << std::endl;
   std::cout << "R_min " << R_min << std::endl;
   std::cout << "R_max " << R_max << std::endl;
 
@@ -78,22 +71,14 @@ int main(int argc, char *argv[]) {
   }
   start_time = clock();
 
-  std::vector<std::vector<int>> directions;
-  // directions = generate_directions(4);
-  directions.push_back({1, 0, 0});
+  std::map<std::tuple<int, int>, FLOAT> wilson_spat =
+      wilson_spatial(conf_qc2dstag.array, R_min, R_max);
 
-  std::vector<wilson_result> wilson_offaxis_result =
-      wilson_offaxis(conf.array, directions, R_min, R_max, T_min, T_max);
-
-  end_time = clock();
-  search_time = end_time - start_time;
-  std::cout << " calculating time: " << search_time * 1. / CLOCKS_PER_SEC
-            << std::endl;
-
-  wilson_offaxis_reduce(wilson_offaxis_result);
-
-  // write data into two separate files
-  // one is for wilson loops and the second is for sizes
+  for (auto it = wilson_spat.begin(); it != wilson_spat.end(); ++it) {
+    std::cout << "distance: (" << std::get<0>(it->first) << ", "
+              << std::get<1>(it->first) << ")"
+              << " wilson_spatial: " << it->second << std::endl;
+  }
 
   std::ofstream ofstream_wilson;
 
@@ -101,12 +86,11 @@ int main(int argc, char *argv[]) {
 
   ofstream_wilson.open(output_path_wilson);
 
-  ofstream_wilson << "time_size,space_size,wilson_loop" << std::endl;
+  ofstream_wilson << "space_size1,space_size2,wilson_loop" << std::endl;
 
-  for (int i = 0; i < wilson_offaxis_result.size(); i++) {
-    ofstream_wilson << wilson_offaxis_result[i].time_size << ","
-                    << wilson_offaxis_result[i].space_size << ","
-                    << wilson_offaxis_result[i].wilson_loop << std::endl;
+  for (auto it = wilson_spat.begin(); it != wilson_spat.end(); ++it) {
+    ofstream_wilson << std::get<0>(it->first) << "," << std::get<1>(it->first)
+                    << "," << it->second << std::endl;
   }
 
   ofstream_wilson.close();
