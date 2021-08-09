@@ -26,7 +26,9 @@ int main(int argc, char *argv[]) {
 
   std::string conf_format;
   std::string conf_path;
-  std::string output_path;
+  std::string output_lengths;
+  std::string output_windings;
+  std::string output_observables;
   int L_spat, L_time;
   for (int i = 1; i < argc; i++) {
     if (std::string(argv[i]) == "-conf_format") {
@@ -34,11 +36,11 @@ int main(int argc, char *argv[]) {
     } else if (std::string(argv[i]) == "-conf_path") {
       conf_path = argv[++i];
     } else if (std::string(argv[i]) == "-output_lengths") {
-      output_path = argv[++i];
+      output_lengths = argv[++i];
     } else if (std::string(argv[i]) == "-output_windings") {
-      output_path = argv[++i];
+      output_windings = argv[++i];
     } else if (std::string(argv[i]) == "-output_observables") {
-      output_path = argv[++i];
+      output_observables = argv[++i];
     } else if (std::string(argv[i]) == "-L_spat") {
       L_spat = stoi(std::string(argv[++i]));
     } else if (std::string(argv[i]) == "-L_time") {
@@ -48,7 +50,9 @@ int main(int argc, char *argv[]) {
 
   std::cout << "conf_format " << conf_format << std::endl;
   std::cout << "conf_path " << conf_path << std::endl;
-  std::cout << "output_path " << output_path << std::endl;
+  std::cout << "output_lengths " << output_lengths << std::endl;
+  std::cout << "output_windings " << output_windings << std::endl;
+  std::cout << "output_observables " << output_observables << std::endl;
   std::cout << "L_spat " << L_spat << std::endl;
   std::cout << "L_time " << L_time << std::endl;
 
