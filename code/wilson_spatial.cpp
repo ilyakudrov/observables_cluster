@@ -72,7 +72,7 @@ int main(int argc, char *argv[]) {
   start_time = clock();
 
   std::map<std::tuple<int, int>, FLOAT> wilson_spat =
-      wilson_spatial(conf_qc2dstag.array, R_min, R_max);
+      wilson_spatial(conf.array, R_min, R_max);
 
   for (auto it = wilson_spat.begin(); it != wilson_spat.end(); ++it) {
     std::cout << "distance: (" << std::get<0>(it->first) << ", "
