@@ -118,7 +118,7 @@ int main(int argc, char *argv[]) {
 
   length = cluster_length(LL[length_max_id]);
   dimension =
-      cluster_length(LL[length_max_id]) / site_number(LL[length_max_id]);
+      1. * cluster_length(LL[length_max_id]) / site_number(LL[length_max_id]);
 
   std::ofstream ofstream_lengths;
   std::ofstream ofstream_windings;
