@@ -91,6 +91,9 @@ int main(int argc, char *argv[]) {
   for (auto it = wilson_spat.begin(); it != wilson_spat.end(); ++it) {
     ofstream_wilson << std::get<0>(it->first) << "," << std::get<1>(it->first)
                     << "," << it->second << std::endl;
+    if (std::get<0>(it->first) != std::get<1>(it->first))
+      ofstream_wilson << std::get<1>(it->first) << "," << std::get<0>(it->first)
+                      << "," << it->second << std::endl;
   }
 
   ofstream_wilson.close();
