@@ -1,4 +1,4 @@
-GCC=g++
+GCC=/home/itep/kudrov/installed/gcc-9/bin/g++
 SRC_PATH=/home/clusters/rrcmpi/kudrov/general_code/lib/cpu/src
 INCLUDE_PATH=/home/clusters/rrcmpi/kudrov/general_code/lib/cpu/include
 OBJ_PATH=/home/clusters/rrcmpi/kudrov/general_code/lib/cpu/obj
