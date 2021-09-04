@@ -163,6 +163,9 @@ int main(int argc, char *argv[]) {
   stream_electric << "d,wilson-plaket-correlator,wilson-loop,plaket"
                   << std::endl;
 
+  stream_magnetic << "d,wilson-plaket-correlator,wilson-loop,plaket"
+                  << std::endl;
+
   for (auto it = res1.begin(); it != res1.end(); ++it) {
     stream_electric << it->first << "," << it->second << "," << b << "," << c1
                     << std::endl;
