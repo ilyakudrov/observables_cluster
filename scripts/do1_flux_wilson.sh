@@ -6,18 +6,18 @@ conf_type="qc2dstag"
 #smearing="unsmeared"
 HYP_steps=2
 
-for mu in "0.05" #"0.35" "0.45"
+for mu in "0.05" "0.35" "0.45"
 do
 
 source "/lustre/rrcmpi/kudrov/conf/${conf_type}/${conf_size}/mu${mu}/parameters"
 script_path="/home/clusters/rrcmpi/kudrov/observables_cluster/scripts/do_flux_wilson.sh"
 
-chains=( "s0" )
-conf_start=( 201 )
-conf_end=( 201 )
+#chains=( "s0" )
+#conf_start=( 201 )
+#conf_end=( 201 )
 
-#for monopole in "/" "monopole" "monopoless"
-for monopole in "monopoless"
+for monopole in "/" "monopole" "monopoless"
+#for monopole in "monopoless"
 do
 
 if [[ $monopole == "/" ]] ; then
@@ -51,13 +51,13 @@ calculate_absent=false
 
 if [[ $conf_size == "40^4" ]] ; then
 
-R_sizes=(8 10)
-T_sizes=(8 10)
-x_trans=0
-
-#R_sizes=(8 10 12 14 16 18 20)
-#T_sizes=(8 10 12 14 16 18)
+#R_sizes=(8 10)
+#T_sizes=(8 10)
 #x_trans=0
+
+R_sizes=(8 10 12 14 16 18 20)
+T_sizes=(8 10 12 14 16 18)
+x_trans=0
 
 elif [[ $conf_size == "32^4" ]] ; then
 
@@ -71,7 +71,7 @@ echo wrong conf_size ${conf_size}
 
 fi
 
-number_of_jobs=1
+number_of_jobs=100
 confs_total=0
 
 for i  in ${!chains[@]} ; do

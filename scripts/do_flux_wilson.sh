@@ -30,14 +30,14 @@ smeared_path=("${!path2}")
 
 fi
 
-echo conf_path ${conf_path}
-echo monopole ${monopole}
-echo path1 ${path1}
+#echo conf_path ${conf_path}
+#echo monopole ${monopole}
+#echo path1 ${path1}
 
 if [ -f ${conf_path} ] ; then
 
-echo conf_path ${conf_path}
-echo smeared_path ${smeared_path}
+#echo conf_path ${conf_path}
+#echo smeared_path ${smeared_path}
 
 for R in ${R_sizes[@]}; do
 for T in ${T_sizes[@]}; do
@@ -45,7 +45,7 @@ for T in ${T_sizes[@]}; do
 output_path1="/home/clusters/rrcmpi/kudrov/observables_cluster/result/flux_tube_wilson/${monopole}/${conf_type}/${conf_size}/mu${mu}/$chain"
 
 output_path="${output_path1}/T=${T}/R=${R}"
-echo ${output_path}
+#echo ${output_path}
 mkdir -p ${output_path}
 
 output_path_electric="${output_path}/electric_${a}${b}${c}${d}"
