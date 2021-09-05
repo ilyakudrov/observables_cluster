@@ -1,16 +1,16 @@
 #!/bin/bash
-conf_size="32^4"
+conf_size="40^4"
 #mu="0.00"
 conf_type="qc2dstag"
 #smearing="HYP2_APE"
 #smearing="unsmeared"
 HYP_steps=2
 
-for mu in "0.00" #"0.05" "0.35" "0.45"
+for mu in "0.05" "0.35" "0.45"
 do
 
 source "/lustre/rrcmpi/kudrov/conf/${conf_type}/${conf_size}/mu${mu}/parameters"
-script_path="/home/clusters/rrcmpi/kudrov/observables_cluster/scripts/do_flux_wilson.sh"
+script_path="/home/clusters/rrcmpi/kudrov/observables_cluster/scripts/do_flux_schwinger.sh"
 
 #chains=( "s0" )
 #conf_start=( 201 )

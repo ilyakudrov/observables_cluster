@@ -113,14 +113,6 @@ int main(int argc, char *argv[]) {
   } else if (std::string(conf_format) == "double_qc2dstag") {
     smeared.read_double_qc2dstag(smeared_path);
   }
-  double c1 = plaket_time(conf.array);
-  double c2 = plaket_space(conf.array);
-
-  double a;
-  double aver[2];
-  result vec(0);
-  result vec_plaket_time;
-  result vec_plaket_space;
 
   start_time = clock();
 
@@ -148,7 +140,7 @@ int main(int argc, char *argv[]) {
   std::ofstream stream_electric;
   // std::ofstream stream_magnetic;
 
-  stream_magnetic.precision(17);
+  stream_electric.precision(17);
 
   stream_electric.open(output_path_electric);
   // stream_magnetic.open(output_path_magnetic);
