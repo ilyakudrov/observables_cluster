@@ -116,16 +116,10 @@ int main(int argc, char *argv[]) {
 
   start_time = clock();
 
-  std::vector<std::vector<std::vector<MATRIX>>> schwinger_lines_short;
-  for (int d = 1; d <= R + 5; d++) {
-    schwinger_lines_short.push_back(
-        calculate_schwinger_lines_short(conf.array, d));
-  }
-
   std::vector<MATRIX> plaket_electric =
       calculate_plaket_schwinger_time(conf.array);
 
-  std::vector<FLOAT> schwinger_electric = wilson_plaket_schwinger_electric(
+  std::map<int, FLOAT> schwinger_electric = wilson_plaket_schwinger_electric(
       smeared.array, schwinger_lines_short, plaket_electric, -5, R + 5, T, R);
 
   schwinger_lines_short.clear();
@@ -166,16 +160,12 @@ int main(int argc, char *argv[]) {
   // stream_magnetic << "d,wilson-plaket-correlator,wilson-loop,plaket"
   //                 << std::endl;
 
-  for (int i = 0; i < schwinger_electric.size(); i++) {
-    stream_electric << i - 5 << "," << schwinger_electric[i] << ","
-                    << wilson_plaket_correlator[i - 5] << ","
+  for (auto it = schwinger_electric.begin(); it != schwinger_electric.end();
+       ++it) {
+    stream_electric << it->first << "," << it->second << ","
+                    << wilson_plaket_correlator[it->first] << ","
                     << wilson_loop_tr_average << std::endl;
   }
-
-  // for (int i = 0; i < res2.size(); i++) {
-  //   stream_magnetic << d_min + i << "," << res2[i] << "," << b << "," << c2
-  //                   << std::endl;
-  // }
 
   stream_electric.close();
   // stream_magnetic.close();
