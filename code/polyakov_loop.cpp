@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
 
   std::cout << "conf_format " << conf_format << std::endl;
   std::cout << "conf_path " << conf_path << std::endl;
-  std::cout << "output_path_wilson " << output_path_wilson << std::endl;
+  std::cout << "output_path_polyakov " << output_path_polyakov << std::endl;
   std::cout << "output_path_sizes " << output_path_sizes << std::endl;
   std::cout << "L_spat " << L_spat << std::endl;
   std::cout << "L_time " << L_time << std::endl;
@@ -72,7 +72,7 @@ int main(int argc, char *argv[]) {
   start_time = clock();
 
   std::map<int, FLOAT> polyakov_correlator =
-      polyakov_loop_correlator(conf_qc2dstag.array, R_min, R_max);
+      polyakov_loop_correlator(conf.array, R_min, R_max);
 
   for (auto it = polyakov_correlator.begin(); it != polyakov_correlator.end();
        ++it) {

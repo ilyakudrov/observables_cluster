@@ -5,7 +5,7 @@ OBJ_PATH=/home/clusters/rrcmpi/kudrov/general_code/lib/cpu/obj
 OBJ_FILES=$(OBJ_PATH)/link.o $(OBJ_PATH)/data.o $(OBJ_PATH)/basic_observables.o $(OBJ_PATH)/result.o $(OBJ_PATH)/matrix.o $(OBJ_PATH)/flux_tube.o
 FLOAT=double
 FLAGS=-D DOUBLE -fopenmp
-MATRIX=abelian
+MATRIX=su2
 
 all: flux_wilson wilson
 
@@ -50,3 +50,9 @@ monopole_observables: monopole_observables.o $(OBJ_FILES) $(OBJ_PATH)/monopoles.
 	rm monopole_observables.o
 monopole_observables.o: monopole_observables.cpp
 	$(GCC) -O3 -c monopole_observables.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX=$(MATRIX) -o monopole_observables.o
+
+polyakov_loop: polyakov_loop.o $(OBJ_FILES)
+	$(GCC) polyakov_loop.o $(OBJ_FILES) -o exe/polyakov_loop_$(MATRIX) -fopenmp
+	rm polyakov_loop.o
+polyakov_loop.o: polyakov_loop.cpp
+	$(GCC) -O3 -c polyakov_loop.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX=$(MATRIX) -o polyakov_loop.o
