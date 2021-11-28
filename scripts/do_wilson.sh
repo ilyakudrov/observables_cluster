@@ -8,9 +8,13 @@ b=$((($i-$a*1000)/100))
 c=$((($i-$a*1000-$b*100)/10))
 d=$(($i-$a*1000-$b*100-$c*10))
 
-conf_path_qc2dstag="/home/clusters/rrcmpi/kudrov/smearing_cluster/confs_smeared/qc2dstag/${conf_size}/mu${mu}/${smearing}/$chain/conf_APE_alpha=0.7_$a$b$c$d"
+conf_path_qc2dstag="/home/clusters/rrcmpi/kudrov/smearing_cluster/confs_smeared/qc2dstag/${conf_size}/mu${mu}/${smearing}/$chain/conf_APE_alpha=0.75_$a$b$c$d"
 conf_path_monopole="/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/monopole/qc2dstag/${conf_size}/mu${mu}/$chain/conf_monopole_$a$b$c$d"
-conf_path_monopoless="/home/clusters/rrcmpi/kudrov/smearing_cluster/confs_smeared/monopoless/qc2dstag/${conf_size}/mu${mu}/${smearing}/$chain/conf_APE_alpha=0.7_$a$b$c$d"
+conf_path_monopoless="/home/clusters/rrcmpi/kudrov/smearing_cluster/confs_smeared/monopoless/qc2dstag/${conf_size}/mu${mu}/${smearing}/$chain/conf_APE_alpha=0.75_$a$b$c$d"
+
+#conf_path_qc2dstag="/home/clusters/rrcmpi/kudrov/smearing_cluster/confs_smeared/SU2_dinam/conf_APE_alpha=0.7_$a$b$c$d"
+#conf_path_monopole="/home/clusters/01/vborn/Copy_from_lustre/SU2_dinam/MAG/mu0p0_b1p8_m0p0075_lam0p00075/MON_WL/CON_MON_MAG_$b$c$d.LAT"
+#conf_path_monopoless="/home/clusters/rrcmpi/kudrov/smearing_cluster/confs_smeared/monopoless/SU2_dinam/conf_APE_alpha=0.7_$a$b$c$d"
 
 if [[ ${monopole} == "/" ]] ; then
 
@@ -23,15 +27,27 @@ conf_path=("${!path1}")
 
 fi
 
-#echo $conf_path
-
 if [ -f ${conf_path} ] ; then
 
-output_path_wilson="/home/clusters/rrcmpi/kudrov/observables_cluster/result/wilson_loop/${axis}/${monopole}/${conf_type}/${conf_size}/mu${mu}/$chain"
+if [[ ${smearing} == "/" ]] ; then
+
+smearing1="unsmeared"
+
+else
+
+smearing1="smeared"
+
+fi
+
+#output_path_wilson="/home/clusters/rrcmpi/kudrov/observables_cluster/result/wilson_loop/${axis}/${monopole}/${conf_type}/${smearing1}/${conf_size}/mu${mu}/$chain"
+output_path_wilson="/home/clusters/rrcmpi/kudrov/observables_cluster/result/wilson_loop/${axis}/${monopole}/${conf_type}/${smearing}/${conf_size}/mu${mu}/$chain"
+#output_path_wilson="/home/clusters/rrcmpi/kudrov/observables_cluster/result/wilson_loop/${axis}/${monopole}/SU2_dinam/${conf_size}/mu${mu}"
 mkdir -p ${output_path_wilson}
 output_path_wilson="${output_path_wilson}/wilson_loop_$a$b$c$d"
 
 if [ ! -f ${output_path_wilson} ] || [  ${calculate_absent} == "false" ] ; then
+
+#echo output_path_wilson $output_path_wilson
 
 parameters="-conf_format $conf_format -conf_path $conf_path -output_path_wilson $output_path_wilson -L_spat ${L_spat} -L_time ${L_time} -T_min ${T_min} -T_max ${T_max} -R_min ${R_min} -R_max ${R_max}"
 

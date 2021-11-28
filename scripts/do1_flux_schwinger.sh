@@ -1,12 +1,11 @@
 #!/bin/bash
 conf_size="40^4"
-#mu="0.00"
 conf_type="qc2dstag"
-#smearing="HYP2_APE"
-#smearing="unsmeared"
 HYP_steps=2
 
-for mu in "0.05" "0.35" "0.45"
+#for mu in "0.05" "0.35" "0.45"
+#for mu in "0.00"
+for mu in "0.05"
 do
 
 source "/lustre/rrcmpi/kudrov/conf/${conf_type}/${conf_size}/mu${mu}/parameters"
@@ -16,8 +15,8 @@ script_path="/home/clusters/rrcmpi/kudrov/observables_cluster/scripts/do_flux_sc
 #conf_start=( 201 )
 #conf_end=( 201 )
 
-for monopole in "/" "monopole" "monopoless"
-#for monopole in "monopoless"
+#for monopole in "/" "monopole" "monopoless"
+for monopole in "/"
 do
 
 if [[ $monopole == "/" ]] ; then
@@ -96,7 +95,7 @@ if [[ $chain_current -ge ${#chains[@]} ]] ; then
 break
 fi
 
-log_path="/home/clusters/rrcmpi/kudrov/observables_cluster/logs/flux_tube_wilson/${monopole}/${conf_type}/${conf_size}/mu${mu}/${chains[${chain_current}]}"
+log_path="/home/clusters/rrcmpi/kudrov/observables_cluster/logs/flux_tube_schwinger/${monopole}/${conf_type}/${conf_size}/mu${mu}/${chains[${chain_current}]}"
 mkdir -p ${log_path}
 
 a1=$((${conf1}/1000))
@@ -118,6 +117,11 @@ qsub -q long -v conf_format=${conf_format},smeared_format=${smeared_format},chai
 R_sizes=${R_sizes},T_sizes=${T_sizes},L_spat=${L_spat},L_time=${L_time},x_trans=${x_trans},matrix_type=${matrix_type},conf1=${conf1},conf2=${conf2},\
  -o "${log_path}/$a1$b1$c1$d1-$a2$b2$c2$d2.o" -e "${log_path}/$a1$b1$c1$d1-$a2$b2$c2$d2.e" ${script_path}
 done
+
+if [[ $conf2 -ge ${conf_end[$chain_current]} ]] ; then
+chain_current=$(( $chain_current + 1 ))
+jobs_done=$(( ${i} + 1 ))
+fi
 
 done
 done

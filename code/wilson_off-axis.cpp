@@ -41,9 +41,9 @@ int main(int argc, char *argv[]) {
     } else if (std::string(argv[i]) == "-T_max") {
       T_max = stoi(std::string(argv[++i]));
     } else if (std::string(argv[i]) == "-R_min") {
-      R_min = stoi(std::string(argv[++i]));
+      R_min = stod(std::string(argv[++i]));
     } else if (std::string(argv[i]) == "-R_max") {
-      R_max = stoi(std::string(argv[++i]));
+      R_max = stod(std::string(argv[++i]));
     }
   }
 

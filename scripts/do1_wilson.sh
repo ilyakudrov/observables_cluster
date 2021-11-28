@@ -1,39 +1,58 @@
 #!/bin/bash
-conf_size="40^4"
-mu="0.05"
+conf_size="32^4"
 conf_type="qc2dstag"
-HYP_steps=2
 
-for mu in "0.05" "0.35" "0.45"
+#for mu in "0.05" "0.35" "0.45"
+for mu in "0.00"
 do
 
 source "/lustre/rrcmpi/kudrov/conf/${conf_type}/${conf_size}/mu${mu}/parameters"
 script_path="/home/clusters/rrcmpi/kudrov/observables_cluster/scripts/do_wilson.sh"
 
+HYP_alpha1="1"
+HYP_alpha2="1"
+HYP_alpha3="0.5"
+APE_alpha="0.75"
+HYP_steps=1
+APE_steps=60
+
+#chains=( "s0" )
 #conf_start=( 201 )
 #conf_end=( 201 )
 
-for monopole in "/" "monopole" "monopoless"
-#for monopole in "monopoless"
+#chains=( "/" )
+#conf_start=( 31 )
+#conf_end=( 400 )
+
+#for monopole in "/" "monopole" "monopoless"
+for monopole in "monopoless" "/"
+#for monopole in "/"
 do
 
 if [[ $monopole == "/" ]] ; then
 
 matrix_type="su2"
-conf_format="double_qc2dstag"
-smearing="HYP${HYP_steps}_APE${APE_steps_wilson}"
+conf_format="double"
+#conf_format="double_qc2dstag"
+#smearing="HYP${HYP_steps}_APE${APE_steps_wilson}"
+#smearing="/"
+smearing="HYP${HYP_steps}_alpha=${HYP_alpha1}_${HYP_alpha2}_${HYP_alpha3}_APE${APE_steps}_APE_alpha=${APE_alpha}"
 
 elif [[ $monopole == "monopole" ]] ; then
 
 matrix_type="abelian"
-conf_format="double_fortran"
+#conf_format="double_fortran"
+conf_format="float_fortran"
 smearing="unsmeared"
 
 elif [[ $monopole == "monopoless" ]] ; then
 
 matrix_type="su2"
-conf_format="double_fortran"
-smearing="HYP${HYP_steps}_APE${APE_steps_decomposition_wilson}"
+conf_format="double"
+#conf_format="double_fortran"
+#smearing="HYP${HYP_steps}_APE${APE_steps_decomposition_wilson}"
+#smearing="/"
+smearing="HYP${HYP_steps}_alpha=${HYP_alpha1}_${HYP_alpha2}_${HYP_alpha3}_APE${APE_steps}_APE_alpha=${APE_alpha}"
 
 else
 
@@ -41,24 +60,36 @@ echo wrong monopole ${monopole}
 
 fi
 
-axis="off-axis"
-#axis="on-axis"
+#axis="off-axis"
+axis="on-axis"
 
 calculate_absent="false"
 
 if [[ $conf_size == "40^4" ]] ; then
 
+#T_min=4
+#T_max=5
+#R_min="5.9"
+#R_max="6.1"
+
 T_min=4
 T_max=20
-R_min="4.9"
-R_max="20.1"
+R_min="0.9"
+R_max="8.1"
 
 elif [[ $conf_size == "32^4" ]] ; then 
 
 T_min=4
 T_max=16
-R_min="4.9"
+R_min="0.9"
 R_max="16.1"
+
+elif [[ $conf_size == "32^4" ]] ; then
+
+T_min=4
+T_max=12
+R_min="0.9"
+R_max="12.1"
 
 else
 
@@ -67,7 +98,7 @@ echo wrong conf_size ${conf_size}
 fi
 
 
-number_of_jobs=100
+number_of_jobs=400
 confs_total=0
 
 for i  in ${!chains[@]} ; do

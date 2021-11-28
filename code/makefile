@@ -5,12 +5,12 @@ OBJ_PATH=/home/clusters/rrcmpi/kudrov/general_code/lib/cpu/obj
 OBJ_FILES=$(OBJ_PATH)/link.o $(OBJ_PATH)/data.o $(OBJ_PATH)/basic_observables.o $(OBJ_PATH)/result.o $(OBJ_PATH)/matrix.o $(OBJ_PATH)/flux_tube.o
 FLOAT=double
 FLAGS=-D DOUBLE -fopenmp
-MATRIX=su2
+MATRIX=abelian
 
-all: flux_wilson wilson
+all: flux_wilson wilson_on-axis wilson_off-axis flux_schwinger monopole_observables polyakov_loop
 
 flux_wilson: flux_wilson.o $(OBJ_FILES)
-	$(GCC) flux_wilson.o $(OBJ_FILES) -o exe/flux_wilson_$(MATRIX) -fopenmp
+	$(GCC) flux_wilson.o $(OBJ_FILES) -o exe/flux_wilson_$(MATRIX)
 	rm flux_wilson.o
 flux_wilson.o: flux_wilson.cpp
 	$(GCC) -O3 -c flux_wilson.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX=$(MATRIX) -o flux_wilson.o
@@ -40,7 +40,7 @@ flux_wilson_x.o: flux_wilson_x.cpp
 	$(GCC) -O3 -c flux_wilson_x.cpp -I$(INCLUDE_PATH) $(FLAGS)
 
 flux_schwinger: flux_schwinger.o $(OBJ_FILES)
-	$(GCC) flux_schwinger.o $(OBJ_FILES) -o exe/flux_schwinger_$(MATRIX) -fopenmp
+	$(GCC) flux_schwinger.o $(OBJ_FILES) -o exe/flux_schwinger_$(MATRIX)
 	rm flux_schwinger.o
 flux_schwinger.o: flux_schwinger.cpp
 	$(GCC) -O3 -c flux_schwinger.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX=$(MATRIX) -o flux_schwinger.o
@@ -52,7 +52,7 @@ monopole_observables.o: monopole_observables.cpp
 	$(GCC) -O3 -c monopole_observables.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX=$(MATRIX) -o monopole_observables.o
 
 polyakov_loop: polyakov_loop.o $(OBJ_FILES)
-	$(GCC) polyakov_loop.o $(OBJ_FILES) -o exe/polyakov_loop_$(MATRIX) -fopenmp
+	$(GCC) polyakov_loop.o $(OBJ_FILES) -o exe/polyakov_loop_$(MATRIX)
 	rm polyakov_loop.o
 polyakov_loop.o: polyakov_loop.cpp
 	$(GCC) -O3 -c polyakov_loop.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX=$(MATRIX) -o polyakov_loop.o

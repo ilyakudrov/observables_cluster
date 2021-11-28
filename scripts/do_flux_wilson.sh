@@ -39,8 +39,32 @@ if [ -f ${conf_path} ] ; then
 #echo conf_path ${conf_path}
 #echo smeared_path ${smeared_path}
 
+if [[ $conf_size == "40^4" ]] ; then
+
+#R_sizes=(8 10)
+#T_sizes=(8 10)
+#x_trans=0
+
+R_sizes=(8 10 12 14 16 18 20)
+T_sizes=(8 10 12 14 16 18)
+x_trans=0
+
+elif [[ $conf_size == "32^4" ]] ; then
+
+R_sizes=(8 10 12 14 16)
+T_sizes=(8 10 12 14 16)
+x_trans=0
+
+else
+
+echo wrong conf_size ${conf_size}
+
+fi
+
 for R in ${R_sizes[@]}; do
 for T in ${T_sizes[@]}; do
+
+echo R $R T $T
 
 output_path1="/home/clusters/rrcmpi/kudrov/observables_cluster/result/flux_tube_wilson/${monopole}/${conf_type}/${conf_size}/mu${mu}/$chain"
 

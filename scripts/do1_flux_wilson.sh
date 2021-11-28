@@ -1,23 +1,25 @@
 #!/bin/bash
-conf_size="32^4"
-#mu="0.00"
+conf_size="40^4"
 conf_type="qc2dstag"
 #smearing="HYP2_APE"
 #smearing="unsmeared"
 HYP_steps=2
 
-for mu in "0.00" #"0.05" "0.35" "0.45"
+x_trans=0
+
+for mu in "0.05" "0.35" "0.45"
+#for mu in "0.05"
 do
 
 source "/lustre/rrcmpi/kudrov/conf/${conf_type}/${conf_size}/mu${mu}/parameters"
 script_path="/home/clusters/rrcmpi/kudrov/observables_cluster/scripts/do_flux_wilson.sh"
 
-#chains=( "s0" )
-#conf_start=( 201 )
-#conf_end=( 201 )
+#chains=( "s0" "s1" )
+#conf_start=( 202 202 )
+#conf_end=( 210 210 )
 
 for monopole in "/" "monopole" "monopoless"
-#for monopole in "monopoless"
+#for monopole in "/"
 do
 
 if [[ $monopole == "/" ]] ; then
@@ -48,28 +50,6 @@ echo wrong monopole ${monopole}
 fi
 
 calculate_absent=false
-
-if [[ $conf_size == "40^4" ]] ; then
-
-#R_sizes=(8 10)
-#T_sizes=(8 10)
-#x_trans=0
-
-R_sizes=(8 10 12 14 16 18 20)
-T_sizes=(8 10 12 14 16 18)
-x_trans=0
-
-elif [[ $conf_size == "32^4" ]] ; then
-
-R_sizes=(8 10 12 14 16)
-T_sizes=(8 10 12 14 16)
-x_trans=0
-
-else
-
-echo wrong conf_size ${conf_size}
-
-fi
 
 number_of_jobs=100
 confs_total=0
@@ -110,14 +90,19 @@ c2=$(((${conf2}-$a2*1000-$b2*100)/10))
 d2=$((${conf2}-$a2*1000-$b2*100-$c2*10))
 
 qsub -q long -v conf_format=${conf_format},smeared_format=${smeared_format},chain=${chains[$chain_current]},mu=${mu},smearing=${smearing},conf_size=${conf_size},conf_type=${conf_type},monopole=${monopole},\
-R_sizes=${R_sizes},T_sizes=${T_sizes},L_spat=${L_spat},L_time=${L_time},x_trans=${x_trans},matrix_type=${matrix_type},conf1=${conf1},conf2=${conf2},\
+L_spat=${L_spat},L_time=${L_time},x_trans=${x_trans},matrix_type=${matrix_type},conf1=${conf1},conf2=${conf2},\
  -o "${log_path}/$a1$b1$c1$d1-$a2$b2$c2$d2.o" -e "${log_path}/$a1$b1$c1$d1-$a2$b2$c2$d2.e" ${script_path}
 while [ $? -ne 0 ]
 do
 qsub -q long -v conf_format=${conf_format},smeared_format=${smeared_format},chain=${chains[$chain_current]},mu=${mu},smearing=${smearing},conf_size=${conf_size},conf_type=${conf_type},monopole=${monopole},\
-R_sizes=${R_sizes},T_sizes=${T_sizes},L_spat=${L_spat},L_time=${L_time},x_trans=${x_trans},matrix_type=${matrix_type},conf1=${conf1},conf2=${conf2},\
+L_spat=${L_spat},L_time=${L_time},x_trans=${x_trans},matrix_type=${matrix_type},conf1=${conf1},conf2=${conf2},\
  -o "${log_path}/$a1$b1$c1$d1-$a2$b2$c2$d2.o" -e "${log_path}/$a1$b1$c1$d1-$a2$b2$c2$d2.e" ${script_path}
 done
+
+if [[ $conf2 -ge ${conf_end[$chain_current]} ]] ; then
+chain_current=$(( $chain_current + 1 ))
+jobs_done=$(( ${i} + 1 ))
+fi
 
 done
 done

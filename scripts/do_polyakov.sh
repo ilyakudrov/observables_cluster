@@ -8,9 +8,9 @@ b=$((($i-$a*1000)/100))
 c=$((($i-$a*1000-$b*100)/10))
 d=$(($i-$a*1000-$b*100-$c*10))
 
-conf_path_qc2dstag="/home/clusters/rrcmpi/kudrov/smearing_cluster/confs_smeared/qc2dstag/${conf_size}/mu${mu}/${smearing}/$chain/conf_APE_alpha=0.7_$a$b$c$d"
+conf_path_qc2dstag="/home/clusters/rrcmpi/kudrov/smearing_cluster/confs_smeared/qc2dstag/${conf_size}/mu${mu}/${smearing}/$chain/conf_APE_alpha=0.75_$a$b$c$d"
 conf_path_monopole="/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/monopole/qc2dstag/${conf_size}/mu${mu}/$chain/conf_monopole_$a$b$c$d"
-conf_path_monopoless="/home/clusters/rrcmpi/kudrov/smearing_cluster/confs_smeared/monopoless/qc2dstag/${conf_size}/mu${mu}/${smearing}/$chain/conf_APE_alpha=0.7_$a$b$c$d"
+conf_path_monopoless="/home/clusters/rrcmpi/kudrov/smearing_cluster/confs_smeared/monopoless/qc2dstag/${conf_size}/mu${mu}/${smearing}/$chain/conf_APE_alpha=0.75_$a$b$c$d"
 
 if [[ ${monopole} == "/" ]] ; then
 
@@ -23,11 +23,12 @@ conf_path=("${!path1}")
 
 fi
 
-#echo $conf_path
+echo $conf_path
 
 if [ -f ${conf_path} ] ; then
 
-output_path_polyakov="/home/clusters/rrcmpi/kudrov/observables_cluster/result/polyakov_loop/${axis}/${monopole}/${conf_type}/${conf_size}/mu${mu}/$chain"
+#output_path_polyakov="/home/clusters/rrcmpi/kudrov/observables_cluster/result/polyakov_loop/${axis}/${monopole}/${conf_type}/${conf_size}/mu${mu}/$chain"
+output_path_polyakov="/home/clusters/rrcmpi/kudrov/observables_cluster/result/polyakov_loop/${axis}/${monopole}/${conf_type}/${conf_size}/mu${mu}/${smearing}/$chain"
 mkdir -p ${output_path_polyakov}
 output_path_polyakov="${output_path_polyakov}/polyakov_loop_$a$b$c$d"
 

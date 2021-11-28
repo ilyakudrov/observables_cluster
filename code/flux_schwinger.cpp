@@ -120,10 +120,7 @@ int main(int argc, char *argv[]) {
       calculate_plaket_schwinger_time(conf.array);
 
   std::map<int, FLOAT> schwinger_electric = wilson_plaket_schwinger_electric(
-      smeared.array, schwinger_lines_short, plaket_electric, -5, R + 5, T, R);
-
-  schwinger_lines_short.clear();
-  plaket_electric.clear();
+      smeared.array, plaket_electric, -5, R + 5, T, R);
 
   end_time = clock();
   search_time = end_time - start_time;
