@@ -5,6 +5,7 @@
 #include "matrix.h"
 #include "result.h"
 
+#include <numeric>
 #include <iostream>
 #include <map>
 
@@ -12,6 +13,8 @@ int x_size;
 int y_size;
 int z_size;
 int t_size;
+
+using namespace std;
 
 int main(int argc, char *argv[]) {
   unsigned int start_time;
@@ -27,13 +30,19 @@ int main(int argc, char *argv[]) {
   int L_spat, L_time;
   int R, T;
   int x_trans;
+  int bites_skip = 4;
+  int bites_skip_smeared = 4;
   // int T_min, T_max;
   // FLOAT R_min, R_max;
   for (int i = 1; i < argc; i++) {
     if (std::string(argv[i]) == "-conf_format") {
       conf_format = argv[++i];
+    } else if (string(argv[i]) == "-bites_skip") {
+      bites_skip = stoi(string(argv[++i]));
     } else if (std::string(argv[i]) == "-smeared_format") {
       smeared_format = argv[++i];
+    } else if (string(argv[i]) == "-bites_skip_smeared") {
+      bites_skip_smeared = stoi(string(argv[++i]));
     } else if (std::string(argv[i]) == "-conf_path") {
       conf_path = argv[++i];
     } else if (std::string(argv[i]) == "-smeared_path") {
@@ -64,7 +73,9 @@ int main(int argc, char *argv[]) {
   }
 
   std::cout << "conf_format " << conf_format << std::endl;
+  cout << "bites_skip " << bites_skip << endl;
   std::cout << "smeared_format " << smeared_format << std::endl;
+  cout << "bites_skip_smeared " << bites_skip_smeared << endl;
   std::cout << "conf_path " << conf_path << std::endl;
   std::cout << "smeared_path " << smeared_path << std::endl;
   std::cout << "output_path_electric " << output_path_electric << std::endl;
@@ -74,6 +85,7 @@ int main(int argc, char *argv[]) {
   std::cout << "R " << R << std::endl;
   std::cout << "T " << T << std::endl;
   std::cout << "x_trans " << x_trans << std::endl;
+  
   // std::cout<<"T_min "<<T_min<<std::endl;
   // std::cout<<"T_max "<<T_max<<std::endl;
   // std::cout<<"R_min "<<R_min<<std::endl;
@@ -88,16 +100,16 @@ int main(int argc, char *argv[]) {
   int d_max = R + 5;
 
   data<MATRIX> conf;
-  data<MATRIX> smeared;
+  data<MATRIX_SMEARED> smeared;
 
   if (std::string(conf_format) == "float") {
     conf.read_float(conf_path);
   } else if (std::string(conf_format) == "double") {
     conf.read_double(conf_path);
   } else if (std::string(conf_format) == "double_fortran") {
-    conf.read_double_fortran(conf_path);
+    conf.read_double_fortran(conf_path, bites_skip);
   } else if (std::string(conf_format) == "float_fortran") {
-    conf.read_float_fortran(conf_path);
+    conf.read_float_fortran(conf_path, bites_skip);
   } else if (std::string(conf_format) == "double_qc2dstag") {
     conf.read_double_qc2dstag(conf_path);
   }
@@ -106,33 +118,27 @@ int main(int argc, char *argv[]) {
     smeared.read_float(smeared_path);
   } else if (std::string(smeared_format) == "double") {
     smeared.read_double(smeared_path);
-  } else if (std::string(conf_format) == "double_fortran") {
-    smeared.read_double_fortran(smeared_path);
-  } else if (std::string(conf_format) == "float_fortran") {
-    smeared.read_float_fortran(smeared_path);
-  } else if (std::string(conf_format) == "double_qc2dstag") {
+  } else if (std::string(smeared_format) == "double_fortran") {
+    smeared.read_double_fortran(smeared_path, bites_skip_smeared);
+  } else if (std::string(smeared_format) == "float_fortran") {
+    smeared.read_float_fortran(smeared_path, bites_skip_smeared);
+  } else if (std::string(smeared_format) == "double_qc2dstag") {
     smeared.read_double_qc2dstag(smeared_path);
   }
-  double c1 = plaket_time(conf.array);
-  double c2 = plaket_space(conf.array);
-
-  double a;
-  double aver[2];
-  result vec(0);
-  result vec_plaket_time;
-  result vec_plaket_space;
+  double plaket_time_average = plaket_time(conf.array);
+  double plaket_space_average = plaket_space(conf.array);
 
   start_time = clock();
 
-  vec.array = calculate_wilson_loop_tr(smeared.array, R, T);
-  vec_plaket_time.array = calculate_plaket_time_tr(conf.array);
-  vec_plaket_space.array = calculate_plaket_space_tr(conf.array);
-  vec.average(aver);
-  double b = aver[0];
-  vec_plaket_time.average(aver);
-  std::cout << "plaket_time " << c1 << " " << aver[0] << std::endl;
-  vec_plaket_space.average(aver);
-  std::cout << "plaket_space " << c2 << " " << aver[0] << std::endl;
+  vector<FLOAT> wilson_loop_trace = calculate_wilson_loop_tr(smeared.array, R, T);
+  vector<FLOAT> plaket_time_trace = calculate_plaket_time_tr(conf.array);
+  vector<FLOAT> plaket_space_trace = calculate_plaket_space_tr(conf.array);
+
+  double wilson_loop_average = accumulate(wilson_loop_trace.cbegin(), wilson_loop_trace.cend(), 0.0) / wilson_loop_trace.size();
+  cout<<"wilson_loop_average = "<<wilson_loop_average<<endl;
+
+  std::cout << "plaket_time " << plaket_time_average << " smeared_plaket_time "<< plaket_time(smeared.array) << std::endl;
+  std::cout << "plaket_space " << plaket_space_average << " smeared_plaket_space "<< plaket_space(smeared.array) << std::endl;
 
   end_time = clock();
   search_time = end_time - start_time;
@@ -141,9 +147,9 @@ int main(int argc, char *argv[]) {
 
   start_time = clock();
   std::map<int, FLOAT> res1 = wilson_plaket_correlator_electric(
-      vec.array, vec_plaket_time.array, R, T, x_trans, d_min, d_max);
+       wilson_loop_trace, plaket_time_trace, R, T, x_trans, d_min, d_max);
   std::vector<FLOAT> res2 = wilson_plaket_correlator_magnetic(
-      vec.array, vec_plaket_space.array, R, T, x_trans, d_min, d_max);
+       wilson_loop_trace, plaket_space_trace, R, T, x_trans, d_min, d_max);
 
   end_time = clock();
   search_time = end_time - start_time;
@@ -167,12 +173,12 @@ int main(int argc, char *argv[]) {
                   << std::endl;
 
   for (auto it = res1.begin(); it != res1.end(); ++it) {
-    stream_electric << it->first << "," << it->second << "," << b << "," << c1
+    stream_electric << it->first << "," << it->second << "," << wilson_loop_average << "," << plaket_time_average
                     << std::endl;
   }
 
   for (int i = 0; i < res2.size(); i++) {
-    stream_magnetic << d_min + i << "," << res2[i] << "," << b << "," << c2
+    stream_magnetic << d_min + i << "," << res2[i] << "," << wilson_loop_average << "," << plaket_space_average
                     << std::endl;
   }
 

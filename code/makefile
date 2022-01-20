@@ -3,20 +3,23 @@ SRC_PATH=/home/clusters/rrcmpi/kudrov/general_code/lib/cpu/src
 INCLUDE_PATH=/home/clusters/rrcmpi/kudrov/general_code/lib/cpu/include
 OBJ_PATH=/home/clusters/rrcmpi/kudrov/general_code/lib/cpu/obj
 OBJ_FILES=$(OBJ_PATH)/link.o $(OBJ_PATH)/data.o $(OBJ_PATH)/basic_observables.o $(OBJ_PATH)/result.o $(OBJ_PATH)/matrix.o $(OBJ_PATH)/flux_tube.o
+C_PATH=/home/clusters/rrcmpi/kudrov/general_code/lib/cpu/src/c-lime
+C_FILES=$(C_PATH)/lime_fseeko.c  $(C_PATH)/lime_header.c  $(C_PATH)/lime_reader.c  $(C_PATH)/lime_utils.c  $(C_PATH)/lime_writer.c
 FLOAT=double
 FLAGS=-D DOUBLE -fopenmp
-MATRIX=abelian
+MATRIX=su2
+MATRIX_SMEARED=su2
 
 all: flux_wilson wilson_on-axis wilson_off-axis flux_schwinger monopole_observables polyakov_loop
 
 flux_wilson: flux_wilson.o $(OBJ_FILES)
-	$(GCC) flux_wilson.o $(OBJ_FILES) -o exe/flux_wilson_$(MATRIX)
+	$(GCC) flux_wilson.o $(OBJ_FILES) $(C_FILES) -o exe/flux_wilson_$(MATRIX)_$(MATRIX_SMEARED)
 	rm flux_wilson.o
 flux_wilson.o: flux_wilson.cpp
-	$(GCC) -O3 -c flux_wilson.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX=$(MATRIX) -o flux_wilson.o
+	$(GCC) -O3 -c flux_wilson.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX_SMEARED=$(MATRIX_SMEARED) -DMATRIX=$(MATRIX) -o flux_wilson.o
 
 wilson_on-axis: wilson_on-axis.o $(OBJ_FILES)
-	$(GCC) wilson_on-axis.o $(OBJ_FILES) -o exe/wilson_on-axis_$(MATRIX)
+	$(GCC) wilson_on-axis.o $(OBJ_FILES) $(C_FILES) -o exe/wilson_on-axis_$(MATRIX)
 	rm wilson_on-axis.o
 wilson_on-axis.o: wilson_on-axis.cpp
 	$(GCC) -O3 -c wilson_on-axis.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX=$(MATRIX) -o wilson_on-axis.o

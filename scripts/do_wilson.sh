@@ -27,6 +27,24 @@ conf_path=("${!path1}")
 
 fi
 
+if [[ ${conf_type} == "su2_suzuki" ]] ; then
+
+conf_path="/home/clusters/01/vborn/Copy_from_lustre/SU2/SUZUKI/L24/MAG/B2p${beta}/CON_fxd_MAG_$b$c$d.LAT"
+
+if [[ ${monopole} == "monopoless" ]] ; then
+
+conf_path="/home/clusters/01/vborn/Copy_from_lustre/SU2/SUZUKI/L24/MAG/B2p${beta}/DECOMPOS/CONFIGS/CON_OFF_MAG_$b$c$d.LAT"
+
+elif [[ ${monopole} == "monopole" ]] ; then
+
+conf_path="/home/clusters/01/vborn/Copy_from_lustre/SU2/SUZUKI/L24/MAG/B2p${beta}/DECOMPOS/CONFIGS/CON_MON_MAG_$b$c$d.LAT"
+
+fi
+
+fi
+
+#echo ${conf_path}
+
 if [ -f ${conf_path} ] ; then
 
 if [[ ${smearing} == "/" ]] ; then
@@ -40,7 +58,7 @@ smearing1="smeared"
 fi
 
 #output_path_wilson="/home/clusters/rrcmpi/kudrov/observables_cluster/result/wilson_loop/${axis}/${monopole}/${conf_type}/${smearing1}/${conf_size}/mu${mu}/$chain"
-output_path_wilson="/home/clusters/rrcmpi/kudrov/observables_cluster/result/wilson_loop/${axis}/${monopole}/${conf_type}/${smearing}/${conf_size}/mu${mu}/$chain"
+output_path_wilson="/home/clusters/rrcmpi/kudrov/observables_cluster/result/wilson_loop/${axis}/${monopole}/${conf_type}/${conf_size}/beta2.${beta}/mu${mu}/$chain"
 #output_path_wilson="/home/clusters/rrcmpi/kudrov/observables_cluster/result/wilson_loop/${axis}/${monopole}/SU2_dinam/${conf_size}/mu${mu}"
 mkdir -p ${output_path_wilson}
 output_path_wilson="${output_path_wilson}/wilson_loop_$a$b$c$d"
@@ -49,7 +67,7 @@ if [ ! -f ${output_path_wilson} ] || [  ${calculate_absent} == "false" ] ; then
 
 #echo output_path_wilson $output_path_wilson
 
-parameters="-conf_format $conf_format -conf_path $conf_path -output_path_wilson $output_path_wilson -L_spat ${L_spat} -L_time ${L_time} -T_min ${T_min} -T_max ${T_max} -R_min ${R_min} -R_max ${R_max}"
+parameters="-conf_format $conf_format -conf_path $conf_path -output_path_wilson $output_path_wilson -bites_skip ${bites_skip} -L_spat ${L_spat} -L_time ${L_time} -T_min ${T_min} -T_max ${T_max} -R_min ${R_min} -R_max ${R_max}"
 
 /home/clusters/rrcmpi/kudrov/observables_cluster/code/exe/wilson_${axis}_${matrix_type} $parameters
 

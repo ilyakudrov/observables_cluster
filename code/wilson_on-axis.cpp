@@ -11,6 +11,8 @@ int y_size;
 int z_size;
 int t_size;
 
+using namespace std;
+
 int main(int argc, char *argv[]) {
   unsigned int start_time;
   unsigned int end_time;
@@ -23,9 +25,12 @@ int main(int argc, char *argv[]) {
   int L_spat, L_time;
   int T_min, T_max;
   FLOAT R_min, R_max;
+  int bites_skip = 4;
   for (int i = 1; i < argc; i++) {
     if (std::string(argv[i]) == "-conf_format") {
       conf_format = argv[++i];
+    } else if (string(argv[i]) == "-bites_skip") {
+      bites_skip = stoi(string(argv[++i]));
     } else if (std::string(argv[i]) == "-conf_path") {
       conf_path = argv[++i];
     } else if (std::string(argv[i]) == "-output_path_wilson") {
@@ -49,6 +54,7 @@ int main(int argc, char *argv[]) {
 
   std::cout << "conf_format " << conf_format << std::endl;
   std::cout << "conf_path " << conf_path << std::endl;
+  cout << "bites_skip " << bites_skip << endl;
   std::cout << "output_path_wilson " << output_path_wilson << std::endl;
   std::cout << "output_path_sizes " << output_path_sizes << std::endl;
   std::cout << "L_spat " << L_spat << std::endl;
@@ -70,9 +76,9 @@ int main(int argc, char *argv[]) {
   } else if (std::string(conf_format) == "double") {
     conf.read_double(conf_path);
   } else if (std::string(conf_format) == "double_fortran") {
-    conf.read_double_fortran(conf_path);
+    conf.read_double_fortran(conf_path, bites_skip);
   } else if (std::string(conf_format) == "float_fortran") {
-    conf.read_float_fortran(conf_path);
+    conf.read_float_fortran(conf_path, bites_skip);
   } else if (std::string(conf_format) == "double_qc2dstag") {
     conf.read_double_qc2dstag(conf_path);
   }

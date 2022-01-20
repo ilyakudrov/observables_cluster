@@ -1,14 +1,16 @@
 #!/bin/bash
-conf_size="40^4"
-conf_type="qc2dstag"
+conf_size="24^4"
+#conf_type="qc2dstag"
+conf_type="su2_suzuki"
 #smearing="HYP2_APE"
 #smearing="unsmeared"
-HYP_steps=2
+HYP_steps=1
+bites_skip=4
 
 x_trans=0
 
-for mu in "0.05" "0.35" "0.45"
-#for mu in "0.05"
+#for mu in "0.05" "0.35" "0.45"
+for mu in "0.00"
 do
 
 source "/lustre/rrcmpi/kudrov/conf/${conf_type}/${conf_size}/mu${mu}/parameters"
@@ -18,8 +20,8 @@ script_path="/home/clusters/rrcmpi/kudrov/observables_cluster/scripts/do_flux_wi
 #conf_start=( 202 202 )
 #conf_end=( 210 210 )
 
-for monopole in "/" "monopole" "monopoless"
-#for monopole in "/"
+#for monopole in "/" "monopole" "monopoless"
+for monopole in "monopole"
 do
 
 if [[ $monopole == "/" ]] ; then
@@ -49,9 +51,40 @@ echo wrong monopole ${monopole}
 
 fi
 
+if [[ $conf_type == "su2_suzuki" ]] ; then
+
+matrix_type="su2"
+conf_format="float_fortran"
+chains=( "/" )
+conf_start=( 1 )
+conf_end=( 1 )
+L_spat=24
+L_time=24
+HYP_steps=1
+APE_steps_decomposition_flux=32
+smearing="HYP${HYP_steps}_APE${APE_steps_decomposition_flux}"
+smeared_format="double"
+
+if [[ ${monopole} == "monopoless" ]] ; then
+
+conf_format="double_fortran"
+bites_skip=8
+
+elif [[ ${monopole} == "monopoless" ]] ; then
+
+conf_format="float_fortran"
+smeared_format="float_fortran"
+bites_skip=8
+matrix_type="abelian"
+smearing="unsmeared"
+
+fi
+
+fi
+
 calculate_absent=false
 
-number_of_jobs=100
+number_of_jobs=1
 confs_total=0
 
 for i  in ${!chains[@]} ; do
@@ -89,12 +122,12 @@ b2=$(((${conf2}-$a2*1000)/100))
 c2=$(((${conf2}-$a2*1000-$b2*100)/10))
 d2=$((${conf2}-$a2*1000-$b2*100-$c2*10))
 
-qsub -q long -v conf_format=${conf_format},smeared_format=${smeared_format},chain=${chains[$chain_current]},mu=${mu},smearing=${smearing},conf_size=${conf_size},conf_type=${conf_type},monopole=${monopole},\
+qsub -q long -v conf_format=${conf_format},bites_skip=${bites_skip},smeared_format=${smeared_format},chain=${chains[$chain_current]},mu=${mu},smearing=${smearing},conf_size=${conf_size},conf_type=${conf_type},monopole=${monopole},\
 L_spat=${L_spat},L_time=${L_time},x_trans=${x_trans},matrix_type=${matrix_type},conf1=${conf1},conf2=${conf2},\
  -o "${log_path}/$a1$b1$c1$d1-$a2$b2$c2$d2.o" -e "${log_path}/$a1$b1$c1$d1-$a2$b2$c2$d2.e" ${script_path}
 while [ $? -ne 0 ]
 do
-qsub -q long -v conf_format=${conf_format},smeared_format=${smeared_format},chain=${chains[$chain_current]},mu=${mu},smearing=${smearing},conf_size=${conf_size},conf_type=${conf_type},monopole=${monopole},\
+qsub -q long -v conf_format=${conf_format},bites_skip=${bites_skip},smeared_format=${smeared_format},chain=${chains[$chain_current]},mu=${mu},smearing=${smearing},conf_size=${conf_size},conf_type=${conf_type},monopole=${monopole},\
 L_spat=${L_spat},L_time=${L_time},x_trans=${x_trans},matrix_type=${matrix_type},conf1=${conf1},conf2=${conf2},\
  -o "${log_path}/$a1$b1$c1$d1-$a2$b2$c2$d2.o" -e "${log_path}/$a1$b1$c1$d1-$a2$b2$c2$d2.e" ${script_path}
 done
