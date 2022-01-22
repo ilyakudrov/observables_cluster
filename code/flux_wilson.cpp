@@ -32,19 +32,19 @@ int main(int argc, char *argv[]) {
   int L_spat, L_time;
   int R, T;
   int x_trans;
-  int bites_skip = 4;
-  int bites_skip_smeared = 4;
+  int bites_skip_plaket = 0;
+  int bites_skip_wilson = 0;
   // int T_min, T_max;
   // double R_min, R_max;
   for (int i = 1; i < argc; i++) {
     if (strcmp(argv[i], "-conf_format_plaket") == 0) {
       conf_format_plaket = argv[++i];
-    } else if (string(argv[i]) == "-bites_skip") {
-      bites_skip = stoi(string(argv[++i]));
+    } else if (string(argv[i]) == "-bites_skip_plaket") {
+      bites_skip_plaket = stoi(string(argv[++i]));
     } else if (std::string(argv[i]) == "-conf_format_wilson") {
       conf_format_wilson = argv[++i];
-    } else if (string(argv[i]) == "-bites_skip_smeared") {
-      bites_skip_smeared = stoi(string(argv[++i]));
+    } else if (string(argv[i]) == "-bites_skip_wilson") {
+      bites_skip_wilson = stoi(string(argv[++i]));
     } else if (std::string(argv[i]) == "-conf_path_plaket") {
       conf_path_plaket = argv[++i];
     } else if (std::string(argv[i]) == "-conf_path_wilson") {
@@ -70,12 +70,12 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  std::cout << "conf_format " << conf_format << std::endl;
-  cout << "bites_skip " << bites_skip << endl;
-  std::cout << "smeared_format " << smeared_format << std::endl;
-  cout << "bites_skip_smeared " << bites_skip_smeared << endl;
-  std::cout << "conf_path " << conf_path << std::endl;
-  std::cout << "smeared_path " << smeared_path << std::endl;
+  std::cout << "conf_format_plaket " << conf_format_plaket << std::endl;
+  cout << "bites_skip_plaket " << bites_skip_plaket << endl;
+  std::cout << "conf_format_wilson " << conf_format_wilson << std::endl;
+  cout << "bites_skip_wilson " << bites_skip_wilson << endl;
+  std::cout << "conf_path_plaket " << conf_path_plaket << std::endl;
+  std::cout << "conf_path_wilson " << conf_path_wilson << std::endl;
   std::cout << "output_path_electric " << output_path_electric << std::endl;
   std::cout << "output_path_magnetic " << output_path_magnetic << std::endl;
   std::cout << "L_spat " << L_spat << std::endl;
@@ -98,9 +98,9 @@ int main(int argc, char *argv[]) {
   data<MATRIX_WILSON> conf_wilson;
 
   if (std::string(conf_format_plaket) == "float") {
-    conf_plaket.read_float(conf_path);
+    conf_plaket.read_float(conf_path, bites_skip_plaket);
   } else if (std::string(conf_format_plaket) == "double") {
-    conf_plaket.read_double(conf_path);
+    conf_plaket.read_double(conf_path, bites_skip_plaket);
   } else if (std::string(conf_format_plaket) == "double_qc2dstag") {
     conf_plaket.read_double_qc2dstag(conf_path);
   }
