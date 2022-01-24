@@ -3,7 +3,6 @@
 #include "flux_tube.h"
 #include "link.h"
 #include "matrix.h"
-#include "result.h"
 
 #include <cstring>
 #include <iostream>
@@ -30,12 +29,11 @@ int main(int argc, char *argv[]) {
   std::string output_path_electric;
   std::string output_path_magnetic;
   int L_spat, L_time;
-  int R, T;
   int x_trans;
   int bites_skip_plaket = 0;
   int bites_skip_wilson = 0;
-  // int T_min, T_max;
-  // double R_min, R_max;
+  int T_min, T_max;
+  int R_min, R_max;
   for (int i = 1; i < argc; i++) {
     if (strcmp(argv[i], "-conf_format_plaket") == 0) {
       conf_format_plaket = argv[++i];
@@ -91,24 +89,21 @@ int main(int argc, char *argv[]) {
   z_size = L_spat;
   t_size = L_time;
 
-  int d_min = -5;
-  int d_max = R + 5;
-
   data<MATRIX_PLAKET> conf_plaket;
   data<MATRIX_WILSON> conf_wilson;
 
   if (std::string(conf_format_plaket) == "float") {
-    conf_plaket.read_float(conf_path, bites_skip_plaket);
+    conf_plaket.read_float(conf_path_plaket, bites_skip_plaket);
   } else if (std::string(conf_format_plaket) == "double") {
-    conf_plaket.read_double(conf_path, bites_skip_plaket);
+    conf_plaket.read_double(conf_path_plaket, bites_skip_plaket);
   } else if (std::string(conf_format_plaket) == "double_qc2dstag") {
-    conf_plaket.read_double_qc2dstag(conf_path);
+    conf_plaket.read_double_qc2dstag(conf_path_plaket);
   }
 
   if (std::string(conf_format_wilson) == "float") {
-    conf_wilson.read_float(conf_path_wilson);
+    conf_wilson.read_float(conf_path_wilson, bites_skip_wilson);
   } else if (std::string(conf_format_wilson) == "double") {
-    conf_wilson.read_double(conf_path_wilson);
+    conf_wilson.read_double(conf_path_wilson, bites_skip_wilson);
   } else if (std::string(conf_format_wilson) == "double_qc2dstag") {
     conf_wilson.read_double_qc2dstag(conf_path_wilson);
   }
@@ -139,6 +134,9 @@ int main(int argc, char *argv[]) {
   stream_electric.open(output_path_electric);
   stream_magnetic.open(output_path_magnetic);
 
+  cout<<output_path_electric<<endl;
+  cout<<output_path_magnetic<<endl;
+
   stream_electric << "T,R,d,wilson-plaket-correlator,wilson-loop,plaket"
                   << std::endl;
 
@@ -150,6 +148,9 @@ int main(int argc, char *argv[]) {
 
   for (int T = T_min; T <= T_max; T += 2) {
     for (int R = R_min; R <= R_max; R += 2) {
+
+      int d_min = -5;
+      int d_max = R + 5;
 
       wilson_loop_trace = calculate_wilson_loop_tr(conf_wilson.array, R, T);
 
