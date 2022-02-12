@@ -18,6 +18,12 @@ flux_wilson: flux_wilson.o $(OBJ_FILES)
 flux_wilson.o: flux_wilson.cpp
 	$(GCC) -O3 -c flux_wilson.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX_WILSON=$(MATRIX_WILSON) -DMATRIX_PLAKET=$(MATRIX_PLAKET) -o flux_wilson.o
 
+flux_wilson_tr: flux_wilson_tr.o $(OBJ_FILES)
+	$(GCC) flux_wilson_tr.o $(OBJ_FILES) $(C_FILES) -o exe/flux_wilson_tr_$(MATRIX_PLAKET)_$(MATRIX_WILSON)
+	rm flux_wilson_tr.o
+flux_wilson_tr.o: flux_wilson_tr.cpp
+	$(GCC) -O3 -c flux_wilson_tr.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX_WILSON=$(MATRIX_WILSON) -DMATRIX_PLAKET=$(MATRIX_PLAKET) -o flux_wilson_tr.o
+
 wilson_on-axis: wilson_on-axis.o $(OBJ_FILES)
 	$(GCC) wilson_on-axis.o $(OBJ_FILES) $(C_FILES) -o exe/wilson_on-axis_$(MATRIX_WILSON)
 	rm wilson_on-axis.o
