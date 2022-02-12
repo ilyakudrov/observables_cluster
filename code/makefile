@@ -25,7 +25,7 @@ wilson_on-axis.o: wilson_on-axis.cpp
 	$(GCC) -O3 -c wilson_on-axis.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX_WILSON=$(MATRIX_WILSON) -o wilson_on-axis.o
 
 wilson_off-axis: wilson_off-axis.o $(OBJ_FILES)
-	$(GCC) wilson_off-axis.o $(OBJ_FILES) -o exe/wilson_off-axis_$(MATRIX_WILSON)
+	$(GCC) wilson_off-axis.o $(OBJ_FILES) $(C_FILES) -o exe/wilson_off-axis_$(MATRIX_WILSON)
 	rm wilson_off-axis.o
 wilson_off-axis.o: wilson_off-axis.cpp
 	$(GCC) -O3 -c wilson_off-axis.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX_WILSON=$(MATRIX_WILSON) -o wilson_off-axis.o

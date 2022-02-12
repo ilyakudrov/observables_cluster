@@ -2,7 +2,6 @@
 #include "data.h"
 #include "link.h"
 #include "matrix.h"
-#include "result.h"
 
 #include <iostream>
 
@@ -20,12 +19,11 @@ int main(int argc, char *argv[]) {
 
   std::string conf_format;
   std::string conf_path;
-  std::string output_path_wilson;
-  std::string output_path_sizes;
+  std::string output_path;
   int L_spat, L_time;
   int T_min, T_max;
-  FLOAT R_min, R_max;
-  int bites_skip = 4;
+  double R_min, R_max;
+  int bites_skip = 0;
   for (int i = 1; i < argc; i++) {
     if (std::string(argv[i]) == "-conf_format") {
       conf_format = argv[++i];
@@ -33,10 +31,8 @@ int main(int argc, char *argv[]) {
       bites_skip = stoi(string(argv[++i]));
     } else if (std::string(argv[i]) == "-conf_path") {
       conf_path = argv[++i];
-    } else if (std::string(argv[i]) == "-output_path_wilson") {
-      output_path_wilson = argv[++i];
-    } else if (std::string(argv[i]) == "-output_path_sizes") {
-      output_path_sizes = argv[++i];
+    } else if (std::string(argv[i]) == "-output_path") {
+      output_path = argv[++i];
     } else if (std::string(argv[i]) == "-L_spat") {
       L_spat = stoi(std::string(argv[++i]));
     } else if (std::string(argv[i]) == "-L_time") {
@@ -46,17 +42,16 @@ int main(int argc, char *argv[]) {
     } else if (std::string(argv[i]) == "-T_max") {
       T_max = stoi(std::string(argv[++i]));
     } else if (std::string(argv[i]) == "-R_min") {
-      R_min = stoi(std::string(argv[++i]));
+      R_min = stod(std::string(argv[++i]));
     } else if (std::string(argv[i]) == "-R_max") {
-      R_max = stoi(std::string(argv[++i]));
+      R_max = stod(std::string(argv[++i]));
     }
   }
 
   std::cout << "conf_format " << conf_format << std::endl;
   std::cout << "conf_path " << conf_path << std::endl;
   cout << "bites_skip " << bites_skip << endl;
-  std::cout << "output_path_wilson " << output_path_wilson << std::endl;
-  std::cout << "output_path_sizes " << output_path_sizes << std::endl;
+  std::cout << "output_path " << output_path << std::endl;
   std::cout << "L_spat " << L_spat << std::endl;
   std::cout << "L_time " << L_time << std::endl;
   std::cout << "T_min " << T_min << std::endl;
@@ -69,16 +64,12 @@ int main(int argc, char *argv[]) {
   z_size = L_spat;
   t_size = L_time;
 
-  data<MATRIX> conf;
+  data<MATRIX_WILSON> conf;
 
   if (std::string(conf_format) == "float") {
-    conf.read_float(conf_path);
+    conf.read_float(conf_path, bites_skip);
   } else if (std::string(conf_format) == "double") {
-    conf.read_double(conf_path);
-  } else if (std::string(conf_format) == "double_fortran") {
-    conf.read_double_fortran(conf_path, bites_skip);
-  } else if (std::string(conf_format) == "float_fortran") {
-    conf.read_float_fortran(conf_path, bites_skip);
+    conf.read_double(conf_path, bites_skip);
   } else if (std::string(conf_format) == "double_qc2dstag") {
     conf.read_double_qc2dstag(conf_path);
   }
@@ -98,16 +89,13 @@ int main(int argc, char *argv[]) {
 
   wilson_offaxis_reduce(wilson_offaxis_result);
 
-  // write data into two separate files
-  // one is for wilson loops and the second is for sizes
-
   std::ofstream ofstream_wilson;
 
   ofstream_wilson.precision(17);
 
-  ofstream_wilson.open(output_path_wilson);
+  ofstream_wilson.open(output_path);
 
-  ofstream_wilson << "time_size,space_size,wilson_loop" << std::endl;
+  ofstream_wilson << "#time_size,space_size,wilson_loop" << std::endl;
 
   for (int i = 0; i < wilson_offaxis_result.size(); i++) {
     ofstream_wilson << wilson_offaxis_result[i].time_size << ","
