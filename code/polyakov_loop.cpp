@@ -2,7 +2,6 @@
 #include "data.h"
 #include "link.h"
 #include "matrix.h"
-#include "result.h"
 
 #include <iostream>
 
@@ -10,6 +9,8 @@ int x_size;
 int y_size;
 int z_size;
 int t_size;
+
+using namespace std;
 
 int main(int argc, char *argv[]) {
   unsigned int start_time;

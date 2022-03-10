@@ -9,6 +9,7 @@ FLOAT=double
 FLAGS=-fopenmp
 MATRIX_PLAKET=su2
 MATRIX_WILSON=abelian
+MATRIX=su2
 
 all: flux_wilson wilson_on-axis wilson_off-axis flux_schwinger monopole_observables polyakov_loop
 
