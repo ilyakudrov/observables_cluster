@@ -23,12 +23,12 @@ R_max = 20.1
 T_min = 1
 T_max = 20
 
-number_of_jobs = 100
+number_of_jobs = 50
 
-smearing = 'unsmeared'
+smearing = 'smeared'
 
 #for monopole in ['monopole', 'monopoless']:
-for monopole in ['/']:
+for monopole in ['monopoless']:
     for beta in ['/']:\
     #for beta in ['2.4']:
         for mu in ['mu0.00', 'mu0.05', 'mu0.35', 'mu0.45']:
@@ -67,6 +67,7 @@ for monopole in ['/']:
                 conf_path_end = '/'
                 padding = 4
                 conf_name = 'conf_'
+                smeared = f'HYP{HYP_steps}_alpha={HYP_alpha1}_{HYP_alpha2}_{HYP_alpha3}_APE{APE_steps}_alpha={APE_alpha}'
 
             #chains = {'/': [201, 201]}
             #jobs = distribute_jobs(chains, number_of_jobs)

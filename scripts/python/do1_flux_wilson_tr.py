@@ -14,7 +14,7 @@ bites_skip_plaket = 0
 bites_skip_wilson = 0
 
 monopole_plaket = '/'
-monopole_wilson = 'monopoless'
+monopole_wilson = '/'
 
 if monopole_plaket == '/':
     monopole1 = theory_type
@@ -35,30 +35,47 @@ else:
 #HYP_steps = "0"
 
 R_min = 4
-R_max = 20
+R_max = 16
 T_min = 4
-T_max = 20
-x_trans_max = 20
+T_max = 16
+x_trans_max = 10
+#R_min = 4
+#R_max = 6
+#T_min = 4
+#T_max = 6
+#x_trans_max = 3
 
-number_of_jobs = 200
+number_of_jobs = 400
 
 smearing = 'smeared'
 
 for beta in ['/']:\
         # for beta in ['2.4']:
-    for mu in ['mu0.00', 'mu0.05', 'mu0.35', 'mu0.45']:
+    #for mu in ['mu0.00', 'mu0.05', 'mu0.35', 'mu0.45']:
+    for mu in ['mu0.30']:
 
-        f = open(
-            f'/home/clusters/rrcmpi/kudrov/smearing_cluster/smearing_parameters/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{monopole_wilson}/smearing_flux.json')
-        data_smearing = json.load(f)
-        HYP_alpha1 = data_smearing['HYP_alpha1']
-        HYP_alpha2 = data_smearing['HYP_alpha2']
-        HYP_alpha3 = data_smearing['HYP_alpha3']
-        APE_alpha = data_smearing['APE_alpha']
-        APE = data_smearing['APE']
-        HYP = data_smearing['HYP']
-        APE_steps = data_smearing['APE_steps']
-        HYP_steps = data_smearing['HYP_steps']
+        #f = open(
+        #    f'/home/clusters/rrcmpi/kudrov/smearing_cluster/smearing_parameters/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{monopole_wilson}/smearing_flux.json')
+        #data_smearing = json.load(f)
+        #HYP_alpha1 = data_smearing['HYP_alpha1']
+        #HYP_alpha2 = data_smearing['HYP_alpha2']
+        #HYP_alpha3 = data_smearing['HYP_alpha3']
+        #APE_alpha = data_smearing['APE_alpha']
+        #APE = data_smearing['APE']
+        #HYP = data_smearing['HYP']
+        #APE_steps = data_smearing['APE_steps']
+        #HYP_steps = data_smearing['HYP_steps']
+
+        HYP_alpha1 = "1"
+        HYP_alpha2 = "1"
+        HYP_alpha3 = "0.5"
+        #HYP_alpha1 = "0.75"
+        #HYP_alpha2 = "0.6"
+        #HYP_alpha3 = "0.3"
+        APE_alpha = "0.5"
+        stout_alpha = "0.15"
+        APE_steps = "200"
+        HYP_steps = "1"
 
         f = open(
             f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{monopole_plaket}/parameters.json')
@@ -94,11 +111,13 @@ for beta in ['/']:\
             padding_wilson = 4
             conf_name_wilson = 'conf_'
 
+        #chains = {'/': [201, 201]}
+        #jobs = distribute_jobs(chains, number_of_jobs) 
         jobs = distribute_jobs(data_plaket['chains'], number_of_jobs)
 
         for job in jobs:
 
-            log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/flux_tube_wilson/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{monopole1}-{monopole2}/{job[0]}'
+            log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/flux_tube_wilson_tr/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{monopole1}-{monopole2}/{job[0]}'
             conf_path_plaket_start1 = f'{conf_path_plaket_start}/{job[0]}/{conf_name_plaket}'
             conf_path_wilson_start1 = f'{conf_path_wilson_start}/{job[0]}/{conf_name_wilson}'
             try:
@@ -106,7 +125,7 @@ for beta in ['/']:\
             except:
                 pass
 
-            output_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/flux_tube_wilson/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{monopole1}-{monopole2}/{job[0]}'
+            output_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/flux_tube_wilson_tr/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{monopole1}-{monopole2}/{job[0]}'
 
             bashCommand = f'qsub -q long -v conf_format_plaket={conf_format_plaket},conf_format_wilson={conf_format_wilson},bites_skip_plaket={bites_skip_plaket},'\
                 f'bites_skip_wilson={bites_skip_wilson},matrix_type_plaket={matrix_type_plaket},matrix_type_wilson={matrix_type_wilson},'\
