@@ -60,8 +60,14 @@ monopole_observables: monopole_observables.o $(OBJ_FILES) $(OBJ_PATH)/monopoles.
 monopole_observables.o: monopole_observables.cpp
 	$(GCC) -O3 -c monopole_observables.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX=$(MATRIX) -o monopole_observables.o
 
+polyakov_loop_correlator: polyakov_loop_correlator.o $(OBJ_FILES)
+	$(GCC) polyakov_loop_correlator.o $(OBJ_FILES) $(C_FILES) -o exe/polyakov_loop_correlator_$(MATRIX)
+	rm polyakov_loop_correlator.o
+polyakov_loop_correlator.o: polyakov_loop_correlator.cpp
+	$(GCC) -O3 -c polyakov_loop_correlator.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX=$(MATRIX) -o polyakov_loop_correlator.o
+
 polyakov_loop: polyakov_loop.o $(OBJ_FILES)
-	$(GCC) polyakov_loop.o $(OBJ_FILES) -o exe/polyakov_loop_$(MATRIX)
+	$(GCC) polyakov_loop.o $(OBJ_FILES) $(C_FILES) -o exe/polyakov_loop_$(MATRIX)
 	rm polyakov_loop.o
 polyakov_loop.o: polyakov_loop.cpp
 	$(GCC) -O3 -c polyakov_loop.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX=$(MATRIX) -o polyakov_loop.o
