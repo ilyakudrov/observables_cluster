@@ -12,16 +12,17 @@ theory_type = "su2"
 conf_type = "qc2dstag"
 bites_skip = 0
 
-number_of_jobs = 50
+number_of_jobs = 100
 
 smearing = 'smeared'
+#smearing = '/'
 
-for monopole in ['monopole', 'monopoless', '/']:
-#for monopole in ['/']:
+#for monopole in ['monopole', 'monopoless', '/']:
+for monopole in ['/']:
     for beta in ['/']:\
             # for beta in ['2.4']:
-        for mu in ['mu0.00', 'mu0.05', 'mu0.25', 'mu0.35', 'mu0.45']:
-        #for mu in ['mu0.00']:
+        #for mu in ['mu0.35', 'mu0.45']:
+        for mu in ['mu0.00']:
 
             #f = open(
             #    f'/home/clusters/rrcmpi/kudrov/smearing_cluster/smearing_parameters/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{monopole}/smearing_wilson.json')

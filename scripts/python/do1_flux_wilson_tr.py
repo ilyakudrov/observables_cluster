@@ -45,14 +45,14 @@ x_trans_max = 10
 #T_max = 6
 #x_trans_max = 3
 
-number_of_jobs = 400
+number_of_jobs = 100
 
 smearing = 'smeared'
 
 for beta in ['/']:\
         # for beta in ['2.4']:
-    #for mu in ['mu0.00', 'mu0.05', 'mu0.35', 'mu0.45']:
-    for mu in ['mu0.30']:
+    for mu in ['mu0.00', 'mu0.05', 'mu0.25', 'mu0.35', 'mu0.45']:
+    #for mu in ['mu0.30']:
 
         #f = open(
         #    f'/home/clusters/rrcmpi/kudrov/smearing_cluster/smearing_parameters/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{monopole_wilson}/smearing_flux.json')
@@ -66,12 +66,12 @@ for beta in ['/']:\
         #APE_steps = data_smearing['APE_steps']
         #HYP_steps = data_smearing['HYP_steps']
 
-        HYP_alpha1 = "1"
-        HYP_alpha2 = "1"
-        HYP_alpha3 = "0.5"
-        #HYP_alpha1 = "0.75"
-        #HYP_alpha2 = "0.6"
-        #HYP_alpha3 = "0.3"
+        #HYP_alpha1 = "1"
+        #HYP_alpha2 = "1"
+        #HYP_alpha3 = "0.5"
+        HYP_alpha1 = "0.75"
+        HYP_alpha2 = "0.6"
+        HYP_alpha3 = "0.3"
         APE_alpha = "0.5"
         stout_alpha = "0.15"
         APE_steps = "200"

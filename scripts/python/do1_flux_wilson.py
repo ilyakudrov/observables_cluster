@@ -41,39 +41,39 @@ T_min = 4
 T_max = 16
 x_trans = 0
 
-number_of_jobs = 400
+number_of_jobs = 100
 
 smearing = 'smeared'
 
 for beta in ['/']:\
 #for beta in ['beta2.4', 'beta2.5', 'beta2.6']:
 #for beta in ['beta2.4']:
-    #for mu in ['mu0.05', 'mu0.35', 'mu0.45']:
-    for mu in ['mu0.30']:
+    for mu in ['mu0.20']:
+    #for mu in ['mu0.30']:
     #for mu in ['']:
 
-        #f = open(
-        #        f'/home/clusters/rrcmpi/kudrov/smearing_cluster/smearing_parameters/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{monopole_wilson}/smearing_flux.json')
-        #data_smearing = json.load(f)
-        #HYP_alpha1 = data_smearing['HYP_alpha1']
-        #HYP_alpha2 = data_smearing['HYP_alpha2']
-        #HYP_alpha3 = data_smearing['HYP_alpha3']
-        #APE_alpha = data_smearing['APE_alpha']
-        #APE = data_smearing['APE']
-        #HYP = data_smearing['HYP']
-        #APE_steps = data_smearing['APE_steps']
-        #HYP_steps = data_smearing['HYP_steps']
+        f = open(
+                f'/home/clusters/rrcmpi/kudrov/smearing_cluster/smearing_parameters/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{monopole_wilson}/smearing_flux.json')
+        data_smearing = json.load(f)
+        HYP_alpha1 = data_smearing['HYP_alpha1']
+        HYP_alpha2 = data_smearing['HYP_alpha2']
+        HYP_alpha3 = data_smearing['HYP_alpha3']
+        APE_alpha = data_smearing['APE_alpha']
+        APE = data_smearing['APE']
+        HYP = data_smearing['HYP']
+        APE_steps = data_smearing['APE_steps']
+        HYP_steps = data_smearing['HYP_steps']
 
-        HYP_alpha1 = "1"
-        HYP_alpha2 = "1"
-        HYP_alpha3 = "0.5"
+        #HYP_alpha1 = "1"
+        #HYP_alpha2 = "1"
+        #HYP_alpha3 = "0.5"
         #HYP_alpha1 = "0.75"
         #HYP_alpha2 = "0.6"
         #HYP_alpha3 = "0.3"
-        APE_alpha = "0.5"
-        stout_alpha = "0.15"
-        APE_steps = "200"
-        HYP_steps = "1"
+        #APE_alpha = "0.5"
+        #stout_alpha = "0.15"
+        #APE_steps = "200"
+        #HYP_steps = "1"
 
         f = open(
             f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{monopole_plaket}/parameters.json')
