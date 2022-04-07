@@ -8,7 +8,7 @@ C_FILES=$(C_PATH)/lime_fseeko.c  $(C_PATH)/lime_header.c  $(C_PATH)/lime_reader.
 FLOAT=double
 FLAGS=-fopenmp
 MATRIX_PLAKET=su2
-MATRIX_WILSON=abelian
+MATRIX_WILSON=su2
 MATRIX=su2
 
 all: flux_wilson wilson_on-axis wilson_off-axis flux_schwinger monopole_observables polyakov_loop
@@ -26,28 +26,28 @@ flux_wilson_tr.o: flux_wilson_tr.cpp
 	$(GCC) -O3 -c flux_wilson_tr.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX_WILSON=$(MATRIX_WILSON) -DMATRIX_PLAKET=$(MATRIX_PLAKET) -o flux_wilson_tr.o
 
 wilson_on-axis: wilson_on-axis.o $(OBJ_FILES)
-	$(GCC) wilson_on-axis.o $(OBJ_FILES) $(C_FILES) -o exe/wilson_on-axis_$(MATRIX_WILSON)
+	$(GCC) wilson_on-axis.o $(OBJ_FILES) $(C_FILES) -o exe/wilson_on-axis_$(MATRIX)
 	rm wilson_on-axis.o
 wilson_on-axis.o: wilson_on-axis.cpp
-	$(GCC) -O3 -c wilson_on-axis.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX_WILSON=$(MATRIX_WILSON) -o wilson_on-axis.o
+	$(GCC) -O3 -c wilson_on-axis.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX_WILSON=$(MATRIX) -o wilson_on-axis.o
 
 wilson_adjoint_on-axis: wilson_adjoint_on-axis.o $(OBJ_FILES)
-	$(GCC) wilson_adjoint_on-axis.o $(OBJ_FILES) $(C_FILES) -o exe/wilson_adjoint_on-axis_$(MATRIX_WILSON)
+	$(GCC) wilson_adjoint_on-axis.o $(OBJ_FILES) $(C_FILES) -o exe/wilson_adjoint_on-axis_$(MATRIX)
 	rm wilson_adjoint_on-axis.o
 wilson_adjoint_on-axis.o: wilson_adjoint_on-axis.cpp
-	$(GCC) -O3 -c wilson_adjoint_on-axis.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX_WILSON=$(MATRIX_WILSON) -o wilson_adjoint_on-axis.o
+	$(GCC) -O3 -c wilson_adjoint_on-axis.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX_WILSON=$(MATRIX) -o wilson_adjoint_on-axis.o
 
 wilson_off-axis: wilson_off-axis.o $(OBJ_FILES)
-	$(GCC) wilson_off-axis.o $(OBJ_FILES) $(C_FILES) -o exe/wilson_off-axis_$(MATRIX_WILSON)
+	$(GCC) wilson_off-axis.o $(OBJ_FILES) $(C_FILES) -o exe/wilson_off-axis_$(MATRIX)
 	rm wilson_off-axis.o
 wilson_off-axis.o: wilson_off-axis.cpp
-	$(GCC) -O3 -c wilson_off-axis.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX_WILSON=$(MATRIX_WILSON) -o wilson_off-axis.o
+	$(GCC) -O3 -c wilson_off-axis.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX_WILSON=$(MATRIX) -o wilson_off-axis.o
 
 wilson_spatial: wilson_spatial.o $(OBJ_FILES)
-	$(GCC) wilson_spatial.o $(OBJ_FILES) -o exe/wilson_spatial_$(MATRIX_WILSON)
+	$(GCC) wilson_spatial.o $(OBJ_FILES) -o exe/wilson_spatial_$(MATRIX)
 	rm wilson_spatial.o
 wilson_spatial.o: wilson_spatial.cpp
-	$(GCC) -O3 -c wilson_spatial.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX_WILSON=$(MATRIX_WILSON) -o wilson_spatial.o
+	$(GCC) -O3 -c wilson_spatial.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX_WILSON=$(MATRIX) -o wilson_spatial.o
 
 flux_wilson_x: flux_wilson_x.o $(OBJ_FILES)
 	$(GCC) flux_wilson_x.o $(OBJ_FILES) -o flux_wilson_x
