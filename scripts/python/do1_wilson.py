@@ -30,16 +30,17 @@ T_max = 20
 number_of_jobs = 50
 
 smearing = 'smeared'
+diagonal = True
 
 for monopole in ['/', 'monopoless', 'monopole']:
-#for monopole in ['monopoless']:
-    #for beta in ['/']:
+    # for monopole in ['monopoless']:
+    # for beta in ['/']:
     for beta in ['beta2.7']:
-        #for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
-        #for mu in ['mu0.25']:
+        # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
+        # for mu in ['mu0.25']:
         for mu in ['/']:
 
-            #f = open(
+            # f = open(
             #    f'/home/clusters/rrcmpi/kudrov/smearing_cluster/smearing_parameters/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{monopole}/smearing_wilson.json')
             #data_smearing = json.load(f)
             #HYP_alpha1 = data_smearing['HYP_alpha1']
@@ -75,6 +76,15 @@ for monopole in ['/', 'monopoless', 'monopole']:
             padding = data['padding']
             conf_name = data['conf_name']
 
+            if diagonal:
+                conf_format = conf_format + '_convert_abelian'
+                if monopole == 'monopoless':
+                    monopole = 'photon'
+                elif monopole == '/':
+                    monopole = 'abelian'
+                else:
+                    print('can not do diagonal for monopole')
+
             if smearing == 'smeared':
                 conf_format = 'double'
                 bites_skip = '0'
@@ -104,9 +114,9 @@ for monopole in ['/', 'monopoless', 'monopole']:
                     f'bites_skip={bites_skip},matrix_type={matrix_type},'\
                     f'conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
                     f'padding={padding},R_min={R_min},R_max={R_max},T_min={T_min},T_max={T_max},L_spat={L_spat},L_time={L_time},'\
-		    f'output_path={output_path},chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\
+                    f'output_path={output_path},chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\
                     f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e /home/clusters/rrcmpi/kudrov/observables_cluster/scripts/do_wilson.sh'
-                #print(bashCommand)
+                # print(bashCommand)
                 process = subprocess.Popen(bashCommand.split())
                 output, error = process.communicate()
                 #print(output, error)

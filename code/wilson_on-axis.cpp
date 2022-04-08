@@ -72,6 +72,12 @@ int main(int argc, char *argv[]) {
     conf.read_double(conf_path, bites_skip);
   } else if (std::string(conf_format) == "double_qc2dstag") {
     conf.read_double_qc2dstag(conf_path);
+  } else if (std::string(conf_format) == "float_convert_abelian") {
+    conf.read_float_convert_abelian(conf_path, bites_skip);
+  } else if (std::string(conf_format) == "double_convert_abelian") {
+    conf.read_double_convert_abelian(conf_path, bites_skip);
+  } else if (std::string(conf_format) == "double_qc2dstag_convert_abelian") {
+    conf.read_double_qc2dstag_convert_abelian(conf_path);
   }
   start_time = clock();
 
