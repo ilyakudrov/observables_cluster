@@ -13,15 +13,14 @@ path_conf="${conf_path_start}`printf %0${padding}d $i`${conf_path_end}"
 
 if [ -f ${path_conf} ] && [ -s ${path_conf} ] ; then
 
-mkdir -p "${output_path}/confs_gaugefixed"
-mkdir -p "${output_path}/confs_spin"
-mkdir -p "${output_path}/confs_gaugefixed"
-mkdir -p "${output_path}/functionals"
+mkdir -p ${output_path_confs_gaugefixed}
+mkdir -p ${output_path_conf_spin}
+mkdir -p ${output_path_functional}
 
-path_conf_output="${output_path}/confs_gaugefixed/conf_`printf %04d $i`"
-path_spins_output="${output_path}/confs_spin/spins_`printf %04d $i`"
-path_previous="${output_path}/confs_spin/spins_`printf %04d $i`"
-path_functional_output="${output_path}/functionals/functional_`printf %04d $i`"
+path_conf_output="${output_path_confs_gaugefixed}/conf_`printf %04d $i`"
+path_spins_output="${output_path_conf_spin}/spins_`printf %04d $i`"
+path_previous="${output_path_conf_spin}/spins_`printf %04d $i`"
+path_functional_output="${output_path_functional}/functional_`printf %04d $i`"
 
 parameters="-conf_format ${conf_format} -path_conf $path_conf -conf_format ${conf_format} -bytes_skip ${bites_skip} \
     -path_spins_output ${path_spins_output} -path_conf_output ${path_conf_output} -path_previous ${path_previous} -path_functional_output ${path_functional_output}\

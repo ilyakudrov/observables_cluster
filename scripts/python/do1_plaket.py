@@ -7,17 +7,21 @@ import os
 
 #conf_size = "24^4"
 #conf_size = "40^4"
-conf_size = "48^4"
-conf_type = "su2_suzuki"
+#conf_size = "48^4"
+conf_size = "28^4"
+#conf_type = "su2_suzuki"
+conf_type = "gluodynamics"
 #conf_type = "qc2dstag"
-theory_type = "su2"
+#theory_type = "su2"
+theory_type = "su3"
 
-number_of_jobs = 50
+number_of_jobs = 100
+arch="rrcmpi"
 
-for monopole in ['monopoless', 'monopole', '/']:
+for monopole in ['/']:
     # for monopole in ['monopoless']:
     # for beta in ['/']:
-    for beta in ['beta2.8']:
+    for beta in ['beta6.1']:
         # for beta in ['beta2.4', 'beta2.5', 'beta2.6']:
         # for beta in ['beta2.4']:
         # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
@@ -54,7 +58,7 @@ for monopole in ['monopoless', 'monopole', '/']:
 
                 # qsub -q mem8gb -l nodes=1:ppn=4
                 bashCommand = f'qsub -q long -v conf_format={conf_format},'\
-                    f'bites_skip={bites_skip},matrix_type={matrix_type},'\
+                    f'bites_skip={bites_skip},matrix_type={matrix_type},arch={arch},'\
                     f'conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
                     f'padding={padding},L_spat={L_spat},L_time={L_time},'\
                     f'output_path={output_path},chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\

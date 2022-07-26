@@ -21,7 +21,7 @@ parameters="-conf_format ${conf_format} -conf_path $conf_path\
   -output_path ${output_path1}\
   -L_spat ${L_spat} -L_time ${L_time}"
 
-/home/clusters/rrcmpi/kudrov/observables_cluster/code/exe/plaket_${matrix_type}_${ARCH} $parameters
+/home/clusters/rrcmpi/kudrov/observables_cluster/code/exe/plaket_${matrix_type}_${arch} $parameters
 
 fi
 

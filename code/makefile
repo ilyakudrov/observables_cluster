@@ -2,15 +2,15 @@ GCC=/home/itep/kudrov/installed/gcc-9/bin/g++
 SRC_PATH=/home/clusters/rrcmpi/kudrov/general_code/lib/cpu/src
 INCLUDE_PATH=/home/clusters/rrcmpi/kudrov/general_code/lib/cpu/include
 OBJ_PATH=/home/clusters/rrcmpi/kudrov/general_code/lib/cpu/obj
-OBJFILES=$(OBJ_PATH)/link_$(ARCH).o $(OBJ_PATH)/data_$(ARCH).o $(OBJ_PATH)/basic_observables_$(ARCH).o $(OBJ_PATH)/flux_tube_$(ARCH).o $(OBJ_PATH)/matrix_$(ARCH).o \
-	$(OBJ_PATH)/smearing_$(ARCH).o $(OBJ_PATH)/monopoles_$(ARCH).o $(OBJ_PATH)/loop_$(ARCH).o $(OBJ_PATH)/eigen_$(ARCH).o $(OBJ_PATH)/abelian_projection_su3_$(ARCH).o \
-	$(OBJ_PATH)/Landau_gauge_$(ARCH).o $(OBJ_PATH)/mag_$(ARCH).o $(OBJ_PATH)/Landau_U1_$(ARCH).o $(OBJ_PATH)/decomposition_$(ARCH).o
+OBJ_FILES=$(OBJ_PATH)/link_$(ARCH).o $(OBJ_PATH)/data_$(ARCH).o $(OBJ_PATH)/basic_observables_$(ARCH).o $(OBJ_PATH)/flux_tube_$(ARCH).o $(OBJ_PATH)/matrix_$(ARCH).o \
+$(OBJ_PATH)/smearing_$(ARCH).o $(OBJ_PATH)/monopoles_$(ARCH).o $(OBJ_PATH)/loop_$(ARCH).o $(OBJ_PATH)/eigen_$(ARCH).o $(OBJ_PATH)/abelian_projection_su3_$(ARCH).o \
+$(OBJ_PATH)/Landau_gauge_$(ARCH).o $(OBJ_PATH)/mag_$(ARCH).o
 C_PATH=/home/clusters/rrcmpi/kudrov/general_code/lib/cpu/src/c-lime
 C_FILES=$(C_PATH)/lime_fseeko.c  $(C_PATH)/lime_header.c  $(C_PATH)/lime_reader.c  $(C_PATH)/lime_utils.c  $(C_PATH)/lime_writer.c
 FLOAT=double
 FLAGS=-Ofast -fopenmp -march=native -mtune=native
-ARCH=test
-MATRIX_PLAKET=su2
+ARCH=rrcmpi
+MATRIX_PLAKET=abelian
 MATRIX_WILSON=su2
 MATRIX=abelian
 
@@ -82,7 +82,7 @@ polyakov_loop_$(ARCH).o: polyakov_loop.cpp
 	$(GCC) -O3 -c polyakov_loop.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX=$(MATRIX) -o polyakov_loop_$(ARCH).o
 
 plaket: plaket_$(ARCH).o $(OBJ_FILES)
-	$(GCC) plaket_$(ARCH).o $(OBJ_FILES) $(C_FILES) -o exe/plaket_$(MATRIX_PLAKET)_$(MATRIX_WILSON)_$(ARCH)
-	rm plaket.o
+	$(GCC) plaket_$(ARCH).o $(OBJ_FILES) $(C_FILES) -fopenmp -o exe/plaket_$(MATRIX_PLAKET)_$(ARCH)
+	rm plaket_$(ARCH).o
 plaket_$(ARCH).o: plaket.cpp
-	$(GCC) -O3 -c plaket.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX_WILSON=$(MATRIX_WILSON) -DMATRIX_PLAKET=$(MATRIX_PLAKET) -o plaket_$(ARCH).o
+	$(GCC) -O3 -c plaket.cpp -I$(INCLUDE_PATH) $(FLAGS) -DMATRIX_PLAKET=$(MATRIX_PLAKET) -o plaket_$(ARCH).o

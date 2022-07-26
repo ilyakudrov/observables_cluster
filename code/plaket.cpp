@@ -21,8 +21,6 @@ int main(int argc, char *argv[]) {
   std::string conf_path;
   std::string output_path;
   int L_spat, L_time;
-  int T_min, T_max;
-  double R_min, R_max;
   int bites_skip = 0;
   for (int i = 1; i < argc; i++) {
     if (std::string(argv[i]) == "-conf_format") {
@@ -37,14 +35,6 @@ int main(int argc, char *argv[]) {
       L_spat = stoi(std::string(argv[++i]));
     } else if (std::string(argv[i]) == "-L_time") {
       L_time = stoi(std::string(argv[++i]));
-    } else if (std::string(argv[i]) == "-T_min") {
-      T_min = stoi(std::string(argv[++i]));
-    } else if (std::string(argv[i]) == "-T_max") {
-      T_max = stoi(std::string(argv[++i]));
-    } else if (std::string(argv[i]) == "-R_min") {
-      R_min = stod(std::string(argv[++i]));
-    } else if (std::string(argv[i]) == "-R_max") {
-      R_max = stod(std::string(argv[++i]));
     }
   }
 
@@ -54,17 +44,13 @@ int main(int argc, char *argv[]) {
   std::cout << "output_path " << output_path << std::endl;
   std::cout << "L_spat " << L_spat << std::endl;
   std::cout << "L_time " << L_time << std::endl;
-  std::cout << "T_min " << T_min << std::endl;
-  std::cout << "T_max " << T_max << std::endl;
-  std::cout << "R_min " << R_min << std::endl;
-  std::cout << "R_max " << R_max << std::endl;
 
   x_size = L_spat;
   y_size = L_spat;
   z_size = L_spat;
   t_size = L_time;
 
-  data<MATRIX_WILSON> conf;
+  data<MATRIX_PLAKET> conf;
 
   if (std::string(conf_format) == "float") {
     conf.read_float(conf_path, bites_skip);
@@ -72,12 +58,6 @@ int main(int argc, char *argv[]) {
     conf.read_double(conf_path, bites_skip);
   } else if (std::string(conf_format) == "double_qc2dstag") {
     conf.read_double_qc2dstag(conf_path);
-  } else if (std::string(conf_format) == "float_convert_abelian") {
-    conf.read_float_convert_abelian(conf_path, bites_skip);
-  } else if (std::string(conf_format) == "double_convert_abelian") {
-    conf.read_double_convert_abelian(conf_path, bites_skip);
-  } else if (std::string(conf_format) == "double_qc2dstag_convert_abelian") {
-    conf.read_double_qc2dstag_convert_abelian(conf_path);
   }
   start_time = clock();
 
@@ -87,11 +67,13 @@ int main(int argc, char *argv[]) {
 
   ofstream_wilson.open(output_path);
 
+  double plaket_result = plaket(conf.array);
+
+  cout << "plaket = " << plaket_result << endl;
+
   ofstream_wilson << "plaket" << std::endl;
 
-  for (int i = 0; i < wilson_offaxis_result.size(); i++) {
-    ofstream_wilson << plaket(conf.array) << std::endl;
-  }
+  ofstream_wilson << plaket_result << std::endl;
 
   ofstream_wilson.close();
 }
