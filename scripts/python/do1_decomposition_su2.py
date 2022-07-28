@@ -5,6 +5,8 @@ from iterate_confs import *
 import subprocess
 import os
 
+L_spat1 = 48
+L_time1 = 48
 #conf_size = "24^4"
 #conf_size = "40^4"
 conf_size = "48^4"
@@ -12,9 +14,9 @@ conf_type = "su2_suzuki"
 #conf_type = "qc2dstag"
 theory_type = "su2"
 
-T_step = 0.0001
-T_final = 0.0001
-OR_steps = 6
+T_step = 0.001
+T_final = 0.5
+OR_steps = 4
 
 number_of_jobs = 50
 
@@ -22,29 +24,39 @@ arch = "rrcmpi-a"
 
 # for beta in ['/']:
 for beta in ['beta2.8']:
-    # for beta in ['beta2.5', 'beta2.6']:
+#for beta in ['beta2.5', 'beta2.6']:
     # for beta in ['beta2.4']:
     # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
     # for mu in ['mu0.05', 'mu0.45']:
     for mu in ['/']:
 
-        f = open(
-            f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters.json')
-        data = json.load(f)
-        conf_format = data['conf_format']
-        bites_skip = data['bites_skip']
-        L_spat = data['x_size']
-        L_time = data['t_size']
-        matrix_type = data['matrix_type']
-        conf_path_start = data['conf_path_start']
-        conf_path_end = data['conf_path_end']
-        padding = data['padding']
-        conf_name = data['conf_name']
+        #f = open(
+        #    f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters.json')
+        #data = json.load(f)
+        #conf_format = data['conf_format']
+        #bites_skip = data['bites_skip']
+        #L_spat = data['x_size']
+        #L_time = data['t_size']
+        #matrix_type = data['matrix_type']
+        #conf_path_start = data['conf_path_start']
+        #conf_path_end = data['conf_path_end']
+        #padding = data['padding']
+        #conf_name = data['conf_name']
 
-        #chains = {'/': [1, 2]}
+        conf_format = 'double'
+        bites_skip = 0
+        L_spat = L_spat1
+        L_time = L_time1
+        matrix_type = 'su2'
+        conf_path_start = f'/home/clusters/rrcmpi/kudrov/mag/conf_mag/su2/{conf_type}/{conf_size}/{beta}/{mu}/T_step={T_step}/T_final={T_final}/OR_steps={OR_steps}'
+        conf_path_end = '/'
+        padding = 4
+        conf_name = 'conf_'
+
+        chains = {'/': [1, 50]}
         #chains = {'s0': [201, 250]}
-        #jobs = distribute_jobs(chains, number_of_jobs)
-        jobs = distribute_jobs(data['chains'], number_of_jobs)
+        jobs = distribute_jobs(chains, number_of_jobs)
+        #jobs = distribute_jobs(data['chains'], number_of_jobs)
 
         for job in jobs:
 

@@ -12,9 +12,9 @@ conf_type = "su2_suzuki"
 #conf_type = "qc2dstag"
 theory_type = "su2"
 
-T_step = 0.001
+T_step = 0.0005
 T_init = 2.5
-T_final = 0.5
+T_final = 0.0005
 OR_steps = 4
 thermalization_steps = 50
 tolerance_maximal = 1e-12
@@ -32,6 +32,7 @@ is_final = 1
 is_compare = 1
 is_compare_spins = 1
 is_functional_save = 1
+fixation_type = 'final'
 
 number_of_jobs = 50
 
@@ -58,14 +59,14 @@ for beta in ['beta2.8']:
         padding = data['padding']
         conf_name = data['conf_name']
 
-        #chains = {'/': [1, 2]}
+        #chains = {'/': [1, 50]}
         #chains = {'s0': [201, 250]}
         #jobs = distribute_jobs(chains, number_of_jobs)
         jobs = distribute_jobs(data['chains'], number_of_jobs)
 
         for job in jobs:
 
-            log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/mag/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
+            log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/mag/{fixation_type}/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
                 f'T_step={T_step}/T_final={T_final}/OR_steps={OR_steps}/{job[0]}'
             conf_path_start1 = f'{conf_path_start}/{job[0]}/{conf_name}'
             try:
