@@ -7,23 +7,23 @@ import os
 
 L_spat1 = 48
 L_time1 = 48
-#conf_size = "24^4"
-#conf_size = "40^4"
 conf_size = "48^4"
+#conf_size = "40^4"
+#conf_size = "48^4"
 conf_type = "su2_suzuki"
 #conf_type = "qc2dstag"
 theory_type = "su2"
 
-T_step = 0.001
+T_step = 0.0005
 T_final = 0.5
 OR_steps = 4
 
 number_of_jobs = 50
 
-arch = "rrcmpi-a"
+arch = "rrcmpi"
 
 # for beta in ['/']:
-for beta in ['beta2.8']:
+for beta in ['beta2.7']:
 #for beta in ['beta2.5', 'beta2.6']:
     # for beta in ['beta2.4']:
     # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:

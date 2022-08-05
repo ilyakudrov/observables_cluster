@@ -5,9 +5,9 @@ from iterate_confs import *
 import subprocess
 import os
 
-L_spat1 = 24
-L_time1 = 24
-conf_size = "24^4"
+L_spat1 = 32
+L_time1 = 32
+conf_size = "32^4"
 conf_type = "gluodynamics"
 theory_type = "su3"
 
@@ -17,7 +17,7 @@ copies = 3
 number_of_jobs = 50
 
 # for beta in ['/']:
-for beta in ['beta6.0']:
+for beta in ['beta6.1']:
     # for beta in ['beta2.5', 'beta2.6']:
     # for beta in ['beta2.4']:
     # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
@@ -43,7 +43,7 @@ for beta in ['beta6.0']:
         L_time = L_time1
         matrix_type = 'su3'
         conf_path_start = f'/home/clusters/rrcmpi/kudrov/mag_su3/conf_gaugefixed/{conf_type}/{conf_size}/DP_steps_{DP_steps}/copies={copies}/CONFDP_gaugefixed_'
-        conf_path_end = ""
+        conf_path_end = "/"
         padding = 4
         conf_name = ""
 
@@ -62,7 +62,7 @@ for beta in ['beta6.0']:
                 pass
             output_conf_path = f'/home/clusters/rrcmpi/kudrov/Landau_su3/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/DP_steps_{DP_steps}/copies={copies}'
             # qsub -q mem8gb -l nodes=1:ppn=4
-            bashCommand = f'qsub -q long -v conf_path_start={conf_path_start},conf_path_end={conf_path_end},padding={padding},matrix_type={matrix_type},conf_format={conf_format},bites_skip={bites_skip},'\
+            bashCommand = f'qsub -q kepler -l nodes=1:ppn=8 -v conf_path_start={conf_path_start},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bites_skip={bites_skip},'\
                 f'DP_steps={DP_steps},copies={copies},output_conf_path={output_conf_path},'\
                 f'L_spat={L_spat},L_time={L_time},chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\
                 f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e /home/clusters/rrcmpi/kudrov/observables_cluster/scripts/do_Landau_gauge_su3.sh'
