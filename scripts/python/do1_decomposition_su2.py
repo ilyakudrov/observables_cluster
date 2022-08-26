@@ -20,7 +20,7 @@ OR_steps = 4
 
 number_of_jobs = 50
 
-arch = "rrcmpi"
+arch = "rrcmpi-a"
 
 # for beta in ['/']:
 for beta in ['beta2.7']:
