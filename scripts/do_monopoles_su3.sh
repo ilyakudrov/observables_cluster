@@ -26,7 +26,7 @@ parameters="-conf_format ${conf_format} -path_conf $path_conf -conf_format ${con
     -x_size ${L_spat} -y_size ${L_spat} -z_size ${L_spat} -t_size ${L_time}"
 
 
-/home/clusters/rrcmpi/kudrov/general_code/apps/monopoles_su3_${arch} $parameters
+/home/clusters/rrcmpi/kudrov/general_code/apps/monopoles_su3/monopoles_su3_${arch} $parameters
 
 fi
 
