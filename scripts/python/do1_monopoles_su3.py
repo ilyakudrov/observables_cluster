@@ -5,21 +5,23 @@ from iterate_confs import *
 import subprocess
 import os
 
-L_spat = 32
-L_time = 32
-conf_size = "32^4"
-conf_type = "gluodynamics"
+L_spat = 64
+L_time = 14
+#conf_size = "36^4"
+conf_size = "nt14"
+#conf_type = "gluodynamics"
+conf_type = "QCD/140MeV"
 theory_type = "su3"
 
 arch = "rrcmpi-a"
 
-DP_steps = 500
-copies = 3
+DP_steps = 330
+copies = 1
 
-number_of_jobs = 50
+number_of_jobs = 100
 
-# for beta in ['/']:
-for beta in ['beta6.2']:
+for beta in ['/']:
+#for beta in ['beta6.3']:
     # for beta in ['beta2.5', 'beta2.6']:
     # for beta in ['beta2.4']:
     # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
@@ -39,15 +41,23 @@ for beta in ['beta6.2']:
         # padding = data['padding']
         # conf_name = data['conf_name']
 
-        conf_format = "double_qc2dstag"
+        #conf_format = "double_qc2dstag"
+        #bites_skip = 0
+        #matrix_type = 'su3'
+        #conf_path_start = f'/home/clusters/rrcmpi/kudrov/mag_su3/conf_gaugefixed/{conf_type}/{conf_size}/DP_steps_{DP_steps}/copies={copies}'
+        #conf_path_end = "/"
+        #padding = 4
+        #conf_name = "CONFDP_gaugefixed_"
+
+        conf_format = "ildg"
         bites_skip = 0
         matrix_type = 'su3'
-        conf_path_start = f'/home/clusters/rrcmpi/kudrov/mag_su3/conf_gaugefixed/{conf_type}/{conf_size}/DP_steps_{DP_steps}/copies={copies}/CONFDP_gaugefixed_'
-        conf_path_end = "/"
+        conf_path_start = f'/home/clusters/rrcmpi/kudrov/mag_su3/conf_gaugefixed/{conf_type}/{conf_size}/steps_{DP_steps}/copies={copies}'
+        conf_path_end = ".ildg"
         padding = 4
-        conf_name = ""
+        conf_name = "conf.SP_gaugefixed_"
 
-        chains = {'/': [1, 500]}
+        chains = {'/': [501, 859]}
         #chains = {'s0': [201, 250]}
         jobs = distribute_jobs(chains, number_of_jobs)
         #jobs = distribute_jobs(data['chains'], number_of_jobs)
@@ -62,8 +72,9 @@ for beta in ['beta6.2']:
             except:
                 pass
             output_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/monopoles_su3/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/DP_steps_{DP_steps}/copies={copies}'
-            # qsub -q mem8gb -l nodes=1:ppn=4
-            bashCommand = f'qsub -q long -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bites_skip={bites_skip},'\
+            # for nt8 and bigger
+            # qsub -q mem4gb -l nodes=1:ppn=2
+            bashCommand = f'qsub -q mem4gb -l nodes=1:ppn=2 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bites_skip={bites_skip},'\
                 f'output_path={output_path},arch={arch},'\
                 f'L_spat={L_spat},L_time={L_time},chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\
                 f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e /home/clusters/rrcmpi/kudrov/observables_cluster/scripts/do_monopoles_su3.sh'

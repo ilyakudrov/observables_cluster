@@ -13,10 +13,10 @@ theory_type = "su3"
 
 arch = "rrcmpi"
 
-DP_steps = 500
+DP_steps = 4000
 copies = 3
 
-number_of_jobs = 50
+number_of_jobs = 200
 
 # for beta in ['/']:
 for beta in ['beta6.0']:
@@ -42,12 +42,12 @@ for beta in ['beta6.0']:
         conf_format = "double_qc2dstag"
         bites_skip = 0
         matrix_type = 'su3'
-        conf_path_start = f'/home/clusters/rrcmpi/kudrov/mag_su3/conf_gaugefixed/{conf_type}/{conf_size}/DP_steps_{DP_steps}/copies={copies}/CONFDP_gaugefixed_'
+        conf_path_start = f'/home/clusters/rrcmpi/kudrov/mag_su3/conf_gaugefixed/{conf_type}/{conf_size}/DP_steps_{DP_steps}/copies={copies}'
         conf_path_end = "/"
         padding = 4
-        conf_name = ""
+        conf_name = "CONFDP_gaugefixed_"
 
-        chains = {'/': [1, 500]}
+        chains = {'/': [1, 200]}
         #chains = {'s0': [201, 250]}
         jobs = distribute_jobs(chains, number_of_jobs)
         #jobs = distribute_jobs(data['chains'], number_of_jobs)
