@@ -5,14 +5,15 @@ from iterate_confs import *
 import subprocess
 import os
 
-L_spat = 48
-L_time = 48
-conf_size = "48^4"
+L_spat = 24
+L_time = 24
+conf_size = "24^4"
 #conf_size = "40^4"
 #conf_size = "48^4"
-conf_type = "su2_suzuki"
+# conf_type = "su2_suzuki"
+conf_type = "gluodynamics"
 #conf_type = "qc2dstag"
-theory_type = "su2"
+theory_type = "su3"
 wilson_type = "original"
 plaket_type = 'original'
 
@@ -35,16 +36,16 @@ wilson_enabled = 1
 flux_enabled = 0
 
 T_min = 1
-T_max = 24
+T_max = 12
 R_min = 1
-R_max = 24
+R_max = 12
 
 number_of_jobs = 1
 
 arch = "rrcmpi-a"
 
 # for beta in ['/']:
-for beta in ['beta2.8']:
+for beta in ['beta6.0']:
     # for beta in ['beta2.5', 'beta2.6']:
     # for beta in ['beta2.4']:
     # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
@@ -111,8 +112,10 @@ for beta in ['beta2.8']:
 
         for job in jobs:
 
+            # log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/smearing/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
+            #     f'T_step={T_step}/T_final={T_final}/OR_steps={OR_steps}/{smearing_str}/{job[0]}'
             log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/smearing/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
-                f'T_step={T_step}/T_final={T_final}/OR_steps={OR_steps}/{smearing_str}/{job[0]}'
+                f'{smearing_str}/{job[0]}'
             conf_path_start_wilson1 = f'{conf_path_start_wilson}/{job[0]}/{conf_name_wilson}'
             conf_path_start_plaket1 = f'{conf_path_start_plaket}/{job[0]}/{conf_name_plaket}'
             try:
@@ -137,7 +140,7 @@ for beta in ['beta2.8']:
                 f'L_spat={L_spat},L_time={L_time},T_min={T_min},T_max={T_max},R_min={R_min},R_max={R_max},'\
                 f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch},matrix_type_plaket={matrix_type_plaket},matrix_type_wilson={matrix_type_wilson}'\
                 f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e /home/clusters/rrcmpi/kudrov/observables_cluster/scripts/do_smearing.sh'
-            #print(bashCommand)
+            # print(bashCommand)
             process = subprocess.Popen(bashCommand.split())
             output, error = process.communicate()
             # print(output, error)
