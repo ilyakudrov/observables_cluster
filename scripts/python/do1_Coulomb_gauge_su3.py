@@ -25,7 +25,7 @@ for beta in ['/']:
             f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters.json')
         data = json.load(f)
         conf_format = data['conf_format']
-        bites_skip = data['bites_skip']
+        bytes_skip = data['bytes_skip']
         L_spat = data['x_size']
         L_time = data['t_size']
         matrix_type = data['matrix_type']
