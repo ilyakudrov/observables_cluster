@@ -5,12 +5,12 @@ from iterate_confs import *
 import subprocess
 import os
 
-L_spat = 24
-L_time = 24
-conf_size = "24^4"
+L_spat = 36
+L_time = 36
+conf_size = "36^4"
 #conf_size = "40^4"
 #conf_size = "48^4"
-# conf_type = "su2_suzuki"
+#conf_type = "su2_suzuki"
 conf_type = "gluodynamics"
 #conf_type = "qc2dstag"
 theory_type = "su3"
@@ -23,30 +23,33 @@ OR_steps = 4
 
 APE_enabled = 1
 HYP_enabled = 1
-HYP_alpha1 = "0.75"
-HYP_alpha2 = "0.6"
-HYP_alpha3 = "0.3"
-APE_alpha = "0.5"
-APE_steps = "10"
+#HYP_alpha1 = "0.75"
+#HYP_alpha2 = "0.6"
+#HYP_alpha3 = "0.3"
+HYP_alpha1 = "1"
+HYP_alpha2 = "1"
+HYP_alpha3 = "0.5"
+APE_alpha = "0.55"
+APE_steps = "460"
 HYP_steps = "1"
-calculation_step_APE = 2
-calculation_APE_start = 6
+calculation_step_APE = 40
+calculation_APE_start = 100
 
 wilson_enabled = 1
 flux_enabled = 0
 
 T_min = 1
-T_max = 12
+T_max = 18
 R_min = 1
-R_max = 12
+R_max = 18
 
-number_of_jobs = 1
+number_of_jobs = 250
 
 arch = "rrcmpi-a"
 
 # for beta in ['/']:
-for beta in ['beta6.0']:
-    # for beta in ['beta2.5', 'beta2.6']:
+#for beta in ['beta2.4']:
+for beta in ['beta6.3']:
     # for beta in ['beta2.4']:
     # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
     # for mu in ['mu0.05', 'mu0.45']:
@@ -105,7 +108,7 @@ for beta in ['beta6.0']:
         else:
             smearing_str = f'HYP{HYP_steps}_alpha={HYP_alpha1}_{HYP_alpha2}_{HYP_alpha3}_APE_alpha={APE_alpha}'
 
-        chains = {'/': [1, 1]}
+        chains = {'/': [0, 500]}
         #chains = {'s0': [201, 250]}
         jobs = distribute_jobs(chains, number_of_jobs)
         #jobs = distribute_jobs(data['chains'], number_of_jobs)
@@ -123,7 +126,7 @@ for beta in ['beta6.0']:
             except:
                 pass
             path_conf_wilson_loop = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/smearing/wilson_loop/{theory_type}/'\
-                f'{conf_type}/{conf_size}/{beta}/{mu}/{wilson_type}/{matrix_type_wilson}/{smearing_str}/{job[0]}'
+                f'{conf_type}/{conf_size}/{beta}/{mu}/{matrix_type_wilson}/{smearing_str}/{job[0]}'
             path_conf_flux_tube = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/smearing/flux_tube/{theory_type}/'\
                 f'{conf_type}/{conf_size}/{beta}/{mu}/{matrix_type_wilson}_{matrix_type_plaket}/{smearing_str}/{job[0]}'
             # qsub -q mem8gb -l nodes=1:ppn=4
