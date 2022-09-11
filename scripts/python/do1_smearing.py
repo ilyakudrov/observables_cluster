@@ -5,21 +5,24 @@ from iterate_confs import *
 import subprocess
 import os
 
-L_spat = 36
-L_time = 36
-conf_size = "36^4"
+L_spat = 48
+L_time = 48
+conf_size = "48^4"
 #conf_size = "40^4"
 #conf_size = "48^4"
-#conf_type = "su2_suzuki"
-conf_type = "gluodynamics"
+conf_type = "su2_suzuki"
+#conf_type = "gluodynamics"
 #conf_type = "qc2dstag"
-theory_type = "su3"
-wilson_type = "original"
+theory_type = "su2"
+wilson_type = "monopole"
 plaket_type = 'original'
 
-T_step = 0.0001
-T_final = 0.5
-OR_steps = 4
+T_step = 'T_step=0.0001'
+T_final = 'T_final=0.5'
+OR_steps = 'OR_steps=4'
+#T_step = '/'
+#T_final = '/'
+#OR_steps = '/'
 
 APE_enabled = 1
 HYP_enabled = 1
@@ -29,27 +32,27 @@ HYP_enabled = 1
 HYP_alpha1 = "1"
 HYP_alpha2 = "1"
 HYP_alpha3 = "0.5"
-APE_alpha = "0.55"
-APE_steps = "460"
-HYP_steps = "1"
-calculation_step_APE = 40
+APE_alpha = "0.5"
+APE_steps = "300"
+HYP_steps = "0"
+calculation_step_APE = 20
 calculation_APE_start = 100
 
 wilson_enabled = 1
 flux_enabled = 0
 
 T_min = 1
-T_max = 18
+T_max = 24
 R_min = 1
-R_max = 18
+R_max = 24
 
-number_of_jobs = 250
+number_of_jobs = 50
 
 arch = "rrcmpi-a"
 
 # for beta in ['/']:
 #for beta in ['beta2.4']:
-for beta in ['beta6.3']:
+for beta in ['beta2.8']:
     # for beta in ['beta2.4']:
     # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
     # for mu in ['mu0.05', 'mu0.45']:
@@ -74,7 +77,7 @@ for beta in ['beta6.3']:
             elif wilson_type == 'monopole':
                 matrix_type_wilson = 'abelian'
             conf_path_start_wilson = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/'\
-                f'{wilson_type}/su2/{conf_type}/{conf_size}/{beta}/{mu}/T_step={T_step}/T_final={T_final}/OR_steps={OR_steps}'
+                f'{wilson_type}/su2/{conf_type}/{conf_size}/{beta}/{mu}/{T_step}/{T_final}/{OR_steps}'
             conf_path_end_wilson = '/'
             padding_wilson = 4
             conf_name_wilson = f'conf_{wilson_type}_'
@@ -98,7 +101,7 @@ for beta in ['beta6.3']:
             elif plaket_type == 'monopole':
                 matrix_type_plaket = 'abelian'
             conf_path_start_plaket = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/'\
-                f'{wilson_type}/su2/{conf_type}/{conf_size}/{beta}/{mu}/T_step={T_step}/T_final={T_final}/OR_steps={OR_steps}'
+                f'{wilson_type}/su2/{conf_type}/{conf_size}/{beta}/{mu}/{T_step}/{T_final}/{OR_steps}'
             conf_path_end_plaket = '/'
             padding_plaket = 4
             conf_name_plaket = f'conf_{plaket_type}_'
@@ -108,7 +111,7 @@ for beta in ['beta6.3']:
         else:
             smearing_str = f'HYP{HYP_steps}_alpha={HYP_alpha1}_{HYP_alpha2}_{HYP_alpha3}_APE_alpha={APE_alpha}'
 
-        chains = {'/': [0, 500]}
+        chains = {'/': [1, 50]}
         #chains = {'s0': [201, 250]}
         jobs = distribute_jobs(chains, number_of_jobs)
         #jobs = distribute_jobs(data['chains'], number_of_jobs)
@@ -118,7 +121,7 @@ for beta in ['beta6.3']:
             # log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/smearing/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
             #     f'T_step={T_step}/T_final={T_final}/OR_steps={OR_steps}/{smearing_str}/{job[0]}'
             log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/smearing/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
-                f'{smearing_str}/{job[0]}'
+                f'{wilson_type}_{plaket_type}/{smearing_str}/{T_step}/{T_final}/{OR_steps}/{job[0]}'
             conf_path_start_wilson1 = f'{conf_path_start_wilson}/{job[0]}/{conf_name_wilson}'
             conf_path_start_plaket1 = f'{conf_path_start_plaket}/{job[0]}/{conf_name_plaket}'
             try:
@@ -126,9 +129,9 @@ for beta in ['beta6.3']:
             except:
                 pass
             path_conf_wilson_loop = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/smearing/wilson_loop/{theory_type}/'\
-                f'{conf_type}/{conf_size}/{beta}/{mu}/{matrix_type_wilson}/{smearing_str}/{job[0]}'
+                f'{conf_type}/{conf_size}/{beta}/{mu}/{wilson_type}/{smearing_str}/{T_step}/{T_final}/{OR_steps}/{job[0]}'
             path_conf_flux_tube = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/smearing/flux_tube/{theory_type}/'\
-                f'{conf_type}/{conf_size}/{beta}/{mu}/{matrix_type_wilson}_{matrix_type_plaket}/{smearing_str}/{job[0]}'
+                f'{conf_type}/{conf_size}/{beta}/{mu}/{wilson_type}_{plaket_type}/{smearing_str}/{T_step}/{T_final}/{OR_steps}/{job[0]}'
             # qsub -q mem8gb -l nodes=1:ppn=4
             # qsub -q long
             bashCommand = f'qsub -q mem8gb -l nodes=1:ppn=4 -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\

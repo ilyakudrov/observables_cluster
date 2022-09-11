@@ -12,6 +12,8 @@ samax=4
 samin=0.1
 seed=$(date +%s)
 
+echo ${conf_format}
+
 starting_conf=conf_start
 number_of_confs_to_fix=$((${conf_end} - ${conf_start} + 1))
 

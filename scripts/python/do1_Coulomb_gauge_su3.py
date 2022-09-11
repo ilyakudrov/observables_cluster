@@ -6,12 +6,12 @@ import subprocess
 import os
 
 L_spat = 64
-L_time = 4
-conf_size = "nt4"
+L_time = 14
+conf_size = "nt14"
 conf_type = "QCD/140MeV"
 theory_type = "su3"
 
-number_of_jobs = 10
+number_of_jobs = 30
 
 for beta in ['/']:
     # for beta in ['beta6.2']:
@@ -34,9 +34,14 @@ for beta in ['/']:
         padding = data['padding']
         conf_name = data['conf_name']
 
-        # chains = {'/': [1, 500]}
+        if conf_format == 'ildg':
+            conf_format = 'ILDG'
+        elif conf_format == 'double_qc2dstag':
+            conf_format = 'QCDSTAG'
+
+        #chains = {'/': [501, 501]}
         # chains = {'s0': [201, 250]}
-        # jobs = distribute_jobs(chains, number_of_jobs)
+        #jobs = distribute_jobs(chains, number_of_jobs)
         jobs = distribute_jobs(data['chains'], number_of_jobs)
 
         for job in jobs:
@@ -49,7 +54,7 @@ for beta in ['/']:
                 pass
             output_conf_path = f'/home/clusters/rrcmpi/kudrov/Coulomb_su3/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}'
             # qsub -q mem8gb -l nodes=1:ppn=4
-            bashCommand = f'qsub -q kepler -l nodes=1:ppn=8 -v conf_path_start={conf_path_start},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bites_skip={bites_skip},'\
+            bashCommand = f'qsub -q kepler -l nodes=1:ppn=8 -v conf_path_start={conf_path_start}/{conf_name},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bytes_skip={bytes_skip},'\
                 f'output_conf_path={output_conf_path},'\
                 f'L_spat={L_spat},L_time={L_time},chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\
                 f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e /home/clusters/rrcmpi/kudrov/observables_cluster/scripts/do_Coulomb_gauge_su3.sh'
