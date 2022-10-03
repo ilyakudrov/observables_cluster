@@ -7,22 +7,24 @@ import os
 
 L_spat = 48
 L_time = 48
-conf_size = "48^4"
+#conf_size = "nt18_gov"
+#conf_size = "nt20_gov"
 #conf_size = "40^4"
-#conf_size = "48^4"
+conf_size = "48^4"
 conf_type = "su2_suzuki"
 #conf_type = "gluodynamics"
+#conf_type = "QCD/140MeV"
 #conf_type = "qc2dstag"
 theory_type = "su2"
-wilson_type_array = ["monopole", "monopoless"]
+#wilson_type_array = ["monopoless", "monopole"]
+wilson_type_array = ["original"]
 plaket_type = 'original'
 
-T_step = 'T_step=0.0001'
-T_final = 'T_final=0.5'
-OR_steps = 'OR_steps=4'
-#T_step = '/'
-#T_final = '/'
-#OR_steps = '/'
+calculate_absent = "false"
+
+#additional_parameters = 'T_step=0.0005/T_final=0.5/OR_steps=4'
+additional_parameters = '/'
+#additional_parameters = 'DP_steps_500/copies=3'
 
 APE_enabled = 1
 HYP_enabled = 1
@@ -33,13 +35,14 @@ HYP_alpha1 = "1"
 HYP_alpha2 = "1"
 HYP_alpha3 = "0.5"
 APE_alpha = "0.5"
-APE_steps = "300"
-HYP_steps_array = ["0", "1"]
-calculation_step_APE = 20
-calculation_APE_start = 100
+APE_steps = "400"
+HYP_steps_array = ["0"]
+calculation_step_APE = 100
+calculation_APE_start = 200
 
 wilson_enabled = 1
 flux_enabled = 0
+save_conf = 0
 
 T_min = 1
 T_max = 24
@@ -52,9 +55,9 @@ arch = "rrcmpi-a"
 
 for wilson_type in wilson_type_array:
     for HYP_steps in HYP_steps_array:
-        # for beta in ['/']:
-        # for beta in ['beta2.4']:
+        #for beta in ['/']:
         for beta in ['beta2.8']:
+        #for beta in ['beta6.3']:
             # for beta in ['beta2.4']:
             # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
             # for mu in ['mu0.05', 'mu0.45']:
@@ -71,15 +74,28 @@ for wilson_type in wilson_type_array:
                     conf_path_end_wilson = data['conf_path_end']
                     padding_wilson = data['padding']
                     conf_name_wilson = data['conf_name']
+
+                    #conf_path_start_wilson = f'/home/clusters/rrcmpi/kudrov/Coulomb_su3/su3/QCD/140MeV/{conf_size}'
+                    #conf_name_wilson = 'conf_Coulomb_gaugefixed_'
                 else:
                     conf_format_wilson = 'double'
                     bytes_skip_wilson = 0
                     if wilson_type == 'monopoless':
-                        matrix_type_wilson = 'su2'
+                        if theory_type == 'su2':
+                            matrix_type_wilson = 'su2'
+                        elif theory_type == 'su3':
+                            matrix_type_wilson = 'su3'
+                        else:
+                            print('wrong theory type')
                     elif wilson_type == 'monopole':
-                        matrix_type_wilson = 'abelian'
+                        if theory_type == 'su2':
+                            matrix_type_wilson = 'abelian'
+                        elif theory_type == 'su3':
+                            matrix_type_wilson = 'su3_abelian'
+                        else:
+                            print('wrong theory type')
                     conf_path_start_wilson = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/'\
-                        f'{wilson_type}/su2/{conf_type}/{conf_size}/{beta}/{mu}/{T_step}/{T_final}/{OR_steps}'
+                        f'{wilson_type}/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}'
                     conf_path_end_wilson = '/'
                     padding_wilson = 4
                     conf_name_wilson = f'conf_{wilson_type}_'
@@ -99,19 +115,32 @@ for wilson_type in wilson_type_array:
                     conf_format_plaket = 'double'
                     bytes_skip_plaket = 0
                     if plaket_type == 'monopoless':
-                        matrix_type_plaket = 'su2'
+                        if theory_type == 'su2':
+                            matrix_type_plaket = 'su2'
+                        elif theory_type == 'su3':
+                            matrix_type_wilson = 'su3'
+                        else:
+                            print('wrong theory type')
                     elif plaket_type == 'monopole':
-                        matrix_type_plaket = 'abelian'
+                        if theory_type == 'su2':
+                            matrix_type_plaket = 'abelian'
+                        elif theory_type == 'su3':
+                            matrix_type_wilson = 'su3_abelian'
+                        else:
+                            print('wrong theory type')
                     conf_path_start_plaket = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/'\
-                        f'{wilson_type}/su2/{conf_type}/{conf_size}/{beta}/{mu}/{T_step}/{T_final}/{OR_steps}'
+                        f'{wilson_type}/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}'
                     conf_path_end_plaket = '/'
                     padding_plaket = 4
                     conf_name_plaket = f'conf_{plaket_type}_'
 
-                if HYP_enabled == '0':
+                if HYP_enabled == 0:
                     smearing_str = f'HYP0_APE_alpha={APE_alpha}'
                 else:
                     smearing_str = f'HYP{HYP_steps}_alpha={HYP_alpha1}_{HYP_alpha2}_{HYP_alpha3}_APE_alpha={APE_alpha}'
+
+                if APE_enabled == 0:
+                    smearing_str = f'HYP{HYP_steps}_alpha={HYP_alpha1}_{HYP_alpha2}_{HYP_alpha3}'
 
                 chains = {'/': [1, 50]}
                 #chains = {'s0': [201, 250]}
@@ -123,7 +152,7 @@ for wilson_type in wilson_type_array:
                     # log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/smearing/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
                     #     f'T_step={T_step}/T_final={T_final}/OR_steps={OR_steps}/{smearing_str}/{job[0]}'
                     log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/smearing/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
-                        f'{wilson_type}_{plaket_type}/{smearing_str}/{T_step}/{T_final}/{OR_steps}/{job[0]}'
+                        f'{wilson_type}_{plaket_type}/{smearing_str}/{additional_parameters}/{job[0]}'
                     conf_path_start_wilson1 = f'{conf_path_start_wilson}/{job[0]}/{conf_name_wilson}'
                     conf_path_start_plaket1 = f'{conf_path_start_plaket}/{job[0]}/{conf_name_plaket}'
                     try:
@@ -131,16 +160,22 @@ for wilson_type in wilson_type_array:
                     except:
                         pass
                     path_conf_wilson_loop = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/smearing/wilson_loop/{theory_type}/'\
-                        f'{conf_type}/{conf_size}/{beta}/{mu}/{wilson_type}/{smearing_str}/{T_step}/{T_final}/{OR_steps}/{job[0]}'
+                        f'{conf_type}/{conf_size}/{beta}/{mu}/{wilson_type}/{smearing_str}/{additional_parameters}/{job[0]}'
                     path_conf_flux_tube = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/smearing/flux_tube/{theory_type}/'\
-                        f'{conf_type}/{conf_size}/{beta}/{mu}/{wilson_type}_{plaket_type}/{smearing_str}/{T_step}/{T_final}/{OR_steps}/{job[0]}'
+                        f'{conf_type}/{conf_size}/{beta}/{mu}/{wilson_type}_{plaket_type}/{smearing_str}/{additional_parameters}/{job[0]}'
+                    conf_path_output = f'/home/clusters/rrcmpi/kudrov/smearing/{theory_type}/'\
+                        f'{conf_type}/{conf_size}/{beta}/{mu}/{smearing_str}/{additional_parameters}/{job[0]}'
                     # qsub -q mem8gb -l nodes=1:ppn=4
                     # qsub -q long
+                    # 4gb for 48^4 monopole
+                    # 8gb for 48^4 su2
+                    # 8gb for nt6 and bigger
+                    # 16gb for nt10 and bigger
                     bashCommand = f'qsub -q mem8gb -l nodes=1:ppn=4 -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\
                         f'conf_format_plaket={conf_format_plaket},bytes_skip_plaket={bytes_skip_plaket},'\
                         f'conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
                         f'conf_format_wilson={conf_format_wilson},bytes_skip_wilson={bytes_skip_wilson},'\
-                        f'T_step={T_step},T_final={T_final},OR_steps={OR_steps},padding={padding_wilson},'\
+                        f'padding={padding_wilson},calculate_absent={calculate_absent},save_conf={save_conf},conf_path_output={conf_path_output},'\
                         f'HYP_alpha1={HYP_alpha1},HYP_alpha2={HYP_alpha2},HYP_alpha3={HYP_alpha3},'\
                         f'APE_alpha={APE_alpha},APE_enabled={APE_enabled},HYP_enabled={HYP_enabled},'\
                         f'APE_steps={APE_steps},HYP_steps={HYP_steps},calculation_step_APE={calculation_step_APE},calculation_APE_start={calculation_APE_start},'\

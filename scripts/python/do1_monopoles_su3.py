@@ -49,6 +49,10 @@ for beta in ['/']:
         #padding = 4
         #conf_name = "CONFDP_gaugefixed_"
 
+        f = open(f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters.json')
+        data = json.load(f)
+
+
         conf_format = "ildg"
         bites_skip = 0
         matrix_type = 'su3'
@@ -57,10 +61,10 @@ for beta in ['/']:
         padding = 4
         conf_name = "conf.SP_gaugefixed_"
 
-        chains = {'/': [501, 859]}
+        #chains = {'/': [501, 859]}
         #chains = {'s0': [201, 250]}
-        jobs = distribute_jobs(chains, number_of_jobs)
-        #jobs = distribute_jobs(data['chains'], number_of_jobs)
+        #jobs = distribute_jobs(chains, number_of_jobs)
+        jobs = distribute_jobs(data['chains'], number_of_jobs)
 
         for job in jobs:
 

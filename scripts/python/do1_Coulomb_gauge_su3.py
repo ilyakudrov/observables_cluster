@@ -5,13 +5,11 @@ from iterate_confs import *
 import subprocess
 import os
 
-L_spat = 64
-L_time = 14
-conf_size = "nt14"
+conf_size = "nt16_gov"
 conf_type = "QCD/140MeV"
 theory_type = "su3"
 
-number_of_jobs = 30
+number_of_jobs = 1
 
 for beta in ['/']:
     # for beta in ['beta6.2']:
@@ -39,10 +37,10 @@ for beta in ['/']:
         elif conf_format == 'double_qc2dstag':
             conf_format = 'QCDSTAG'
 
-        #chains = {'/': [501, 501]}
+        chains = {'/': [661, 661]}
         # chains = {'s0': [201, 250]}
-        #jobs = distribute_jobs(chains, number_of_jobs)
-        jobs = distribute_jobs(data['chains'], number_of_jobs)
+        jobs = distribute_jobs(chains, number_of_jobs)
+        #jobs = distribute_jobs(data['chains'], number_of_jobs)
 
         for job in jobs:
 

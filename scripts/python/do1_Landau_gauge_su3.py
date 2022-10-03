@@ -5,19 +5,19 @@ from iterate_confs import *
 import subprocess
 import os
 
-L_spat1 = 36
-L_time1 = 36
-conf_size = "36^4"
+L_spat1 = 24
+L_time1 = 24
+conf_size = "24^4"
 conf_type = "gluodynamics"
 theory_type = "su3"
 
 DP_steps = 500
 copies = 3
 
-number_of_jobs = 10
+number_of_jobs = 40
 
 # for beta in ['/']:
-for beta in ['beta6.2']:
+for beta in ['beta6.0']:
     # for beta in ['beta2.5', 'beta2.6']:
     # for beta in ['beta2.4']:
     # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:

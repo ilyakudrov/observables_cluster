@@ -13,10 +13,11 @@ theory_type = "su3"
 
 arch = "rrcmpi"
 
-DP_steps = 4000
+DP_steps = 500
 copies = 3
 
-number_of_jobs = 200
+
+number_of_jobs = 500
 
 # for beta in ['/']:
 for beta in ['beta6.0']:
@@ -42,12 +43,12 @@ for beta in ['beta6.0']:
         conf_format = "double_qc2dstag"
         bites_skip = 0
         matrix_type = 'su3'
-        conf_path_start = f'/home/clusters/rrcmpi/kudrov/mag_su3/conf_gaugefixed/{conf_type}/{conf_size}/DP_steps_{DP_steps}/copies={copies}'
+        conf_path_start = f'/home/clusters/rrcmpi/kudrov/Landau_su3/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/DP_steps_{DP_steps}/copies={copies}'
         conf_path_end = "/"
         padding = 4
-        conf_name = "CONFDP_gaugefixed_"
+        conf_name = "conf_Landau_gaugefixed_"
 
-        chains = {'/': [1, 200]}
+        chains = {'/': [1, 500]}
         #chains = {'s0': [201, 250]}
         jobs = distribute_jobs(chains, number_of_jobs)
         #jobs = distribute_jobs(data['chains'], number_of_jobs)
@@ -61,8 +62,8 @@ for beta in ['beta6.0']:
                 os.makedirs(log_path)
             except:
                 pass
-            path_conf_monopole = f'/home/clusters/rrcmpi/kudrov/decomposition_su3/confs_decomposed/monopole/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/DP_steps_{DP_steps}/copies={copies}'
-            path_conf_monopoless = f'/home/clusters/rrcmpi/kudrov/decomposition_su3/confs_decomposed/monopoless/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/DP_steps_{DP_steps}/copies={copies}'
+            path_conf_monopole = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/monopole/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/DP_steps_{DP_steps}/copies={copies}'
+            path_conf_monopoless = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/monopoless/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/DP_steps_{DP_steps}/copies={copies}'
             path_inverse_laplacian = f'/home/clusters/rrcmpi/kudrov/soft/inverse_laplacian/ALPHA{L_spat}x{L_time}_d.LAT'
             # qsub -q mem8gb -l nodes=1:ppn=4
             bashCommand = f'qsub -q long -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bites_skip={bites_skip},'\
