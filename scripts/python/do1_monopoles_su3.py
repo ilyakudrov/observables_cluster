@@ -54,7 +54,7 @@ for beta in ['/']:
 
 
         conf_format = "ildg"
-        bites_skip = 0
+        bytes_skip = 0
         matrix_type = 'su3'
         conf_path_start = f'/home/clusters/rrcmpi/kudrov/mag_su3/conf_gaugefixed/{conf_type}/{conf_size}/steps_{DP_steps}/copies={copies}'
         conf_path_end = ".ildg"
@@ -78,7 +78,7 @@ for beta in ['/']:
             output_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/monopoles_su3/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/DP_steps_{DP_steps}/copies={copies}'
             # for nt8 and bigger
             # qsub -q mem4gb -l nodes=1:ppn=2
-            bashCommand = f'qsub -q mem4gb -l nodes=1:ppn=2 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bites_skip={bites_skip},'\
+            bashCommand = f'qsub -q mem4gb -l nodes=1:ppn=2 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bytes_skip={bytes_skip},'\
                 f'output_path={output_path},arch={arch},'\
                 f'L_spat={L_spat},L_time={L_time},chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\
                 f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e /home/clusters/rrcmpi/kudrov/observables_cluster/scripts/do_monopoles_su3.sh'

@@ -12,7 +12,7 @@ conf_type = "su2_suzuki"
 #conf_type = "qc2dstag"
 theory_type = "su2"
 
-T_step = 0.00001
+T_step = 0.00005
 T_init = 2.5
 T_final = 0.5
 OR_steps = 4
@@ -36,7 +36,7 @@ fixation_type = '/'
 
 number_of_jobs = 50
 
-arch = "rrcmpi-a"
+arch = "rrcmpi"
 
 #for beta in ['/']:
 for beta in ['beta2.8']:
@@ -59,10 +59,10 @@ for beta in ['beta2.8']:
         padding = data['padding']
         conf_name = data['conf_name']
 
-        #chains = {'/': [1, 50]}
+        chains = {'/': [1, 50]}
         #chains = {'s0': [201, 250]}
-        #jobs = distribute_jobs(chains, number_of_jobs)
-        jobs = distribute_jobs(data['chains'], number_of_jobs)
+        jobs = distribute_jobs(chains, number_of_jobs)
+        #jobs = distribute_jobs(data['chains'], number_of_jobs)
 
         for job in jobs:
 
