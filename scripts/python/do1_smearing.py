@@ -5,12 +5,12 @@ from iterate_confs import *
 import subprocess
 import os
 
-L_spat = 48
-L_time = 48
+L_spat = 24
+L_time = 24
 #conf_size = "nt18_gov"
 #conf_size = "nt20_gov"
 #conf_size = "40^4"
-conf_size = "48^4"
+conf_size = "24^4"
 conf_type = "su2_suzuki"
 #conf_type = "gluodynamics"
 #conf_type = "QCD/140MeV"
@@ -35,13 +35,13 @@ HYP_alpha1 = "1"
 HYP_alpha2 = "1"
 HYP_alpha3 = "0.5"
 APE_alpha = "0.5"
-APE_steps = "400"
-HYP_steps_array = ["0"]
-calculation_step_APE = 100
-calculation_APE_start = 200
+APE_steps = "10"
+HYP_steps_array = ["1"]
+calculation_step_APE = 2
+calculation_APE_start = 6
 
-wilson_enabled = 1
-flux_enabled = 0
+wilson_enabled = 0
+flux_enabled = 1
 save_conf = 0
 
 T_min = 1
@@ -49,14 +49,14 @@ T_max = 24
 R_min = 1
 R_max = 24
 
-number_of_jobs = 50
+number_of_jobs = 1
 
-arch = "rrcmpi-a"
+arch = "rrcmpi"
 
 for wilson_type in wilson_type_array:
     for HYP_steps in HYP_steps_array:
         #for beta in ['/']:
-        for beta in ['beta2.8']:
+        for beta in ['beta2.4']:
         #for beta in ['beta6.3']:
             # for beta in ['beta2.4']:
             # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
@@ -142,7 +142,7 @@ for wilson_type in wilson_type_array:
                 if APE_enabled == 0:
                     smearing_str = f'HYP{HYP_steps}_alpha={HYP_alpha1}_{HYP_alpha2}_{HYP_alpha3}'
 
-                chains = {'/': [1, 50]}
+                chains = {'/': [1, 1]}
                 #chains = {'s0': [201, 250]}
                 jobs = distribute_jobs(chains, number_of_jobs)
                 #jobs = distribute_jobs(data['chains'], number_of_jobs)
@@ -171,7 +171,7 @@ for wilson_type in wilson_type_array:
                     # 8gb for 48^4 su2
                     # 8gb for nt6 and bigger
                     # 16gb for nt10 and bigger
-                    bashCommand = f'qsub -q mem8gb -l nodes=1:ppn=4 -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\
+                    bashCommand = f'qsub -q long -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\
                         f'conf_format_plaket={conf_format_plaket},bytes_skip_plaket={bytes_skip_plaket},'\
                         f'conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
                         f'conf_format_wilson={conf_format_wilson},bytes_skip_wilson={bytes_skip_wilson},'\

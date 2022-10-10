@@ -18,14 +18,22 @@ fi
 conf_path_plaket1="${conf_path_start_plaket}`printf %0${padding}d $i`${conf_path_end_plaket}"
 conf_path_wilson1="${conf_path_start_wilson}`printf %0${padding}d $i`${conf_path_end_wilson}"
 
-echo ${conf_path_wilson1}
+echo ${conf_path_plaket1}
 echo ${conf_path_wilson1}
 
-if [ -f ${conf_path_wilson1} ] && [ -s ${conf_path_wilson1} ] ; then
+if [ -f ${conf_path_wilson1} ] && [ -s ${conf_path_wilson1} ] && [ -f ${conf_path_plaket1} ] && [ -s ${conf_path_plaket1} ] ; then
 
+if [ ${wilson_enabled} -eq 1 ] ; then
 mkdir -p ${path_wilson}
-# mkdir -p ${path_conf_flux_tube}
+fi
+
+if [ ${flux_enabled} -eq 1 ] ; then
+mkdir -p ${path_flux}
+fi
+
+if [ ${save_conf} -eq 1 ] ; then
 mkdir -p ${conf_path_output}
+fi
 
 #if [ ! -f "${path_wilson}/wilson_loop_`printf %04d $i`" ] || [  ! ${calculate_absent} ] ; then
 
