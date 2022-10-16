@@ -5,25 +5,25 @@ from iterate_confs import *
 import subprocess
 import os
 
-L_spat = 24
-L_time = 24
+L_spat = 48
+L_time = 48
 #conf_size = "nt18_gov"
 #conf_size = "nt20_gov"
 #conf_size = "40^4"
-conf_size = "24^4"
+conf_size = "48^4"
 conf_type = "su2_suzuki"
 #conf_type = "gluodynamics"
 #conf_type = "QCD/140MeV"
 #conf_type = "qc2dstag"
 theory_type = "su2"
-#wilson_type_array = ["monopoless", "monopole"]
-wilson_type_array = ["original"]
+wilson_type_array = ["monopoless", "monopole"]
+#wilson_type_array = ["original"]
 plaket_type = 'original'
 
 calculate_absent = "false"
 
-#additional_parameters = 'T_step=0.0005/T_final=0.5/OR_steps=4'
-additional_parameters = '/'
+additional_parameters = 'T_step=0.001/T_final=0.5/OR_steps=4'
+#additional_parameters = '/'
 #additional_parameters = 'DP_steps_500/copies=3'
 
 APE_enabled = 1
@@ -35,10 +35,10 @@ HYP_alpha1 = "1"
 HYP_alpha2 = "1"
 HYP_alpha3 = "0.5"
 APE_alpha = "0.5"
-APE_steps = "10"
-HYP_steps_array = ["1"]
-calculation_step_APE = 2
-calculation_APE_start = 6
+APE_steps = "700"
+HYP_steps_array = ["1", "0"]
+calculation_step_APE = 200
+calculation_APE_start = 300
 
 wilson_enabled = 0
 flux_enabled = 1
@@ -49,14 +49,14 @@ T_max = 24
 R_min = 1
 R_max = 24
 
-number_of_jobs = 1
+number_of_jobs = 50
 
-arch = "rrcmpi"
+arch = "rrcmpi-a"
 
 for wilson_type in wilson_type_array:
     for HYP_steps in HYP_steps_array:
         #for beta in ['/']:
-        for beta in ['beta2.4']:
+        for beta in ['beta2.8']:
         #for beta in ['beta6.3']:
             # for beta in ['beta2.4']:
             # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
@@ -80,6 +80,7 @@ for wilson_type in wilson_type_array:
                 else:
                     conf_format_wilson = 'double'
                     bytes_skip_wilson = 0
+                    padding_wilson = 4
                     if wilson_type == 'monopoless':
                         if theory_type == 'su2':
                             matrix_type_wilson = 'su2'
@@ -97,7 +98,6 @@ for wilson_type in wilson_type_array:
                     conf_path_start_wilson = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/'\
                         f'{wilson_type}/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}'
                     conf_path_end_wilson = '/'
-                    padding_wilson = 4
                     conf_name_wilson = f'conf_{wilson_type}_'
 
                 if plaket_type == 'original':
@@ -142,7 +142,7 @@ for wilson_type in wilson_type_array:
                 if APE_enabled == 0:
                     smearing_str = f'HYP{HYP_steps}_alpha={HYP_alpha1}_{HYP_alpha2}_{HYP_alpha3}'
 
-                chains = {'/': [1, 1]}
+                chains = {'/': [1, 50]}
                 #chains = {'s0': [201, 250]}
                 jobs = distribute_jobs(chains, number_of_jobs)
                 #jobs = distribute_jobs(data['chains'], number_of_jobs)
@@ -171,11 +171,11 @@ for wilson_type in wilson_type_array:
                     # 8gb for 48^4 su2
                     # 8gb for nt6 and bigger
                     # 16gb for nt10 and bigger
-                    bashCommand = f'qsub -q long -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\
+                    bashCommand = f'qsub -q mem8gb -l nodes=1:ppn=4 -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\
                         f'conf_format_plaket={conf_format_plaket},bytes_skip_plaket={bytes_skip_plaket},'\
                         f'conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
                         f'conf_format_wilson={conf_format_wilson},bytes_skip_wilson={bytes_skip_wilson},'\
-                        f'padding={padding_wilson},calculate_absent={calculate_absent},save_conf={save_conf},conf_path_output={conf_path_output},'\
+                        f'padding_wilson={padding_wilson},padding_plaket={padding_plaket},calculate_absent={calculate_absent},save_conf={save_conf},conf_path_output={conf_path_output},'\
                         f'HYP_alpha1={HYP_alpha1},HYP_alpha2={HYP_alpha2},HYP_alpha3={HYP_alpha3},'\
                         f'APE_alpha={APE_alpha},APE_enabled={APE_enabled},HYP_enabled={HYP_enabled},'\
                         f'APE_steps={APE_steps},HYP_steps={HYP_steps},calculation_step_APE={calculation_step_APE},calculation_APE_start={calculation_APE_start},'\
