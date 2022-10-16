@@ -5,44 +5,33 @@ from iterate_confs import *
 import subprocess
 import os
 
-#conf_size = "24^4"
-#conf_size = "40^4"
+
+conf_size = "nt18_gov"
 conf_size = "48^4"
-conf_type = "su2_suzuki"
+# conf_type = "su2_suzuki"
+conf_type = "QCD/140MeV"
 #conf_type = "qc2dstag"
-theory_type = "su2"
+theory_type = "su3"
 
 axis = 'on-axis'
 
-#R_min = '0.9'
-#R_max = '2.1'
-#T_min = 1
-#T_max = 2
-#R_min = 0.9
-#R_max = 20.1
-#T_min = 1
-#T_max = 20
-R_min = 0.9
-R_max = 24.1
-T_min = 4
-T_max = 20
-#R_min = '0.9'
-#R_max = '12.1'
-#T_min = 1
-#T_max = 12
+R_min = 1
+R_max = 14
+T_min = 1
+T_max = 32
 
-number_of_jobs = 50
+number_of_jobs = 100
 
 smearing = 'smeared'
 diagonal = False
 
 for monopole in ['monopoless', 'monopole', '/']:
     # for monopole in ['monopoless']:
-    #for beta in ['/']:
+    # for beta in ['/']:
     for beta in ['beta2.8']:
-    #for beta in ['beta2.4', 'beta2.5', 'beta2.6']:
-    #for beta in ['beta2.4']:
-        #for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
+        # for beta in ['beta2.4', 'beta2.5', 'beta2.6']:
+        # for beta in ['beta2.4']:
+        # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
         # for mu in ['mu0.25']:
         for mu in ['/']:
 
@@ -119,7 +108,7 @@ for monopole in ['monopoless', 'monopole', '/']:
 
                 output_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/wilson_loop/{axis}/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{monopole1}/{smearing}/{job[0]}'
 
-                #qsub -q mem8gb -l nodes=1:ppn=4
+                # qsub -q mem8gb -l nodes=1:ppn=4
                 bashCommand = f'qsub -q mem8gb -l nodes=1:ppn=4 -v axis={axis},conf_format={conf_format},'\
                     f'bites_skip={bites_skip},matrix_type={matrix_type},'\
                     f'conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
