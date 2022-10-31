@@ -21,7 +21,9 @@ conf_path_wilson1="${conf_path_start_wilson}`printf %0${padding_wilson}d $i`${co
 echo ${conf_path_plaket1}
 echo ${conf_path_wilson1}
 
-if [ -f ${conf_path_wilson1} ] && [ -s ${conf_path_wilson1} ] && [ -f ${conf_path_plaket1} ] && [ -s ${conf_path_plaket1} ] ; then
+if [ -f ${conf_path_wilson1} ] && [ -s ${conf_path_wilson1} ]; then
+
+if [[ -f ${conf_path_plaket1} ]] && [[ -s ${conf_path_plaket1} ]] || [[ ! ${flux_enabled} == 1 ]]; then
 
 if [ ${wilson_enabled} -eq 1 ] ; then
 mkdir -p ${path_wilson}
@@ -52,6 +54,7 @@ parameters="-conf_format_wilson ${conf_format_wilson} -conf_path_wilson ${conf_p
 /home/clusters/rrcmpi/kudrov/general_code/apps/smearing/smearing_${matrix_type_wilson}_${matrix_type_plaket}_${arch} $parameters
 
 #fi
+fi
 fi
 
 done

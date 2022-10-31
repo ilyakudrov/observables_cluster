@@ -5,25 +5,25 @@ from iterate_confs import *
 import subprocess
 import os
 
-L_spat = 48
-L_time = 48
-#conf_size = "nt18_gov"
-#conf_size = "nt20_gov"
-#conf_size = "40^4"
-conf_size = "48^4"
-conf_type = "su2_suzuki"
-#conf_type = "gluodynamics"
+L_spat = 16
+L_time = 16
+#conf_size = "nt16_gov"
+#conf_size = "nt8"
+conf_size = "16^4"
+#conf_size = "48^4"
+#conf_type = "su2_suzuki"
+conf_type = "gluodynamics"
 #conf_type = "QCD/140MeV"
 #conf_type = "qc2dstag"
-theory_type = "su2"
-wilson_type_array = ["monopoless", "monopole"]
-#wilson_type_array = ["original"]
+theory_type = "su3"
+#wilson_type_array = ["monopoless", "monopole"]
+wilson_type_array = ['monopole']
 plaket_type = 'original'
 
 calculate_absent = "false"
 
-additional_parameters = 'T_step=0.001/T_final=0.5/OR_steps=4'
-#additional_parameters = '/'
+#additional_parameters = 'T_step=0.001/T_final=0.5/OR_steps=4'
+additional_parameters = '/'
 #additional_parameters = 'DP_steps_500/copies=3'
 
 APE_enabled = 1
@@ -35,29 +35,29 @@ HYP_alpha1 = "1"
 HYP_alpha2 = "1"
 HYP_alpha3 = "0.5"
 APE_alpha = "0.5"
-APE_steps = "700"
-HYP_steps_array = ["1", "0"]
-calculation_step_APE = 200
+APE_steps = "500"
+HYP_steps_array = ['0', '1']
+calculation_step_APE = 100
 calculation_APE_start = 300
 
-wilson_enabled = 0
-flux_enabled = 1
+wilson_enabled = 1
+flux_enabled = 0
 save_conf = 0
 
 T_min = 1
-T_max = 24
+T_max = 8
 R_min = 1
-R_max = 24
+R_max = 8
 
-number_of_jobs = 50
+number_of_jobs = 100
 
-arch = "rrcmpi-a"
+arch = "rrcmpi"
 
 for wilson_type in wilson_type_array:
     for HYP_steps in HYP_steps_array:
         #for beta in ['/']:
-        for beta in ['beta2.8']:
-        #for beta in ['beta6.3']:
+        #for beta in ['beta2.8']:
+        for beta in ['beta6.1']:
             # for beta in ['beta2.4']:
             # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
             # for mu in ['mu0.05', 'mu0.45']:
@@ -78,9 +78,12 @@ for wilson_type in wilson_type_array:
                     #conf_path_start_wilson = f'/home/clusters/rrcmpi/kudrov/Coulomb_su3/su3/QCD/140MeV/{conf_size}'
                     #conf_name_wilson = 'conf_Coulomb_gaugefixed_'
                 else:
-                    conf_format_wilson = 'double'
-                    bytes_skip_wilson = 0
-                    padding_wilson = 4
+                    #conf_format_wilson = 'double'
+                    #bytes_skip_wilson = 0
+                    #padding_wilson = 4
+                    conf_format_wilson = 'double_vitaly'
+                    bytes_skip_wilson = 4
+                    padding_wilson = 5
                     if wilson_type == 'monopoless':
                         if theory_type == 'su2':
                             matrix_type_wilson = 'su2'
@@ -95,10 +98,22 @@ for wilson_type in wilson_type_array:
                             matrix_type_wilson = 'su3_abelian'
                         else:
                             print('wrong theory type')
-                    conf_path_start_wilson = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/'\
-                        f'{wilson_type}/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}'
-                    conf_path_end_wilson = '/'
-                    conf_name_wilson = f'conf_{wilson_type}_'
+                    #conf_path_start_wilson = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/'\
+                    #    f'{wilson_type}/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}'
+                    #conf_path_end_wilson = '/'
+                    #conf_name_wilson = f'conf_{wilson_type}_'
+
+                    #conf_path_start_wilson = '/net/pool-01/vborn/Copy_from_lustre/SU3/su3mag/MAG_U1_decomp_mod'
+                    #conf_path_end_wilson = '.LAT'
+                    #conf_name_wilson = f'CON_MON_MAG_'
+
+                    #conf_path_start_wilson = '/net/pool-01/vborn/Copy_from_lustre/SU3/su3mag/L16_OFFD-mod'
+                    #conf_path_end_wilson = '.lat'
+                    #conf_name_wilson = f'MLS_conf.'
+
+                    conf_path_start_wilson = '/net/pool-01/vborn/Copy_from_lustre/SU3/su3mag/MAG_U1_decomp'
+                    conf_path_end_wilson = '.LAT'
+                    conf_name_wilson = f'CON_MON_MAG_'
 
                 if plaket_type == 'original':
                     f = open(
@@ -142,10 +157,10 @@ for wilson_type in wilson_type_array:
                 if APE_enabled == 0:
                     smearing_str = f'HYP{HYP_steps}_alpha={HYP_alpha1}_{HYP_alpha2}_{HYP_alpha3}'
 
-                chains = {'/': [1, 50]}
+                #chains = {'/': [601, 601]}
                 #chains = {'s0': [201, 250]}
-                jobs = distribute_jobs(chains, number_of_jobs)
-                #jobs = distribute_jobs(data['chains'], number_of_jobs)
+                #jobs = distribute_jobs(chains, number_of_jobs)
+                jobs = distribute_jobs(data['chains'], number_of_jobs)
 
                 for job in jobs:
 
@@ -171,7 +186,7 @@ for wilson_type in wilson_type_array:
                     # 8gb for 48^4 su2
                     # 8gb for nt6 and bigger
                     # 16gb for nt10 and bigger
-                    bashCommand = f'qsub -q mem8gb -l nodes=1:ppn=4 -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\
+                    bashCommand = f'qsub -q long -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\
                         f'conf_format_plaket={conf_format_plaket},bytes_skip_plaket={bytes_skip_plaket},'\
                         f'conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
                         f'conf_format_wilson={conf_format_wilson},bytes_skip_wilson={bytes_skip_wilson},'\

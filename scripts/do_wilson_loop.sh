@@ -15,6 +15,8 @@ echo ${conf_path1}
 
 if [ -f ${conf_path1} ] && [ -s ${conf_path1} ]; then
 
+mkdir -p ${path_wilson}
+
 #if [ ! -f "${path_wilson}/wilson_loop_`printf %04d $i`" ] || [  ! ${calculate_absent} ] ; then
 
 #-conf_format_plaket ${conf_format_plaket1} -conf_path_plaket ${conf_path_plaket1} -bytes_skip_plaket ${bytes_skip_plaket1}\
