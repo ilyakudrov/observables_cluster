@@ -26,8 +26,9 @@ additional_parameters = '/'
 
 axis = 'on-axis'
 
-smearing_arr = ['HYP0_APE_alpha=0.5',
-                'HYP1_alpha=1_1_0.5_APE_alpha=0.5', 'HYP2_alpha=1_1_0.5_APE_alpha=0.5']
+#smearing_arr = ['HYP0_APE_alpha=0.5',
+#                'HYP1_alpha=1_1_0.5_APE_alpha=0.5', 'HYP2_alpha=1_1_0.5_APE_alpha=0.5']
+smearing_arr = ['HYP1_APE_alpha=0.5', 'HYP2_APE_alpha=0.5']
 
 number_of_jobs = 100
 
@@ -36,6 +37,7 @@ arch = "rrcmpi-a"
 for T in time_sizes:
     L_time = T
     conf_size = f"nt{T}"
+    #conf_size = f"nt{T}_gov"
     T_min = 1
     T_max = T
     R_min = 1
