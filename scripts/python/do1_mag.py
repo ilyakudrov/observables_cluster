@@ -38,12 +38,12 @@ number_of_jobs = 50
 
 arch = "rrcmpi"
 
-#for beta in ['/']:
+# for beta in ['/']:
 for beta in ['beta2.8']:
-#for beta in ['beta2.5', 'beta2.6']:
+    # for beta in ['beta2.5', 'beta2.6']:
     # for beta in ['beta2.4']:
-    #for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
-    #for mu in ['mu0.05', 'mu0.45']:
+    # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
+    # for mu in ['mu0.05', 'mu0.45']:
     for mu in ['/']:
 
         f = open(
