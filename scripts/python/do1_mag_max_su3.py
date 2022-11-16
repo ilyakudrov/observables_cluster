@@ -8,7 +8,7 @@ import os
 L_spat = 64
 L_time = 4
 #conf_size = "nt16_gov"
-conf_size = "nt4"
+conf_size = f"nt{L_time}"
 #conf_size = "16^4"
 #conf_size = "48^4"
 #conf_type = "su2_suzuki"
@@ -22,8 +22,9 @@ calculate_absent = "false"
 #additional_parameters = 'T_step=0.001/T_final=0.5/OR_steps=4'
 # additional_parameters = '/'
 additional_parameters = 'steps_2000/copies=1'
+tol = 1e-13
 
-number_of_jobs = 100
+number_of_jobs = 40
 
 for beta in ['/']:
     # for beta in ['beta2.8']:
@@ -44,6 +45,7 @@ for beta in ['/']:
         conf_name = data['conf_name']
 
         conf_path_start = f'/home/clusters/rrcmpi/kudrov/mag_su3/conf_gaugefixed/{conf_type}/{conf_size}/{additional_parameters}'
+        conf_path_end = '.ildg'
         padding = 4
         conf_name = 'conf.SP_gaugefixed_'
 
@@ -55,17 +57,18 @@ for beta in ['/']:
         for job in jobs:
             log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/mag_su3/maximization/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
                 f'{additional_parameters}/{job[0]}'
+            conf_path_start1 = f'{conf_path_start}/{job[0]}/{conf_name}'
             try:
                 os.makedirs(log_path)
             except:
                 pass
             conf_path_output = f'/home/clusters/rrcmpi/kudrov/mag_su3/conf_maximized/{theory_type}/'\
-                f'{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}/{job[0]}'
-            functional_path_output = f'/home/clusters/rrcmpi/kudrov/mag_su3/maximization/{theory_type}/'\
-                f'{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}/{job[0]}'
+                f'{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}/tol={tol}/{job[0]}'
+            functional_path_output = f'/home/clusters/rrcmpi/kudrov/observables_cluster/mag_su3/maximization/{theory_type}/'\
+                f'{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}/tol={tol}/{job[0]}'
 
-            bashCommand = f'qsub -q kepler -l nodes=1:ppn=8 -v conf_path_start={conf_path_start},conf_path_end={conf_path_end},'\
-                f'conf_format={conf_format},bytes_skip={bytes_skip},'\
+            bashCommand = f'qsub -q kepler -l nodes=1:ppn=8 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
+                f'conf_format={conf_format},bytes_skip={bytes_skip},functional_path_output={functional_path_output},'\
                 f'padding={padding},calculate_absent={calculate_absent},conf_path_output={conf_path_output},'\
                 f'L_spat={L_spat},L_time={L_time},'\
                 f'chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\

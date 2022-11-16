@@ -12,7 +12,7 @@ conf_type = "su2_suzuki"
 #conf_type = "qc2dstag"
 theory_type = "su2"
 
-T_step = 0.00005
+T_step = 0.0005
 T_init = 2.5
 T_final = 0.5
 OR_steps = 4
@@ -21,6 +21,7 @@ tolerance_maximal = 1e-12
 tolerance_average = 1e-15
 tolerance_digits = 7
 gauge_copies = 3
+
 is_new_trial = 1
 is_final = 0
 is_compare = 1
@@ -39,7 +40,7 @@ number_of_jobs = 50
 arch = "rrcmpi"
 
 # for beta in ['/']:
-for beta in ['beta2.8']:
+for beta in ['beta2.6']:
     # for beta in ['beta2.5', 'beta2.6']:
     # for beta in ['beta2.4']:
     # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
@@ -59,10 +60,10 @@ for beta in ['beta2.8']:
         padding = data['padding']
         conf_name = data['conf_name']
 
-        chains = {'/': [1, 50]}
+        #chains = {'/': [1, 1]}
         #chains = {'s0': [201, 250]}
-        jobs = distribute_jobs(chains, number_of_jobs)
-        #jobs = distribute_jobs(data['chains'], number_of_jobs)
+        #jobs = distribute_jobs(chains, number_of_jobs)
+        jobs = distribute_jobs(data['chains'], number_of_jobs)
 
         for job in jobs:
 

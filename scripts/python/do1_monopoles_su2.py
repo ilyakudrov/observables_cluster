@@ -13,9 +13,9 @@ conf_size = "48^4"
 conf_type = "su2_suzuki"
 theory_type = "su2"
 
-arch = "rrcmpi-a"
+arch = "rrcmpi"
 
-additional_parameters = 'T_step=0.0005/T_final=0.5/OR_steps=4'
+additional_parameters = 'T_step=5e-05'
 
 
 number_of_jobs = 50
@@ -23,7 +23,7 @@ number_of_jobs = 50
 # for beta in ['/']:
 # for beta in ['beta6.3']:
 # for beta in ['beta2.5', 'beta2.6']:
-for beta in ['beta2.7']:
+for beta in ['beta2.8']:
     # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
     # for mu in ['mu0.05', 'mu0.45']:
     for mu in ['/']:

@@ -10,6 +10,7 @@ conf_path_end=""
 fi
 
 path_conf="${conf_path_start}`printf %0${padding}d $i`${conf_path_end}"
+echo ${path_conf}
 
 if [ -f ${path_conf} ] && [ -s ${path_conf} ] ; then
 
