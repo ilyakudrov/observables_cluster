@@ -1,7 +1,8 @@
 import sys
 import json
-sys.path.append('/home/clusters/rrcmpi/kudrov/scripts/python')
-from iterate_confs import *
+sys.path.append(os.path.join(os.path.dirname(
+    os.path.abspath(__file__)), "..", "..", "lib", "src", "python"))
+from iterate_confs import distribute_jobs
 import subprocess
 import os
 
@@ -76,7 +77,7 @@ for beta in ['/']:
                 f'padding={padding},calculate_absent={calculate_absent},correlator_type={correlator_type},'\
                 f'L_spat={L_spat},L_time={L_time},D_max={D_max},matrix_type={matrix_type},'\
                 f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch},'\
-                f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e /home/clusters/rrcmpi/kudrov/observables_cluster/scripts/do_polyakov_correlator.sh'
+                f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../bash/do_polyakov_correlator.sh'
             # print(bashCommand)
             process = subprocess.Popen(bashCommand.split())
             output, error = process.communicate()

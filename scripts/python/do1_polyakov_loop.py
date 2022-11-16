@@ -1,7 +1,8 @@
 import sys
 import json
-sys.path.append('/home/clusters/rrcmpi/kudrov/scripts/python')
-from iterate_confs import *
+sys.path.append(os.path.join(os.path.dirname(
+    os.path.abspath(__file__)), "..", "..", "lib", "src", "python"))
+from iterate_confs import distribute_jobs
 import subprocess
 import os
 
@@ -17,14 +18,14 @@ number_of_jobs = 100
 smearing = 'smeared'
 #smearing = '/'
 
-#for monopole in ['monopole', 'monopoless', '/']:
+# for monopole in ['monopole', 'monopoless', '/']:
 for monopole in ['/']:
     for beta in ['/']:\
             # for beta in ['2.4']:
-        #for mu in ['mu0.35', 'mu0.45']:
+        # for mu in ['mu0.35', 'mu0.45']:
         for mu in ['mu0.00']:
 
-            #f = open(
+            # f = open(
             #    f'/home/clusters/rrcmpi/kudrov/smearing_cluster/smearing_parameters/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{monopole}/smearing_wilson.json')
             #data_smearing = json.load(f)
             #HYP_alpha1 = data_smearing['HYP_alpha1']
@@ -90,7 +91,7 @@ for monopole in ['/']:
                     f'conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
                     f'padding={padding},L_spat={L_spat},L_time={L_time},'\
                     f'output_path={output_path},chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\
-                    f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e /home/clusters/rrcmpi/kudrov/observables_cluster/scripts/do_polyakov_loop.sh'
+                    f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../bash/do_polyakov_loop.sh'
                 # print(bashCommand)
                 process = subprocess.Popen(bashCommand.split())
                 output, error = process.communicate()

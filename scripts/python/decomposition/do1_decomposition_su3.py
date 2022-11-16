@@ -1,7 +1,8 @@
 import sys
 import json
-sys.path.append('/home/clusters/rrcmpi/kudrov/scripts/python')
-from iterate_confs import *
+sys.path.append(os.path.join(os.path.dirname(
+    os.path.abspath(__file__)), "..", "..", "..", "lib", "src", "python"))
+from iterate_confs import distribute_jobs
 import subprocess
 import os
 
@@ -70,7 +71,7 @@ for beta in ['beta6.0']:
                 f'path_conf_monopole={path_conf_monopole},path_conf_monopoless={path_conf_monopoless},path_inverse_laplacian={path_inverse_laplacian},'\
                 f'L_spat={L_spat},L_time={L_time},parallel={parallel}'\
                 f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch}'\
-                f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e /home/clusters/rrcmpi/kudrov/observables_cluster/scripts/do_decomposition_su3.sh'
+                f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../../bash/decomposition/do_decomposition_su3.sh'
             # print(bashCommand)
             process = subprocess.Popen(bashCommand.split())
             output, error = process.communicate()

@@ -1,7 +1,8 @@
 import sys
 import json
-sys.path.append('/home/clusters/rrcmpi/kudrov/scripts/python')
-from iterate_confs import *
+sys.path.append(os.path.join(os.path.dirname(
+    os.path.abspath(__file__)), "..", "..", "lib", "src", "python"))
+from iterate_confs import distribute_jobs
 import subprocess
 import os
 
@@ -16,7 +17,7 @@ conf_type = "gluodynamics"
 theory_type = "su3"
 
 number_of_jobs = 100
-arch="rrcmpi"
+arch = "rrcmpi"
 
 for monopole in ['/']:
     # for monopole in ['monopoless']:
@@ -62,7 +63,7 @@ for monopole in ['/']:
                     f'conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
                     f'padding={padding},L_spat={L_spat},L_time={L_time},'\
                     f'output_path={output_path},chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\
-                    f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e /home/clusters/rrcmpi/kudrov/observables_cluster/scripts/do_plaket.sh'
+                    f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../bash/do_plaket.sh'
                 # print(bashCommand)
                 process = subprocess.Popen(bashCommand.split())
                 output, error = process.communicate()

@@ -1,7 +1,8 @@
 import sys
 import json
-sys.path.append('/home/clusters/rrcmpi/kudrov/scripts/python')
-from iterate_confs import *
+sys.path.append(os.path.join(os.path.dirname(
+    os.path.abspath(__file__)), "..", "..", "lib", "src", "python"))
+from iterate_confs import distribute_jobs
 import subprocess
 import os
 
@@ -55,7 +56,7 @@ for beta in ['/']:
             bashCommand = f'qsub -q kepler -l nodes=1:ppn=8 -v conf_path_start={conf_path_start}/{conf_name},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bytes_skip={bytes_skip},'\
                 f'output_conf_path={output_conf_path},'\
                 f'L_spat={L_spat},L_time={L_time},chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\
-                f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e /home/clusters/rrcmpi/kudrov/observables_cluster/scripts/do_Coulomb_gauge_su3.sh'
+                f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../bash/do_Coulomb_gauge_su3.sh'
             # print(bashCommand)
             process = subprocess.Popen(bashCommand.split())
             output, error = process.communicate()

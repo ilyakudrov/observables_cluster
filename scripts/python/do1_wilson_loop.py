@@ -1,7 +1,8 @@
 import sys
 import json
-sys.path.append('/home/clusters/rrcmpi/kudrov/scripts/python')
-from iterate_confs import *
+sys.path.append(os.path.join(os.path.dirname(
+    os.path.abspath(__file__)), "..", "..", "lib", "src", "python"))
+from iterate_confs import distribute_jobs
 import subprocess
 import os
 
@@ -26,7 +27,7 @@ additional_parameters = '/'
 
 axis = 'on-axis'
 
-#smearing_arr = ['HYP0_APE_alpha=0.5',
+# smearing_arr = ['HYP0_APE_alpha=0.5',
 #                'HYP1_alpha=1_1_0.5_APE_alpha=0.5', 'HYP2_alpha=1_1_0.5_APE_alpha=0.5']
 smearing_arr = ['HYP1_APE_alpha=0.5', 'HYP2_APE_alpha=0.5']
 
@@ -117,7 +118,7 @@ for T in time_sizes:
                             f'padding={padding},calculate_absent={calculate_absent},'\
                             f'L_spat={L_spat},L_time={L_time},T_min={T_min},T_max={T_max},R_min={R_min},R_max={R_max},'\
                             f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch},matrix_type={matrix_type}'\
-                            f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e /home/clusters/rrcmpi/kudrov/observables_cluster/scripts/do_wilson_loop.sh'
+                            f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../bash/do_wilson_loop.sh'
                         # print(bashCommand)
                         process = subprocess.Popen(bashCommand.split())
                         output, error = process.communicate()

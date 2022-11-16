@@ -1,7 +1,8 @@
 import sys
 import json
-sys.path.append('/home/clusters/rrcmpi/kudrov/scripts/python')
-from iterate_confs import *
+sys.path.append(os.path.join(os.path.dirname(
+    os.path.abspath(__file__)), "..", "..", "lib", "src", "python"))
+from iterate_confs import distribute_jobs
 import subprocess
 import os
 
@@ -46,14 +47,14 @@ number_of_jobs = 100
 smearing = 'smeared'
 
 for beta in ['/']:\
-#for beta in ['beta2.4', 'beta2.5', 'beta2.6']:
-#for beta in ['beta2.4']:
+        # for beta in ['beta2.4', 'beta2.5', 'beta2.6']:
+    # for beta in ['beta2.4']:
     for mu in ['mu0.20']:
-    #for mu in ['mu0.30']:
-    #for mu in ['']:
+        # for mu in ['mu0.30']:
+        # for mu in ['']:
 
         f = open(
-                f'/home/clusters/rrcmpi/kudrov/smearing_cluster/smearing_parameters/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{monopole_wilson}/smearing_flux.json')
+            f'/home/clusters/rrcmpi/kudrov/smearing_cluster/smearing_parameters/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{monopole_wilson}/smearing_flux.json')
         data_smearing = json.load(f)
         HYP_alpha1 = data_smearing['HYP_alpha1']
         HYP_alpha2 = data_smearing['HYP_alpha2']
@@ -131,9 +132,9 @@ for beta in ['/']:\
                 f'bites_skip_wilson={bites_skip_wilson},matrix_type_plaket={matrix_type_plaket},matrix_type_wilson={matrix_type_wilson},'\
                 f'conf_path_plaket_start={conf_path_plaket_start1},conf_path_plaket_end={conf_path_plaket_end},conf_path_wilson_start={conf_path_wilson_start1},conf_path_wilson_end={conf_path_wilson_end},'\
                 f'padding_plaket={padding_plaket},padding_wilson={padding_wilson},R_min={R_min},R_max={R_max},T_min={T_min},T_max={T_max},x_trans={x_trans},L_spat={L_spat},L_time={L_time},'\
-		f'output_path={output_path},chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\
-                f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e /home/clusters/rrcmpi/kudrov/observables_cluster/scripts/do_flux_wilson.sh'
-            #print(bashCommand)
+                f'output_path={output_path},chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\
+                f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../bash/do_flux_wilson.sh'
+            # print(bashCommand)
             process = subprocess.Popen(bashCommand.split())
             output, error = process.communicate()
             #print(output, error)

@@ -1,7 +1,8 @@
 import sys
 import json
-sys.path.append('/home/clusters/rrcmpi/kudrov/scripts/python')
-from iterate_confs import *
+sys.path.append(os.path.join(os.path.dirname(
+    os.path.abspath(__file__)), "..", "..", "lib", "src", "python"))
+from iterate_confs import distribute_jobs
 import subprocess
 import os
 
@@ -36,12 +37,12 @@ number_of_jobs = 100
 smearing = 'smeared'
 
 for monopole in ['monopoless', 'monopole']:
-#for monopole in ['/']:
+    # for monopole in ['/']:
     for beta in ['/']:
-    #for beta in ['beta2.4', 'beta2.5', 'beta2.6']:
+        # for beta in ['beta2.4', 'beta2.5', 'beta2.6']:
         # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
         for mu in ['mu0.00']:
-        #for mu in ['/']:
+            # for mu in ['/']:
 
             # f = open(
             #    f'/home/clusters/rrcmpi/kudrov/smearing_cluster/smearing_parameters/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{monopole}/smearing_wilson.json')
@@ -103,13 +104,13 @@ for monopole in ['monopoless', 'monopole']:
                     pass
 
                 output_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/wilson_loop_adjoint/{axis}/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{monopole}/{smearing}/{job[0]}'
-		#qsub -q mem8gb -l nodes=1:ppn=4
+                # qsub -q mem8gb -l nodes=1:ppn=4
                 bashCommand = f'qsub -q long -v axis={axis},conf_format={conf_format},'\
                     f'bites_skip={bites_skip},matrix_type={matrix_type},'\
                     f'conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
                     f'padding={padding},R_min={R_min},R_max={R_max},T_min={T_min},T_max={T_max},L_spat={L_spat},L_time={L_time},'\
                     f'output_path={output_path},chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\
-                    f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e /home/clusters/rrcmpi/kudrov/observables_cluster/scripts/do_wilson_adjoint.sh'
+                    f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../bash/do_wilson_adjoint.sh'
                 # print(bashCommand)
                 process = subprocess.Popen(bashCommand.split())
                 output, error = process.communicate()

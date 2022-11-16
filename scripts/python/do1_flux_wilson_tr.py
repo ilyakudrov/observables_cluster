@@ -1,7 +1,8 @@
 import sys
 import json
-sys.path.append('/home/clusters/rrcmpi/kudrov/scripts/python')
-from iterate_confs import *
+sys.path.append(os.path.join(os.path.dirname(
+    os.path.abspath(__file__)), "..", "..", "lib", "src", "python"))
+from iterate_confs import distribute_jobs
 import subprocess
 import os
 
@@ -52,9 +53,9 @@ smearing = 'smeared'
 for beta in ['/']:\
         # for beta in ['2.4']:
     for mu in ['mu0.00', 'mu0.05', 'mu0.25', 'mu0.35', 'mu0.45']:
-    #for mu in ['mu0.30']:
+        # for mu in ['mu0.30']:
 
-        #f = open(
+        # f = open(
         #    f'/home/clusters/rrcmpi/kudrov/smearing_cluster/smearing_parameters/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{monopole_wilson}/smearing_flux.json')
         #data_smearing = json.load(f)
         #HYP_alpha1 = data_smearing['HYP_alpha1']
@@ -112,7 +113,7 @@ for beta in ['/']:\
             conf_name_wilson = 'conf_'
 
         #chains = {'/': [201, 201]}
-        #jobs = distribute_jobs(chains, number_of_jobs) 
+        #jobs = distribute_jobs(chains, number_of_jobs)
         jobs = distribute_jobs(data_plaket['chains'], number_of_jobs)
 
         for job in jobs:
@@ -132,7 +133,7 @@ for beta in ['/']:\
                 f'conf_path_plaket_start={conf_path_plaket_start1},conf_path_plaket_end={conf_path_plaket_end},conf_path_wilson_start={conf_path_wilson_start1},conf_path_wilson_end={conf_path_wilson_end},'\
                 f'padding_plaket={padding_plaket},padding_wilson={padding_wilson},R_min={R_min},R_max={R_max},T_min={T_min},T_max={T_max},x_trans_max={x_trans_max},L_spat={L_spat},L_time={L_time},'\
                 f'output_path={output_path},chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\
-                f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e /home/clusters/rrcmpi/kudrov/observables_cluster/scripts/do_flux_wilson_tr.sh'
+                f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../bash/do_flux_wilson_tr.sh'
             # print(bashCommand)
             process = subprocess.Popen(bashCommand.split())
             output, error = process.communicate()

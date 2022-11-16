@@ -1,7 +1,8 @@
 import sys
 import json
-sys.path.append('/home/clusters/rrcmpi/kudrov/scripts/python')
-from iterate_confs import *
+sys.path.append(os.path.join(os.path.dirname(
+    os.path.abspath(__file__)), "..", "..", "lib", "src", "python"))
+from iterate_confs import distribute_jobs
 import subprocess
 import os
 
@@ -55,8 +56,8 @@ arch = "rrcmpi"
 
 for wilson_type in wilson_type_array:
     for HYP_steps in HYP_steps_array:
-        #for beta in ['/']:
-        #for beta in ['beta2.8']:
+        # for beta in ['/']:
+        # for beta in ['beta2.8']:
         for beta in ['beta6.1']:
             # for beta in ['beta2.4']:
             # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
@@ -98,7 +99,7 @@ for wilson_type in wilson_type_array:
                             matrix_type_wilson = 'su3_abelian'
                         else:
                             print('wrong theory type')
-                    #conf_path_start_wilson = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/'\
+                    # conf_path_start_wilson = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/'\
                     #    f'{wilson_type}/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}'
                     #conf_path_end_wilson = '/'
                     #conf_name_wilson = f'conf_{wilson_type}_'
@@ -197,7 +198,7 @@ for wilson_type in wilson_type_array:
                         f'path_wilson={path_conf_wilson_loop},path_flux={path_conf_flux_tube},wilson_enabled={wilson_enabled},flux_enabled={flux_enabled},'\
                         f'L_spat={L_spat},L_time={L_time},T_min={T_min},T_max={T_max},R_min={R_min},R_max={R_max},'\
                         f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch},matrix_type_plaket={matrix_type_plaket},matrix_type_wilson={matrix_type_wilson}'\
-                        f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e /home/clusters/rrcmpi/kudrov/observables_cluster/scripts/do_smearing.sh'
+                        f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../bash/do_smearing.sh'
                     # print(bashCommand)
                     process = subprocess.Popen(bashCommand.split())
                     output, error = process.communicate()
