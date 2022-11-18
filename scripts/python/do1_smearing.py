@@ -6,25 +6,25 @@ from iterate_confs import distribute_jobs
 import subprocess
 import os
 
-L_spat = 16
-L_time = 16
+L_spat = 48
+L_time = 48
 #conf_size = "nt16_gov"
 #conf_size = "nt8"
-conf_size = "16^4"
-#conf_size = "48^4"
-#conf_type = "su2_suzuki"
-conf_type = "gluodynamics"
+#conf_size = "16^4"
+conf_size = "48^4"
+conf_type = "su2_suzuki"
+#conf_type = "gluodynamics"
 #conf_type = "QCD/140MeV"
 #conf_type = "qc2dstag"
-theory_type = "su3"
+theory_type = "su2"
 #wilson_type_array = ["monopoless", "monopole"]
-wilson_type_array = ['monopole']
+wilson_type_array = ['monopoless']
 plaket_type = 'original'
 
 calculate_absent = "false"
 
-#additional_parameters = 'T_step=0.001/T_final=0.5/OR_steps=4'
-additional_parameters = '/'
+additional_parameters = 'T_step=5e-05/T_final=0.5/OR_steps=4'
+#additional_parameters = '/'
 #additional_parameters = 'DP_steps_500/copies=3'
 
 APE_enabled = 1
@@ -36,23 +36,23 @@ HYP_alpha1 = "1"
 HYP_alpha2 = "1"
 HYP_alpha3 = "0.5"
 APE_alpha = "0.5"
-APE_steps = "500"
+APE_steps = "400"
 HYP_steps_array = ['0', '1']
 calculation_step_APE = 100
-calculation_APE_start = 300
+calculation_APE_start = 200
 
 wilson_enabled = 1
 flux_enabled = 0
 save_conf = 0
 
 T_min = 1
-T_max = 8
+T_max = 24
 R_min = 1
-R_max = 8
+R_max = 24
 
 number_of_jobs = 100
 
-arch = "rrcmpi"
+arch = "rrcmpi-a"
 
 for wilson_type in wilson_type_array:
     for HYP_steps in HYP_steps_array:
@@ -79,12 +79,12 @@ for wilson_type in wilson_type_array:
                     #conf_path_start_wilson = f'/home/clusters/rrcmpi/kudrov/Coulomb_su3/su3/QCD/140MeV/{conf_size}'
                     #conf_name_wilson = 'conf_Coulomb_gaugefixed_'
                 else:
-                    #conf_format_wilson = 'double'
-                    #bytes_skip_wilson = 0
-                    #padding_wilson = 4
-                    conf_format_wilson = 'double_vitaly'
-                    bytes_skip_wilson = 4
-                    padding_wilson = 5
+                    conf_format_wilson = 'double'
+                    bytes_skip_wilson = 0
+                    padding_wilson = 4
+                    #conf_format_wilson = 'double_vitaly'
+                    #bytes_skip_wilson = 4
+                    #padding_wilson = 5
                     if wilson_type == 'monopoless':
                         if theory_type == 'su2':
                             matrix_type_wilson = 'su2'
@@ -99,10 +99,10 @@ for wilson_type in wilson_type_array:
                             matrix_type_wilson = 'su3_abelian'
                         else:
                             print('wrong theory type')
-                    # conf_path_start_wilson = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/'\
-                    #    f'{wilson_type}/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}'
-                    #conf_path_end_wilson = '/'
-                    #conf_name_wilson = f'conf_{wilson_type}_'
+                    conf_path_start_wilson = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/'\
+                        f'{wilson_type}/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}'
+                    conf_path_end_wilson = '/'
+                    conf_name_wilson = f'conf_{wilson_type}_'
 
                     #conf_path_start_wilson = '/net/pool-01/vborn/Copy_from_lustre/SU3/su3mag/MAG_U1_decomp_mod'
                     #conf_path_end_wilson = '.LAT'
@@ -112,9 +112,9 @@ for wilson_type in wilson_type_array:
                     #conf_path_end_wilson = '.lat'
                     #conf_name_wilson = f'MLS_conf.'
 
-                    conf_path_start_wilson = '/net/pool-01/vborn/Copy_from_lustre/SU3/su3mag/MAG_U1_decomp'
-                    conf_path_end_wilson = '.LAT'
-                    conf_name_wilson = f'CON_MON_MAG_'
+                    #conf_path_start_wilson = '/net/pool-01/vborn/Copy_from_lustre/SU3/su3mag/MAG_U1_decomp'
+                    #conf_path_end_wilson = '.LAT'
+                    #conf_name_wilson = f'CON_MON_MAG_'
 
                 if plaket_type == 'original':
                     f = open(
@@ -187,7 +187,7 @@ for wilson_type in wilson_type_array:
                     # 8gb for 48^4 su2
                     # 8gb for nt6 and bigger
                     # 16gb for nt10 and bigger
-                    bashCommand = f'qsub -q long -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\
+                    bashCommand = f'qsub -q mem8gb -l nodes=1:ppn=4 -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\
                         f'conf_format_plaket={conf_format_plaket},bytes_skip_plaket={bytes_skip_plaket},'\
                         f'conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
                         f'conf_format_wilson={conf_format_wilson},bytes_skip_wilson={bytes_skip_wilson},'\

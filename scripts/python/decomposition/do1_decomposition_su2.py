@@ -7,8 +7,8 @@ from iterate_confs import distribute_jobs
 # import iterate_confs
 import subprocess
 
-L_spat1 = 48
-L_time1 = 48
+L_spat = 48
+L_time = 48
 conf_size = "48^4"
 #conf_size = "40^4"
 #conf_size = "48^4"
@@ -16,13 +16,11 @@ conf_type = "su2_suzuki"
 #conf_type = "qc2dstag"
 theory_type = "su2"
 
-T_step = 0.0005
-T_final = 0.5
-OR_steps = 4
+additional_parameters = 'T_step=5e-05/T_final=0.5/OR_steps=4'
 
 number_of_jobs = 50
 
-arch = "rrcmpi-a"
+arch = "rrcmpi"
 
 # for beta in ['/']:
 for beta in ['beta2.7']:
@@ -37,8 +35,6 @@ for beta in ['beta2.7']:
         #data = json.load(f)
         #conf_format = data['conf_format']
         #bites_skip = data['bites_skip']
-        #L_spat = data['x_size']
-        #L_time = data['t_size']
         #matrix_type = data['matrix_type']
         #conf_path_start = data['conf_path_start']
         #conf_path_end = data['conf_path_end']
@@ -47,10 +43,8 @@ for beta in ['beta2.7']:
 
         conf_format = 'double'
         bites_skip = 0
-        L_spat = L_spat1
-        L_time = L_time1
         matrix_type = 'su2'
-        conf_path_start = f'/home/clusters/rrcmpi/kudrov/mag/conf_mag/su2/{conf_type}/{conf_size}/{beta}/{mu}/T_step={T_step}/T_final={T_final}/OR_steps={OR_steps}'
+        conf_path_start = f'/home/clusters/rrcmpi/kudrov/mag/conf_mag/su2/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}'
         conf_path_end = '/'
         padding = 4
         conf_name = 'conf_'
@@ -63,18 +57,17 @@ for beta in ['beta2.7']:
         for job in jobs:
 
             log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/decomposition/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
-                f'T_step={T_step}/T_final={T_final}/OR_steps={OR_steps}/{job[0]}'
+                f'{additional_parameters}/{job[0]}'
             conf_path_start1 = f'{conf_path_start}/{job[0]}/{conf_name}'
             try:
                 os.makedirs(log_path)
             except:
                 pass
-            path_conf_monopole = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/monopole/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/T_step={T_step}/T_final={T_final}/OR_steps={OR_steps}'
-            path_conf_monopoless = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/monopoless/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/T_step={T_step}/T_final={T_final}/OR_steps={OR_steps}'
+            path_conf_monopole = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/monopole/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}'
+            path_conf_monopoless = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/monopoless/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}'
             path_inverse_laplacian = f'/home/clusters/rrcmpi/kudrov/soft/inverse_laplacian/ALPHA{L_spat}x{L_time}_d.LAT'
             # qsub -q mem8gb -l nodes=1:ppn=4
             bashCommand = f'qsub -q long -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bites_skip={bites_skip},'\
-                f'T_step={T_step},T_final={T_final},OR_steps={OR_steps},'\
                 f'path_conf_monopole={path_conf_monopole},path_conf_monopoless={path_conf_monopoless},path_inverse_laplacian={path_inverse_laplacian},'\
                 f'L_spat={L_spat},L_time={L_time},'\
                 f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch}'\
