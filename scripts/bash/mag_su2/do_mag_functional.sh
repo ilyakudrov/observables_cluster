@@ -18,7 +18,7 @@ mkdir -p "${path_functional_output}"
 path_functional="${path_functional_output}/functional_`printf %04d $i`"
 
 parameters="-conf_format ${conf_format} -path_conf $path_conf -conf_format ${conf_format} -bytes_skip ${bytes_skip} \
-    -path_functional ${path_functional} \
+    -path_functional_output ${path_functional} \
     -x_size ${L_spat} -y_size ${L_spat} -z_size ${L_spat} -t_size ${L_time}"
 
 

@@ -1,10 +1,11 @@
 import sys
 import json
+import subprocess
+import os
+
 sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
-import subprocess
-import os
 
 #conf_size = "24^4"
 #conf_size = "40^4"
@@ -13,7 +14,7 @@ conf_type = "su2_suzuki"
 #conf_type = "qc2dstag"
 theory_type = "su2"
 
-T_step = 0.00005
+T_step = 0.0004
 T_init = 2.5
 T_final = 0.5
 OR_steps = 4
@@ -21,7 +22,8 @@ thermalization_steps = 50
 tolerance_maximal = 1e-12
 tolerance_average = 1e-15
 tolerance_digits = 7
-gauge_copies = 3
+gauge_copies = 4
+
 is_new_trial = 1
 is_final = 0
 is_compare = 1
@@ -40,7 +42,7 @@ number_of_jobs = 50
 arch = "rrcmpi"
 
 # for beta in ['/']:
-for beta in ['beta2.8']:
+for beta in ['beta2.6']:
     # for beta in ['beta2.5', 'beta2.6']:
     # for beta in ['beta2.4']:
     # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
@@ -60,10 +62,10 @@ for beta in ['beta2.8']:
         padding = data['padding']
         conf_name = data['conf_name']
 
-        chains = {'/': [1, 50]}
+        #chains = {'/': [1, 50]}
         #chains = {'s0': [201, 250]}
-        jobs = distribute_jobs(chains, number_of_jobs)
-        #jobs = distribute_jobs(data['chains'], number_of_jobs)
+        #jobs = distribute_jobs(chains, number_of_jobs)
+        jobs = distribute_jobs(data['chains'], number_of_jobs)
 
         for job in jobs:
 
@@ -85,7 +87,7 @@ for beta in ['beta2.8']:
                 f'tolerance_maximal={tolerance_maximal},tolerance_average={tolerance_average},tolerance_digits={tolerance_digits},gauge_copies={gauge_copies},is_new_trial={is_new_trial},'\
                 f'is_final={is_final},is_compare={is_compare},is_compare_spins={is_compare_spins},is_functional_save={is_functional_save},L_spat={L_spat},L_time={L_time},'\
                 f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch}'\
-                f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../../bash/mag_su2/do_mag.sh'
+                f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../../bash/mag_su2/do_mag_su2.sh'
             # print(bashCommand)
             process = subprocess.Popen(bashCommand.split())
             output, error = process.communicate()

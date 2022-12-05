@@ -11,8 +11,8 @@ conf_size = "40^4"
 #conf_type = "su2_suzuki"
 theory_type = "su2"
 conf_type = "qc2dstag"
-bites_skip_plaket = 0
-bites_skip_wilson = 0
+bytes_skip_plaket = 0
+bytes_skip_wilson = 0
 
 monopole_plaket = '/'
 monopole_wilson = '/'
@@ -83,7 +83,7 @@ for beta in ['/']:\
         data_plaket = json.load(f)
 
         conf_format_plaket = data_plaket['conf_format']
-        bites_skip_plaket = data_plaket['bites_skip']
+        bytes_skip_plaket = data_plaket['bytes_skip']
         matrix_type_plaket = data_plaket['matrix_type']
         L_spat = data_plaket['x_size']
         L_time = data_plaket['t_size']
@@ -96,7 +96,7 @@ for beta in ['/']:\
             f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{monopole_wilson}/parameters.json')
         data_wilson = json.load(f)
         conf_format_wilson = data_wilson['conf_format']
-        bites_skip_wilson = data_wilson['bites_skip']
+        bytes_skip_wilson = data_wilson['bytes_skip']
         matrix_type_wilson = data_wilson['matrix_type']
         conf_path_wilson_start = data_wilson['conf_path_start']
         conf_path_wilson_end = data_wilson['conf_path_end']
@@ -128,7 +128,7 @@ for beta in ['/']:\
 
             output_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/flux_tube_wilson_tr/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{monopole1}-{monopole2}/{job[0]}'
 
-            bashCommand = f'qsub -q long -v conf_format_plaket={conf_format_plaket},conf_format_wilson={conf_format_wilson},bites_skip_plaket={bites_skip_plaket},'\
+            bashCommand = f'qsub -q long -v conf_format_plaket={conf_format_plaket},conf_format_wilson={conf_format_wilson},bytes_skip_plaket={bytes_skip_plaket},'\
                 f'bites_skip_wilson={bites_skip_wilson},matrix_type_plaket={matrix_type_plaket},matrix_type_wilson={matrix_type_wilson},'\
                 f'conf_path_plaket_start={conf_path_plaket_start1},conf_path_plaket_end={conf_path_plaket_end},conf_path_wilson_start={conf_path_wilson_start1},conf_path_wilson_end={conf_path_wilson_end},'\
                 f'padding_plaket={padding_plaket},padding_wilson={padding_wilson},R_min={R_min},R_max={R_max},T_min={T_min},T_max={T_max},x_trans_max={x_trans_max},L_spat={L_spat},L_time={L_time},'\

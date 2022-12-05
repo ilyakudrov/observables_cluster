@@ -1,11 +1,11 @@
 import sys
 import json
 import os
+import subprocess
+
 sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
-# import iterate_confs
-import subprocess
 
 L_spat = 48
 L_time = 48
@@ -34,7 +34,7 @@ for beta in ['beta2.7']:
         #    f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters.json')
         #data = json.load(f)
         #conf_format = data['conf_format']
-        #bites_skip = data['bites_skip']
+        #bytes_skip = data['bytes_skip']
         #matrix_type = data['matrix_type']
         #conf_path_start = data['conf_path_start']
         #conf_path_end = data['conf_path_end']
@@ -42,7 +42,7 @@ for beta in ['beta2.7']:
         #conf_name = data['conf_name']
 
         conf_format = 'double'
-        bites_skip = 0
+        bytes_skip = 0
         matrix_type = 'su2'
         conf_path_start = f'/home/clusters/rrcmpi/kudrov/mag/conf_mag/su2/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}'
         conf_path_end = '/'
@@ -67,7 +67,7 @@ for beta in ['beta2.7']:
             path_conf_monopoless = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/monopoless/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}'
             path_inverse_laplacian = f'/home/clusters/rrcmpi/kudrov/soft/inverse_laplacian/ALPHA{L_spat}x{L_time}_d.LAT'
             # qsub -q mem8gb -l nodes=1:ppn=4
-            bashCommand = f'qsub -q long -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bites_skip={bites_skip},'\
+            bashCommand = f'qsub -q long -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bytes_skip={bytes_skip},'\
                 f'path_conf_monopole={path_conf_monopole},path_conf_monopoless={path_conf_monopoless},path_inverse_laplacian={path_inverse_laplacian},'\
                 f'L_spat={L_spat},L_time={L_time},'\
                 f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch}'\

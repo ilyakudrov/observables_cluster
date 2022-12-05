@@ -1,12 +1,12 @@
 import sys
 import json
+import subprocess
+import os
 sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
-import subprocess
-import os
 
-L_spat = 16
+L_spat = 24
 L_time = 16
 conf_size = "16^4"
 conf_type = "gluodynamics"
@@ -33,8 +33,6 @@ for beta in ['beta6.0']:
         data = json.load(f)
         conf_format = data['conf_format']
         bytes_skip = data['bytes_skip']
-        L_spat = data['x_size']
-        L_time = data['t_size']
         matrix_type = data['matrix_type']
         conf_path_start = data['conf_path_start']
         conf_path_end = data['conf_path_end']

@@ -1,10 +1,10 @@
 import sys
 import json
+import os
 sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
 import subprocess
-import os
 
 L_spat = 48
 L_time = 48
@@ -14,7 +14,7 @@ conf_size = "48^4"
 conf_type = "su2_suzuki"
 theory_type = "su2"
 
-arch = "rrcmpi-a"
+arch = "rrcmpi"
 
 additional_parameters = 'T_step=0.0005'
 
@@ -48,7 +48,7 @@ for beta in ['beta2.7']:
 
         for job in jobs:
 
-            log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/mag/functional/{conf_type}/{conf_size}/{beta}/{mu}/'\
+            log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/mag/functional/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
                 f'{additional_parameters}/{job[0]}'
             conf_path_start1 = f'{conf_path_start}/{job[0]}/{conf_name}'
             try:
@@ -61,7 +61,7 @@ for beta in ['beta2.7']:
             bashCommand = f'qsub -q long -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bytes_skip={bytes_skip},'\
                 f'path_functional_output={path_functional_output},arch={arch},'\
                 f'L_spat={L_spat},L_time={L_time},chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\
-                f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../../bash/monopoles/do_mag_functional.sh'
+                f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../../bash/mag_su2/do_mag_functional.sh'
             # print(bashCommand)
             process = subprocess.Popen(bashCommand.split())
             output, error = process.communicate()
