@@ -13,10 +13,10 @@ conf_size = "36^4"
 conf_type = "gluodynamics"
 theory_type = "su3"
 
-additional_parameters = "steps_1000/copies=3"
+additional_parameters = "steps_500/copies=3"
 
 calculate_absent = "true"
-number_of_jobs = 13
+number_of_jobs = 100
 
 # for beta in ['/']:
 for beta in ['beta6.3']:
@@ -43,9 +43,9 @@ for beta in ['beta6.3']:
         conf_path_start = f'/home/clusters/rrcmpi/kudrov/mag_su3/conf_gaugefixed/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}'
         conf_path_end = "/"
         padding = 4
-        conf_name = "conf.DP_gaugefixed_"
+        conf_name = "conf_gaugefixed_"
 
-        chains = {'/': [131, 143]}
+        chains = {'/': [490, 2200]}
         #chains = {'s0': [201, 250]}
         jobs = distribute_jobs(chains, number_of_jobs)
         #jobs = distribute_jobs(data['chains'], number_of_jobs)

@@ -7,11 +7,11 @@ sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
 
-L_spat = 24
-L_time = 24
+L_spat = 36
+L_time = 36
 #conf_size = "nt16_gov"
 #conf_size = "nt14"
-conf_size = "24^4"
+conf_size = "36^4"
 #conf_size = "48^4"
 #conf_type = "su2_suzuki"
 conf_type = "gluodynamics"
@@ -27,11 +27,12 @@ copies = 3
 additional_parameters = f'steps_{steps}/copies={copies}'
 # additional_parameters = '/'
 #additional_parameters = 'steps_4000/copies=3'
+#tolerance = '1e-13'
 tolerance = '1e-13'
 
-number_of_jobs = 76
+number_of_jobs = 100
 
-for beta in ['beta6.0']:
+for beta in ['beta6.3']:
     # for beta in ['beta2.8']:
     # for beta in ['beta6.1']:
     # for beta in ['beta2.4']:
@@ -58,7 +59,7 @@ for beta in ['beta6.0']:
         #conf_name = 'conf.SP_gaugefixed_'
         #conf_path_end = '.ildg'
 
-        chains = {'/': [501, 5000]}
+        chains = {'/': [490, 5000]}
         #chains = {'s0': [201, 250]}
         jobs = distribute_jobs(chains, number_of_jobs)
         #jobs = distribute_jobs(data['chains'], number_of_jobs)
@@ -70,9 +71,9 @@ for beta in ['beta6.0']:
                 os.makedirs(log_path)
             except:
                 pass
-            conf_path_output = f'/home/clusters/rrcmpi/kudrov/mag_su3/conf_gaugefixed/{theory_type}/'\
+            conf_path_output = f'/home/clusters/rrcmpi/kudrov/mag_su3/conf_gaugefixed/'\
                 f'{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}/{job[0]}'
-            functional_path_output = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/mag/functional/{theory_type}/'\
+            functional_path_output = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/mag/functional/'\
                 f'{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}/{job[0]}'
 
             conf_path_start1 = f'{conf_path_start}/{job[0]}/{conf_name}'

@@ -9,8 +9,8 @@ conf_path_end=""
 
 fi
 
-SA_steps=300
-gaugecopies=3
+SA_steps=100
+gaugecopies=2
 samax=4
 samin=1
 seed=$(date +%s)

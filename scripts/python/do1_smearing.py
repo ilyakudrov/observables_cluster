@@ -1,10 +1,11 @@
 import sys
 import json
+import subprocess
+import os
+
 sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
-import subprocess
-import os
 
 L_spat = 48
 L_time = 48
@@ -17,15 +18,23 @@ conf_type = "su2_suzuki"
 #conf_type = "QCD/140MeV"
 #conf_type = "qc2dstag"
 theory_type = "su2"
-#wilson_type_array = ["monopoless", "monopole"]
-wilson_type_array = ['monopoless']
+#wilson_type_array = ["monopoless", "photon", "offdiagonal", "monopole", 'abelian']
+wilson_type_array = ['original']
+#wilson_type_array = ['abelian']
+#wilson_type_array = ['monopoless']
+#wilson_type_array = ["monopoless", "offdiagonal"]
 plaket_type = 'original'
 
 calculate_absent = "false"
 
-additional_parameters = 'T_step=5e-05/T_final=0.5/OR_steps=4'
-#additional_parameters = '/'
-#additional_parameters = 'DP_steps_500/copies=3'
+compensate = 1
+#additional_parameters = 'T_step=0.0005'
+#additional_parameters = 'T_step=0.01'
+#additional_parameters = f'compensate_{compensate}'
+additional_parameters = f'/'
+#additional_parameters = f'steps_500/copies=3'
+#additional_parameters = f'steps_500/copies=3/compensate_{compensate}'
+#additional_parameters = f'T_step=0.01'
 
 APE_enabled = 1
 HYP_enabled = 1
@@ -36,37 +45,37 @@ HYP_alpha1 = "1"
 HYP_alpha2 = "1"
 HYP_alpha3 = "0.5"
 APE_alpha = "0.5"
-APE_steps = "400"
-HYP_steps_array = ['0', '1']
+APE_steps = "300"
+HYP_steps_array = ['0']
 calculation_step_APE = 100
-calculation_APE_start = 200
+calculation_APE_start = 700
 
-wilson_enabled = 1
+wilson_enabled = 0
 flux_enabled = 0
-save_conf = 0
+save_conf = 1
 
 T_min = 1
-T_max = 24
+T_max = L_time
 R_min = 1
-R_max = 24
+R_max = L_spat
 
-number_of_jobs = 100
+number_of_jobs = 50
 
 arch = "rrcmpi-a"
 
 for wilson_type in wilson_type_array:
     for HYP_steps in HYP_steps_array:
-        # for beta in ['/']:
-        # for beta in ['beta2.8']:
-        for beta in ['beta6.1']:
+        #for beta in ['/']:
+        for beta in ['beta2.7', 'beta2.8']:
+        #for beta in ['beta6.2']:
             # for beta in ['beta2.4']:
-            # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
-            # for mu in ['mu0.05', 'mu0.45']:
+            #for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
+            #for mu in ['mu0.45']:
             for mu in ['/']:
 
-                if wilson_type == 'original':
+                if True:
                     f = open(
-                        f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters.json')
+                        f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_{wilson_type}.json')
                     data = json.load(f)
                     conf_format_wilson = data['conf_format']
                     bytes_skip_wilson = data['bytes_skip']
@@ -75,7 +84,11 @@ for wilson_type in wilson_type_array:
                     conf_path_end_wilson = data['conf_path_end']
                     padding_wilson = data['padding']
                     conf_name_wilson = data['conf_name']
+                    convert_wilson = data['convert']
 
+                    #print("path start", conf_path_start_wilson)
+
+                    conf_path_start_wilson = conf_path_start_wilson + f'/{additional_parameters}'
                     #conf_path_start_wilson = f'/home/clusters/rrcmpi/kudrov/Coulomb_su3/su3/QCD/140MeV/{conf_size}'
                     #conf_name_wilson = 'conf_Coulomb_gaugefixed_'
                 else:
@@ -118,7 +131,7 @@ for wilson_type in wilson_type_array:
 
                 if plaket_type == 'original':
                     f = open(
-                        f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters.json')
+                        f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_{plaket_type}.json')
                     data = json.load(f)
                     conf_format_plaket = data['conf_format']
                     bytes_skip_plaket = data['bytes_skip']
@@ -127,6 +140,7 @@ for wilson_type in wilson_type_array:
                     conf_path_end_plaket = data['conf_path_end']
                     padding_plaket = data['padding']
                     conf_name_plaket = data['conf_name']
+                    convert_plaket = data['convert']
                 else:
                     conf_format_plaket = 'double'
                     bytes_skip_plaket = 0
@@ -158,8 +172,8 @@ for wilson_type in wilson_type_array:
                 if APE_enabled == 0:
                     smearing_str = f'HYP{HYP_steps}_alpha={HYP_alpha1}_{HYP_alpha2}_{HYP_alpha3}'
 
-                #chains = {'/': [601, 601]}
-                #chains = {'s0': [201, 250]}
+                #chains = {'/': [1, 1]}
+                #chains = {'s0': [201, 201]}
                 #jobs = distribute_jobs(chains, number_of_jobs)
                 jobs = distribute_jobs(data['chains'], number_of_jobs)
 
@@ -180,17 +194,18 @@ for wilson_type in wilson_type_array:
                     path_conf_flux_tube = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/smearing/flux_tube/{theory_type}/'\
                         f'{conf_type}/{conf_size}/{beta}/{mu}/{wilson_type}_{plaket_type}/{smearing_str}/{additional_parameters}/{job[0]}'
                     conf_path_output = f'/home/clusters/rrcmpi/kudrov/smearing/{theory_type}/'\
-                        f'{conf_type}/{conf_size}/{beta}/{mu}/{smearing_str}/{additional_parameters}/{job[0]}'
+                        f'{conf_type}/{conf_size}/{beta}/{mu}/{wilson_type}/{smearing_str}/{additional_parameters}/{job[0]}'
                     # qsub -q mem8gb -l nodes=1:ppn=4
                     # qsub -q long
+                    # 4gb for su3 gluo 36^4
                     # 4gb for 48^4 monopole
                     # 8gb for 48^4 su2
                     # 8gb for nt6 and bigger
                     # 16gb for nt10 and bigger
                     bashCommand = f'qsub -q mem8gb -l nodes=1:ppn=4 -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\
-                        f'conf_format_plaket={conf_format_plaket},bytes_skip_plaket={bytes_skip_plaket},'\
+                        f'conf_format_plaket={conf_format_plaket},bytes_skip_plaket={bytes_skip_plaket},convert_wilson={convert_wilson},'\
                         f'conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
-                        f'conf_format_wilson={conf_format_wilson},bytes_skip_wilson={bytes_skip_wilson},'\
+                        f'conf_format_wilson={conf_format_wilson},bytes_skip_wilson={bytes_skip_wilson},convert_plaket={convert_plaket},'\
                         f'padding_wilson={padding_wilson},padding_plaket={padding_plaket},calculate_absent={calculate_absent},save_conf={save_conf},conf_path_output={conf_path_output},'\
                         f'HYP_alpha1={HYP_alpha1},HYP_alpha2={HYP_alpha2},HYP_alpha3={HYP_alpha3},'\
                         f'APE_alpha={APE_alpha},APE_enabled={APE_enabled},HYP_enabled={HYP_enabled},'\

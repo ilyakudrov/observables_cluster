@@ -16,43 +16,45 @@ conf_type = "su2_suzuki"
 #conf_type = "qc2dstag"
 theory_type = "su2"
 
-additional_parameters = 'T_step=5e-05/T_final=0.5/OR_steps=4'
+additional_parameters = 'T_step=5e-05'
 
 number_of_jobs = 50
 
-arch = "rrcmpi"
+arch = "rrcmpi-a"
 
-# for beta in ['/']:
-for beta in ['beta2.7']:
+#for beta in ['/']:
+for beta in ['beta2.8']:
     # for beta in ['beta2.5', 'beta2.6']:
     # for beta in ['beta2.4']:
-    # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
-    # for mu in ['mu0.05', 'mu0.45']:
+    #for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
+    #for mu in [i'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
     for mu in ['/']:
 
-        # f = open(
-        #    f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters.json')
-        #data = json.load(f)
-        #conf_format = data['conf_format']
-        #bytes_skip = data['bytes_skip']
-        #matrix_type = data['matrix_type']
-        #conf_path_start = data['conf_path_start']
-        #conf_path_end = data['conf_path_end']
-        #padding = data['padding']
-        #conf_name = data['conf_name']
+        f = open(
+           f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_mag.json')
+        data = json.load(f)
+        conf_format = data['conf_format']
+        bytes_skip = data['bytes_skip']
+        matrix_type = data['matrix_type']
+        conf_path_start = data['conf_path_start']
+        conf_path_end = data['conf_path_end']
+        padding = data['padding']
+        conf_name = data['conf_name']
 
-        conf_format = 'double'
-        bytes_skip = 0
-        matrix_type = 'su2'
-        conf_path_start = f'/home/clusters/rrcmpi/kudrov/mag/conf_mag/su2/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}'
-        conf_path_end = '/'
-        padding = 4
-        conf_name = 'conf_'
+        conf_path_start = conf_path_start + f'/{additional_parameters}'
 
-        chains = {'/': [1, 50]}
-        #chains = {'s0': [201, 250]}
-        jobs = distribute_jobs(chains, number_of_jobs)
-        #jobs = distribute_jobs(data['chains'], number_of_jobs)
+        #conf_format = 'double'
+        #bytes_skip = 0
+        #matrix_type = 'su2'
+        #conf_path_start = f'/home/clusters/rrcmpi/kudrov/mag/conf_mag/su2/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}'
+        #conf_path_end = '/'
+        #padding = 4
+        #conf_name = 'conf_'
+
+        #chains = {'/': [1, 50]}
+        #chains = {'s0': [201, 201]}
+        #jobs = distribute_jobs(chains, number_of_jobs)
+        jobs = distribute_jobs(data['chains'], number_of_jobs)
 
         for job in jobs:
 
@@ -63,11 +65,11 @@ for beta in ['beta2.7']:
                 os.makedirs(log_path)
             except:
                 pass
-            path_conf_monopole = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/monopole/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}'
-            path_conf_monopoless = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/monopoless/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}'
+            path_conf_monopole = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/monopole/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}/{job[0]}'
+            path_conf_monopoless = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/monopoless/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}/{job[0]}'
             path_inverse_laplacian = f'/home/clusters/rrcmpi/kudrov/soft/inverse_laplacian/ALPHA{L_spat}x{L_time}_d.LAT'
             # qsub -q mem8gb -l nodes=1:ppn=4
-            bashCommand = f'qsub -q long -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bytes_skip={bytes_skip},'\
+            bashCommand = f'qsub -q mem4gb -l nodes=1:ppn=2 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bytes_skip={bytes_skip},'\
                 f'path_conf_monopole={path_conf_monopole},path_conf_monopoless={path_conf_monopoless},path_inverse_laplacian={path_inverse_laplacian},'\
                 f'L_spat={L_spat},L_time={L_time},'\
                 f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch}'\
