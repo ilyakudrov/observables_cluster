@@ -29,7 +29,7 @@ plaket_type = 'original'
 calculate_absent = "false"
 
 compensate = 1
-additional_parameters_array = ['T_step=0.01']
+additional_parameters_array = ['T_step=0.0001', 'T_step=0.0002', 'T_step=0.0004', 'T_step=0.0008', 'T_step=0.001', 'T_step=0.002', 'T_step=0.004', 'T_step=0.008', 'T_step=5e-05']
 #additional_parameters_array = ['T_step=0.01']
 #additional_parameters_array = [f'compensate_{compensate}']
 # additional_parameters_array = [f'/']
@@ -68,7 +68,7 @@ for additional_parameters in additional_parameters_array:
     for wilson_type in wilson_type_array:
         for HYP_steps in HYP_steps_array:
             # for beta in ['/']:
-            for beta in ['beta2.7', 'beta2.8']:
+            for beta in ['beta2.8']:
                 # for beta in ['beta6.2']:
                 # for beta in ['beta2.4']:
                 # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
