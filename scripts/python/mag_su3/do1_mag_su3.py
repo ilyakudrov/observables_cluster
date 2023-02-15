@@ -7,8 +7,8 @@ sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
 
-L_spat = 36
-L_time = 36
+L_spat = 64
+L_time = 6
 #conf_size = "nt16_gov"
 #conf_size = "nt14"
 conf_size = "36^4"

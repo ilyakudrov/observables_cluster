@@ -7,30 +7,31 @@ sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
 
-L_spat = 32
-time_sizes = [32]
+L_spat = 48
+time_sizes = [48]
 #conf_size = "nt20_gov"
 #conf_size = "40^4"
-conf_size = "32^4"
-#conf_type = "su2_suzuki"
-conf_type = "gluodynamics"
+conf_size = "48^4"
+conf_type = "su2_suzuki"
+#conf_type = "gluodynamics"
 #conf_type = "QCD/140MeV"
 #conf_type = "qc2dstag"
-theory_type = "su3"
-#decomposition_type_array = ["original"]
-decomposition_type_array = ["abelian"]
-#decomposition_type_array = ["monopoless", "monopole", "photon", "offdiagonal", "original", "abelian"]
+theory_type = "su2"
+decomposition_type_array = ["original"]
+#decomposition_type_array = ["abelian"]
+#decomposition_type_array = ["monopoless", "monopole", "photon", "offdiagonal", "abelian"]
 #decomposition_type_array = ["monopole", "photon"]
 #decomposition_type_array = ["monopole", "monopoless", "offdiagonal", "photon"]
 
 calculate_absent = "false"
 
 compensate = 1
-# additional_parameters_array = ['T_step=0.001/T_final=0.5/OR_steps=4']
 #additional_parameters_array = ['/']
-additional_parameters_array = ['steps_500/copies=3']
+#additional_parameters_array = ['steps_500/copies=3']
 #additional_parameters_array = [f'steps_500/copies=3/compensate_{compensate}']
-#additional_parameters_array = [f'T_step=0.0001']
+#additional_parameters_array = ['T_step=0.01']
+#additional_parameters_array = ['T_step=0.0001', 'T_step=0.0002', 'T_step=0.0004', 'T_step=0.0008', 'T_step=0.0016', 'T_step=0.0032']
+additional_parameters_array = ['T_step=0.0001', 'T_step=0.0002', 'T_step=0.0004', 'T_step=0.0008', 'T_step=0.001', 'T_step=0.002', 'T_step=0.004', 'T_step=0.008', 'T_step=5e-05']
 
 axis = 'on-axis'
 
@@ -40,7 +41,7 @@ axis = 'on-axis'
 smearing_arr = ['HYP0_alpha=1_1_0.5_APE_alpha=0.5']
 #smearing_arr = ['unsmeared']
 
-number_of_jobs = 200
+number_of_jobs = 50
 
 arch = "rrcmpi-a"
 
@@ -56,7 +57,7 @@ for additional_parameters in additional_parameters_array:
         R_max = L_spat // 2
         for smearing in smearing_arr:
             for decomposition_type in decomposition_type_array:
-                for beta in ['beta6.2']:
+                for beta in ['beta2.8']:
                     # for beta in ['/']:
                     # for beta in ['beta2.8']:
                     # for beta in ['beta6.3']:
