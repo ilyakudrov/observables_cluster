@@ -2,6 +2,7 @@ import sys
 import json
 import subprocess
 import os
+import itertools
 
 sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "lib", "src", "python"))
@@ -17,7 +18,7 @@ conf_type = "su2_suzuki"
 #conf_type = "QCD/140MeV"
 #conf_type = "qc2dstag"
 theory_type = "su2"
-decomposition_type_array = ["original"]
+decomposition_type_arr = ["original"]
 #decomposition_type_array = ["abelian"]
 #decomposition_type_array = ["monopoless", "monopole", "photon", "offdiagonal", "abelian"]
 #decomposition_type_array = ["monopole", "photon"]
@@ -31,7 +32,8 @@ compensate = 1
 #additional_parameters_array = [f'steps_500/copies=3/compensate_{compensate}']
 #additional_parameters_array = ['T_step=0.01']
 #additional_parameters_array = ['T_step=0.0001', 'T_step=0.0002', 'T_step=0.0004', 'T_step=0.0008', 'T_step=0.0016', 'T_step=0.0032']
-additional_parameters_array = ['T_step=0.0001', 'T_step=0.0002', 'T_step=0.0004', 'T_step=0.0008', 'T_step=0.001', 'T_step=0.002', 'T_step=0.004', 'T_step=0.008', 'T_step=5e-05']
+additional_parameters_arr = ['T_step=0.0001', 'T_step=0.0002', 'T_step=0.0004', 'T_step=0.0008',
+                             'T_step=0.001', 'T_step=0.002', 'T_step=0.004', 'T_step=0.008', 'T_step=5e-05']
 
 axis = 'on-axis'
 
@@ -45,77 +47,65 @@ number_of_jobs = 50
 
 arch = "rrcmpi-a"
 
-for additional_parameters in additional_parameters_array:
-    for T in time_sizes:
-        L_time = T
-        #conf_size = f"nt{T}"
-        #conf_size = f"nt{T}_gov"
-        conf_size = f"{T}^4"
-        T_min = 1
-        T_max = T // 2
-        R_min = 1
-        R_max = L_spat // 2
-        for smearing in smearing_arr:
-            for decomposition_type in decomposition_type_array:
-                for beta in ['beta2.8']:
-                    # for beta in ['/']:
-                    # for beta in ['beta2.8']:
-                    # for beta in ['beta6.3']:
-                    # for beta in ['beta2.4']:
-                    # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
-                    # for mu in ['mu0.45']:
-                    for mu in ['/']:
-                        f = open(
-                            f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_{decomposition_type}.json')
-                        data = json.load(f)
-                        conf_format = data['conf_format']
-                        bytes_skip = data['bytes_skip']
-                        matrix_type = data['matrix_type']
-                        conf_path_start = data['conf_path_start']
-                        conf_path_end = data['conf_path_end']
-                        padding = data['padding']
-                        conf_name = data['conf_name']
-                        convert = data['convert']
 
-                        #conf_path_start = conf_path_start + f'/{additional_parameters}'
+beta_arr = ['beta6.3']
+mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
+conf_size_arr = ['nt16']
 
-                        conf_path_start = f'/home/clusters/rrcmpi/kudrov/smearing/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{decomposition_type}/{smearing}/{additional_parameters}'
-                        conf_name = 'smeared_'
-                        conf_path_end = '/'
-                        conf_format = 'double'
-                        padding = 4
-                        bytes_skip = 0
-                        convert = 0
+iter_arrays = [beta_arr, mu_arr, conf_size_arr, time_sizes,
+               additional_parameters_arr, decomposition_type_arr, smearing_arr]
+for beta, mu, conf_size, T, additional_parameters, decomposition_type, smearing in itertools.product(*iter_arrays):
+    f = open(
+        f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_{decomposition_type}.json')
+    data = json.load(f)
+    conf_format = data['conf_format']
+    bytes_skip = data['bytes_skip']
+    matrix_type = data['matrix_type']
+    conf_path_start = data['conf_path_start']
+    conf_path_end = data['conf_path_end']
+    padding = data['padding']
+    conf_name = data['conf_name']
+    convert = data['convert']
 
-                        #chains = {'/': [1, 200]}
-                        #chains = {'s0': [201, 250]}
-                        #jobs = distribute_jobs(chains, number_of_jobs)
-                        jobs = distribute_jobs(data['chains'], number_of_jobs)
-                        for job in jobs:
-                            # log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/smearing/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
-                            #     f'T_step={T_step}/T_final={T_final}/OR_steps={OR_steps}/{smearing_str}/{job[0]}'
-                            log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/wilson_loop/{axis}/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
-                                f'{decomposition_type}/{smearing}/{additional_parameters}/{job[0]}'
-                            conf_path_start1 = f'{conf_path_start}/{job[0]}/{conf_name}'
-                            try:
-                                os.makedirs(log_path)
-                            except:
-                                pass
-                            path_wilson = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/wilson_loop/{axis}/{theory_type}/'\
-                                f'{conf_type}/{conf_size}/{beta}/{mu}/{decomposition_type}/{smearing}/{additional_parameters}/{job[0]}'
-                            # qsub -q mem8gb -l nodes=1:ppn=4
-                            # qsub -q long
-                            # 4gb for 48^4 monopole
-                            # 8gb for 48^4 su2
-                            # 8gb for nt6 and bigger
-                            # 16gb for nt10 and bigger
-                            bashCommand = f'qsub -q mem4gb -l nodes=1:ppn=2 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
-                                f'conf_format={conf_format},bytes_skip={bytes_skip},path_wilson={path_wilson},convert={convert},'\
-                                f'padding={padding},calculate_absent={calculate_absent},'\
-                                f'L_spat={L_spat},L_time={L_time},T_min={T_min},T_max={T_max},R_min={R_min},R_max={R_max},'\
-                                f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch},matrix_type={matrix_type}'\
-                                f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../bash/do_wilson_loop.sh'
-                            # print(bashCommand)
-                            process = subprocess.Popen(bashCommand.split())
-                            output, error = process.communicate()
-                            # print(output, error)
+    #conf_path_start = conf_path_start + f'/{additional_parameters}'
+
+    conf_path_start = f'/home/clusters/rrcmpi/kudrov/smearing/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{decomposition_type}/{smearing}/{additional_parameters}'
+    conf_name = 'smeared_'
+    conf_path_end = '/'
+    conf_format = 'double'
+    padding = 4
+    bytes_skip = 0
+    convert = 0
+
+    #chains = {'/': [1, 200]}
+    #chains = {'s0': [201, 250]}
+    #jobs = distribute_jobs(chains, number_of_jobs)
+    jobs = distribute_jobs(data['chains'], number_of_jobs)
+    for job in jobs:
+        # log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/smearing/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
+        #     f'T_step={T_step}/T_final={T_final}/OR_steps={OR_steps}/{smearing_str}/{job[0]}'
+        log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/wilson_loop/{axis}/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
+            f'{decomposition_type}/{smearing}/{additional_parameters}/{job[0]}'
+        conf_path_start1 = f'{conf_path_start}/{job[0]}/{conf_name}'
+        try:
+            os.makedirs(log_path)
+        except:
+            pass
+        path_wilson = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/wilson_loop/{axis}/{theory_type}/'\
+            f'{conf_type}/{conf_size}/{beta}/{mu}/{decomposition_type}/{smearing}/{additional_parameters}/{job[0]}'
+        # qsub -q mem8gb -l nodes=1:ppn=4
+        # qsub -q long
+        # 4gb for 48^4 monopole
+        # 8gb for 48^4 su2
+        # 8gb for nt6 and bigger
+        # 16gb for nt10 and bigger
+        bashCommand = f'qsub -q mem4gb -l nodes=1:ppn=2 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
+            f'conf_format={conf_format},bytes_skip={bytes_skip},path_wilson={path_wilson},convert={convert},'\
+            f'padding={padding},calculate_absent={calculate_absent},'\
+            f'L_spat={L_spat},L_time={L_time},T_min={T_min},T_max={T_max},R_min={R_min},R_max={R_max},'\
+            f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch},matrix_type={matrix_type}'\
+            f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../bash/do_wilson_loop.sh'
+        # print(bashCommand)
+        process = subprocess.Popen(bashCommand.split())
+        output, error = process.communicate()
+        # print(output, error)
