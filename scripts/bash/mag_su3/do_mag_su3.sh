@@ -43,7 +43,7 @@ echo --ftype ${conf_format} --fbasename ${conf_path_start} \
 
 /home/clusters/rrcmpi/kudrov/SU3_MA_gauge_GPU/src/gaugefixing/apps/MAGaugeFixingSU3_4D_DP_N${L_spat}T${L_time}  --ftype ${conf_format} --fbasename ${conf_path_start} \
  --fending "$conf_path_end" --reinterpret DOUBLE --fnumberformat ${padding} -m 1 --fstartnumber ${i} --sasteps ${steps} --samin 2.5 --samax 0.5\
- --output_SA_functional ${path_functional_output} --gaugecopies ${copies} --output_conf "${conf_path_output}/conf_" --output_ending "${conf_path_end}" --seed ${seed} --microupdates 6 --precision ${tolerance}
+ --output_SA_functional ${path_functional_output} --gaugecopies ${copies} --output_conf "${conf_path_output}/conf_" --output_ending "${conf_path_end}" --seed ${seed} --microupdates 6 --precision ${tolerance} --ormaxiter 5000 
 
 fi
 

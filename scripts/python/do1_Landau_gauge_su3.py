@@ -8,27 +8,28 @@ sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
 
-L_spat = 36
-L_time = 36
-conf_size = "36^4"
-conf_type = "gluodynamics"
+#conf_type = "gluodynamics"
+conf_type = "QCD/140MeV"
 theory_type = "su3"
 
-additional_parameters = "steps_500/copies=3"
-
 calculate_absent = "true"
-number_of_jobs = 100
+number_of_jobs = 40
 
 beta_arr = ['/']
-mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
-conf_size_arr = ['nt16']
-additional_parameters_arr = ['steps_2000/copies=1']
+#mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
+mu_arr = ['/']
+#conf_size_arr = ['nt6', 'nt8', 'nt10', 'nt12', 'nt14']
+#additional_parameters_arr = ['steps_2000/copies=1', 'steps_330/copies=1']
+conf_size_arr = ['nt10']
+additional_parameters_arr = ['steps_4000/copies=1']
+#conf_size_arr = ['nt16', 'nt18', 'nt20']
+#additional_parameters_arr = ['steps_500/copies=1']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr, additional_parameters_arr]
 for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays):
 
     f = open(
-        f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters.json')
+        f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_mag.json')
     data = json.load(f)
     conf_format = data['conf_format']
     bytes_skip = data['bytes_skip']
@@ -37,19 +38,23 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
     conf_path_end = data['conf_path_end']
     padding = data['padding']
     conf_name = data['conf_name']
+    L_spat = data['x_size']
+    L_time = data['t_size']
 
-    conf_format = "QCDSTAG"
-    bites_skip = 0
-    matrix_type = 'su3'
-    conf_path_start = f'/home/clusters/rrcmpi/kudrov/mag_su3/conf_gaugefixed/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}'
-    conf_path_end = "/"
-    padding = 4
-    conf_name = "conf_gaugefixed_"
+    conf_path_start = conf_path_start + f'/{additional_parameters}'
 
-    chains = {'/': [490, 2200]}
+    #conf_format = "QCDSTAG"
+    #bites_skip = 0
+    #matrix_type = 'su3'
+    #conf_path_start = f'/home/clusters/rrcmpi/kudrov/mag_su3/conf_gaugefixed/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}'
+    #conf_path_end = "/"
+    #padding = 4
+    #conf_name = "conf_gaugefixed_"
+
+    #chains = {'/': [490, 2200]}
     #chains = {'s0': [201, 250]}
-    jobs = distribute_jobs(chains, number_of_jobs)
-    #jobs = distribute_jobs(data['chains'], number_of_jobs)
+    #jobs = distribute_jobs(chains, number_of_jobs)
+    jobs = distribute_jobs(data['chains'], number_of_jobs)
 
     for job in jobs:
 
