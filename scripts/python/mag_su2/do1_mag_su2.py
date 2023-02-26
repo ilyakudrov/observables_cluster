@@ -7,14 +7,12 @@ sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
 
-#conf_size = "24^4"
-#conf_size = "40^4"
-conf_size = "48^4"
-conf_type = "su2_suzuki"
-#conf_type = "qc2dstag"
+conf_size = "40^4"
+#conf_type = "su2_suzuki"
+conf_type = "qc2dstag"
 theory_type = "su2"
 
-T_step = 0.0032
+T_step = 0.001
 T_init = 2.5
 T_final = 0.5
 OR_steps = 4
@@ -24,31 +22,32 @@ tolerance_average = 1e-12
 tolerance_digits = 7
 gauge_copies = 3
 
-#is_new_trial = 1
-#is_final = 0
-#is_compare = 1
-#is_compare_spins = 1
-#is_functional_save = 1
+is_new_trial = 1
+is_final = 0
+is_compare = 1
+is_compare_spins = 1
+is_functional_save = 1
+fixation_type = 'new'
 
-is_new_trial = 0
-is_final = 1
-is_compare = 0
-is_compare_spins = 0
-is_functional_save = 0
-fixation_type = 'final'
+#is_new_trial = 0
+#is_final = 1
+#is_compare = 0
+#is_compare_spins = 0
+#is_functional_save = 0
+#fixation_type = 'final'
 
-number_of_jobs = 50
+number_of_jobs = 600
 
 arch = "rrcmpi-a"
 
-#for beta in ['/']:
-for beta in ['beta2.7']:
+for beta in ['/']:
+#for beta in ['beta2.8']:
     # for beta in ['beta2.5', 'beta2.6']:
     # for beta in ['beta2.4']:
     # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
-    #for mu in ['mu0.33', 'mu0.37', 'mu0.40']:
+    for mu in ['mu0.33', 'mu0.37']:
     #for mu in ['mu0.35']:
-    for mu in ['/']:
+    #for mu in ['/']:
 
         f = open(
             f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_original.json')

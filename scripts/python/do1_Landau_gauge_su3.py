@@ -12,7 +12,7 @@ from iterate_confs import distribute_jobs
 conf_type = "QCD/140MeV"
 theory_type = "su3"
 
-calculate_absent = "true"
+calculate_absent = "false"
 number_of_jobs = 40
 
 beta_arr = ['/']
@@ -20,7 +20,9 @@ beta_arr = ['/']
 mu_arr = ['/']
 #conf_size_arr = ['nt6', 'nt8', 'nt10', 'nt12', 'nt14']
 #additional_parameters_arr = ['steps_2000/copies=1', 'steps_330/copies=1']
+#conf_size_arr = ['nt6', 'nt8', 'nt10', 'nt12', 'nt14']
 conf_size_arr = ['nt10']
+#conf_size_arr = ['nt16', 'nt18', 'nt20']
 additional_parameters_arr = ['steps_4000/copies=1']
 #conf_size_arr = ['nt16', 'nt18', 'nt20']
 #additional_parameters_arr = ['steps_500/copies=1']

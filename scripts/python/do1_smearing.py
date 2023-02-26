@@ -8,32 +8,20 @@ sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
 
-L_spat = 48
-L_time = 48
-conf_type = "su2_suzuki"
+#conf_type = "su2_suzuki"
 #conf_type = "gluodynamics"
 #conf_type = "QCD/140MeV"
-#conf_type = "qc2dstag"
+conf_type = "qc2dstag"
 theory_type = "su2"
 wilson_type_array = ["monopoless", "photon",
                      "offdiagonal", "monopole", 'abelian']
-# wilson_type_array = ['original']
+#wilson_type_array = ['original']
 #wilson_type_array = ['abelian']
 #wilson_type_array = ['monopoless']
 #wilson_type_array = ["monopoless", "offdiagonal"]
 plaket_type = 'original'
 
 calculate_absent = "false"
-
-compensate = 1
-additional_parameters_array = ['T_step=0.0001', 'T_step=0.0002', 'T_step=0.0004',
-                               'T_step=0.0008', 'T_step=0.001', 'T_step=0.002', 'T_step=0.004', 'T_step=0.008', 'T_step=5e-05']
-#additional_parameters_array = ['T_step=0.01']
-#additional_parameters_array = [f'compensate_{compensate}']
-# additional_parameters_array = [f'/']
-#additional_parameters_array = [f'steps_500/copies=3']
-#additional_parameters_array = [f'steps_500/copies=3/compensate_{compensate}']
-#additional_parameters_array = [f'T_step=0.01']
 
 APE_enabled = 1
 HYP_enabled = 1
@@ -44,8 +32,8 @@ HYP_alpha1 = "1"
 HYP_alpha2 = "1"
 HYP_alpha3 = "0.5"
 APE_alpha = "0.5"
-APE_steps = "300"
-HYP_steps_array = ['0']
+APE_steps = "500"
+HYP_steps_array = ['0', '1']
 calculation_step_APE = 100
 calculation_APE_start = 700
 
@@ -53,24 +41,23 @@ wilson_enabled = 0
 flux_enabled = 0
 save_conf = 1
 
-T_min = 1
-T_max = L_time
-R_min = 1
-R_max = L_spat
-
-number_of_jobs = 50
+number_of_jobs = 500
 
 arch = "rrcmpi-a"
 
-
-beta_arr = ['beta6.3']
-mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
-conf_size_arr = ['nt16']
-additional_parameters_arr = ['steps_2000/copies=1']
+#beta_arr = ['beta6.3']
+beta_arr = ['/']
+#mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
+mu_arr = ['mu0.40']
+#conf_size_arr = ['nt16']
+conf_size_arr = ['40^4']
+#additional_parameters_arr = ['steps_2000/copies=1']
+additional_parameters_arr = ['T_step=0.001']
+#additional_parameters_arr = ['/']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
                additional_parameters_arr, wilson_type_array, HYP_steps_array]
-for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps_array in itertools.product(*iter_arrays):
+for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in itertools.product(*iter_arrays):
     if True:
         f = open(
             f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_{wilson_type}.json')
@@ -83,6 +70,13 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps_array in 
         padding_wilson = data['padding']
         conf_name_wilson = data['conf_name']
         convert_wilson = data['convert']
+        L_spat = data['x_size']
+        L_time = data['t_size']
+
+        T_min = 1
+        T_max = L_time
+        R_min = 1
+        R_max = L_spat
 
         #print("path start", conf_path_start_wilson)
 

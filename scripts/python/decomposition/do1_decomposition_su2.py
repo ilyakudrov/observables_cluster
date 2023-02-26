@@ -7,28 +7,26 @@ sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
 
-L_spat = 48
-L_time = 48
-conf_size = "48^4"
+conf_size = "40^4"
 #conf_size = "40^4"
 #conf_size = "48^4"
-conf_type = "su2_suzuki"
-#conf_type = "qc2dstag"
+#conf_type = "su2_suzuki"
+conf_type = "qc2dstag"
 theory_type = "su2"
 
-additional_parameters = 'T_step=5e-05'
+additional_parameters = 'T_step=0.001'
 
-number_of_jobs = 50
+number_of_jobs = 600
 
 arch = "rrcmpi-a"
 
-#for beta in ['/']:
-for beta in ['beta2.8']:
+for beta in ['/']:
+#for beta in ['beta2.8']:
     # for beta in ['beta2.5', 'beta2.6']:
     # for beta in ['beta2.4']:
     #for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
-    #for mu in [i'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
-    for mu in ['/']:
+    for mu in ['mu0.40']:
+    #for mu in ['/']:
 
         f = open(
            f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_mag.json')
@@ -40,6 +38,8 @@ for beta in ['beta2.8']:
         conf_path_end = data['conf_path_end']
         padding = data['padding']
         conf_name = data['conf_name']
+        L_spat = data['x_size']
+        L_time = data['t_size']
 
         conf_path_start = conf_path_start + f'/{additional_parameters}'
 
