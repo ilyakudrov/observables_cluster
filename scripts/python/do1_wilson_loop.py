@@ -15,7 +15,8 @@ conf_type = "qc2dstag"
 theory_type = "su2"
 #decomposition_type_arr = ["original"]
 #decomposition_type_arr = ["abelian"]
-decomposition_type_arr = ["monopoless", "monopole", "photon", "offdiagonal", "abelian"]
+decomposition_type_arr = ["monopoless",
+                          "monopole", "photon", "offdiagonal", "abelian"]
 #decomposition_type_arr = ["monopoless"]
 #decomposition_type_arr = ["monopole", "monopoless", "offdiagonal", "photon"]
 #decomposition_type_arr = ["monopoless", "offdiagonal"]
@@ -23,16 +24,16 @@ decomposition_type_arr = ["monopoless", "monopole", "photon", "offdiagonal", "ab
 calculate_absent = "false"
 
 compensate = 1
-#additional_parameters_arr = ['/']
+additional_parameters_arr = ['/']
 #additional_parameters_arr = ['steps_500/copies=3']
 #additional_parameters_arr = [f'steps_500/copies=3/compensate_{compensate}']
 #additional_parameters_arr = ['T_step=0.01']
 #additional_parameters_arr = ['T_step=0.0001', 'T_step=0.0002', 'T_step=0.0004', 'T_step=0.0008', 'T_step=0.0016', 'T_step=0.0032']
-#additional_parameters_arr = ['T_step=0.0001', 'T_step=0.0002', 'T_step=0.0004', 'T_step=0.0008',
+# additional_parameters_arr = ['T_step=0.0001', 'T_step=0.0002', 'T_step=0.0004', 'T_step=0.0008',
 #                             'T_step=0.001', 'T_step=0.002', 'T_step=0.004', 'T_step=0.008', 'T_step=5e-05']
-#additional_parameters_arr = ['steps_500/copies=3/compensate_1', 'steps_1000/copies=3/compensate_1',
+# additional_parameters_arr = ['steps_500/copies=3/compensate_1', 'steps_1000/copies=3/compensate_1',
 #                             'steps_2000/copies=3/compensate_1', 'steps_4000/copies=3/compensate_1']
-#additional_parameters_arr = ['steps_1000/copies=3/compensate_1',
+# additional_parameters_arr = ['steps_1000/copies=3/compensate_1',
 #                             'steps_2000/copies=3/compensate_1', 'steps_4000/copies=3/compensate_1']
 #additional_parameters_arr = ['steps_500/copies=3']
 
