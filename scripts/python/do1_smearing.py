@@ -13,10 +13,10 @@ from iterate_confs import distribute_jobs
 #conf_type = "QCD/140MeV"
 conf_type = "qc2dstag"
 theory_type = "su2"
-wilson_type_array = ["monopoless", "photon",
-                     "offdiagonal", "monopole", 'abelian']
+#wilson_type_array = ["monopoless", "photon",
+#                     "offdiagonal", "monopole", 'abelian']
 #wilson_type_array = ['original']
-#wilson_type_array = ['abelian']
+wilson_type_array = ['abelian']
 #wilson_type_array = ['monopoless']
 #wilson_type_array = ["monopoless", "offdiagonal"]
 plaket_type = 'original'

@@ -14,8 +14,8 @@ from iterate_confs import distribute_jobs
 conf_type = "qc2dstag"
 theory_type = "su2"
 #decomposition_type_arr = ["original"]
-#decomposition_type_arr = ["abelian"]
-decomposition_type_arr = ["monopoless", "monopole", "photon", "offdiagonal", "abelian"]
+decomposition_type_arr = ["abelian"]
+#decomposition_type_arr = ["monopoless", "monopole", "photon", "offdiagonal", "abelian"]
 #decomposition_type_arr = ["monopoless"]
 #decomposition_type_arr = ["monopole", "monopoless", "offdiagonal", "photon"]
 #decomposition_type_arr = ["monopoless", "offdiagonal"]
@@ -26,7 +26,7 @@ compensate = 1
 #additional_parameters_arr = ['/']
 #additional_parameters_arr = ['steps_500/copies=3']
 #additional_parameters_arr = [f'steps_500/copies=3/compensate_{compensate}']
-#additional_parameters_arr = ['T_step=0.01']
+additional_parameters_arr = ['T_step=0.001']
 #additional_parameters_arr = ['T_step=0.0001', 'T_step=0.0002', 'T_step=0.0004', 'T_step=0.0008', 'T_step=0.0016', 'T_step=0.0032']
 #additional_parameters_arr = ['T_step=0.0001', 'T_step=0.0002', 'T_step=0.0004', 'T_step=0.0008',
 #                             'T_step=0.001', 'T_step=0.002', 'T_step=0.004', 'T_step=0.008', 'T_step=5e-05']
@@ -41,16 +41,18 @@ axis = 'on-axis'
 # smearing_arr = ['HYP0_APE_alpha=0.5',
 #                'HYP1_alpha=1_1_0.5_APE_alpha=0.5', 'HYP2_alpha=1_1_0.5_APE_alpha=0.5']
 #smearing_arr = ['HYP0_alpha=1_1_0.5_APE_alpha=0.5', 'HYP1_alpha=1_1_0.5_APE_alpha=0.5']
-smearing_arr = ['HYP0_alpha=1_1_0.5_APE_alpha=0.5']
+smearing_arr = ['HYP0_alpha=1_1_0.5_APE_alpha=0.5', 'HYP1_alpha=1_1_0.5_APE_alpha=0.5']
 #smearing_arr = ['unsmeared']
 
 number_of_jobs = 200
 
 arch = "rrcmpi-a"
-beta_arr = ['beta6.3']
-mu_arr = ['/']
+#beta_arr = ['beta6.3']
+beta_arr = ['/']
+#mu_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
-conf_size_arr = ['36^4']
+mu_arr = ['mu0.40']
+conf_size_arr = ['40^4']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
                additional_parameters_arr, decomposition_type_arr, smearing_arr]

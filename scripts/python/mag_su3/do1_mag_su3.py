@@ -9,29 +9,30 @@ sys.path.append(os.path.join(os.path.dirname(
 from iterate_confs import distribute_jobs
 
 #conf_type = "su2_suzuki"
-#conf_type = "gluodynamics"
-conf_type = "QCD/140MeV"
+conf_type = "gluodynamics"
+#conf_type = "QCD/140MeV"
 #conf_type = "qc2dstag"
 theory_type = "su3"
 
 calculate_absent = "false"
 
-steps = 500
-copies = 1
+copies = 4
 
 tolerance = '1e-13'
 
-number_of_jobs = 40
+number_of_jobs = 200
 
-#beta_arr = ['beta6.3']
-beta_arr = ['/']
+beta_arr = ['beta6.3']
+#beta_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
 mu_arr = ['/']
-conf_size_arr = ['nt16', 'nt18', 'nt20']
-additional_parameters_arr = [f'steps_{steps}/copies={copies}']
+#conf_size_arr = ['nt16', 'nt18', 'nt20']
+conf_size_arr = ['36^4']
+steps_arr = [25, 50, 100, 200, 1000, 2000]
 
-iter_arrays = [beta_arr, mu_arr, conf_size_arr, additional_parameters_arr]
-for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays):
+iter_arrays = [beta_arr, mu_arr, conf_size_arr, steps_arr]
+for beta, mu, conf_size, steps in itertools.product(*iter_arrays):
+    additional_parameters = f'steps_{steps}/copies={copies}'
     f = open(
         f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_original.json')
     data = json.load(f)

@@ -15,7 +15,7 @@ theory_type = "su3"
 x_trans = 0
 
 arch="rrcmpi-a"
-number_of_jobs = 500
+number_of_jobs = 1
 
 smearing_arr = ['HYP0_alpha=1_1_0.5_APE_alpha=0.5']
 decomposition_type_plaket_arr = ["original"]
@@ -73,9 +73,9 @@ for beta, mu, conf_size, decomposition_type_plaket, decomposition_type_wilson, s
     bytes_skip_wilson = 0
     convert_wilson = 0
 
-    #chains = {'/': [1, 1]}
-    #jobs = distribute_jobs(chains, number_of_jobs)
-    jobs = distribute_jobs(data_plaket['chains'], number_of_jobs)
+    chains = {'/': [1, 1]}
+    jobs = distribute_jobs(chains, number_of_jobs)
+    #jobs = distribute_jobs(data_plaket['chains'], number_of_jobs)
 
     for job in jobs:
 
