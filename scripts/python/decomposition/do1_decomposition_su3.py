@@ -9,7 +9,7 @@ sys.path.append(os.path.join(os.path.dirname(
 from iterate_confs import distribute_jobs
 
 # conf_type = "gluodynamics"
-conf_type = "QCD"
+conf_type = "QCD/140MeV"
 theory_type = "su3"
 
 compensate = 1

@@ -8,23 +8,24 @@ sys.path.append(os.path.join(os.path.dirname(
 from iterate_confs import distribute_jobs
 
 #conf_type = "su2_suzuki"
-conf_type = "qc2dstag"
-#conf_type = "gluodynamics"
-theory_type = "su2"
+#conf_type = "qc2dstag"
+conf_type = "gluodynamics"
+theory_type = "su3"
 
 x_trans = 0
 
 arch="rrcmpi-a"
 number_of_jobs = 200
 
-smearing_arr = ['HYP0_alpha=1_1_0.5_APE_alpha=0.5', 'HYP1_alpha=1_1_0.5_APE_alpha=0.5']
+smearing_arr = ['HYP0_alpha=1_1_0.5_APE_alpha=0.5']
 decomposition_type_plaket_arr = ["original"]
 decomposition_type_wilson_arr = ["original"]
-beta_arr = ['/']
-#beta_arr = ['beta6.0']
-mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.33', 'mu0.35', 'mu0.37', 'mu0.40', 'mu0.45']
+#beta_arr = ['/']
+beta_arr = ['beta6.2']
+#mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.33', 'mu0.35', 'mu0.37', 'mu0.45']
 mu_arr = ['/']
-conf_size_arr = ['40^4']
+#mu_arr = ['mu0.40']
+conf_size_arr = ['32^4']
 additional_parameters_arr = ['/']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
@@ -73,9 +74,9 @@ for beta, mu, conf_size, decomposition_type_plaket, decomposition_type_wilson, s
     bytes_skip_wilson = 0
     convert_wilson = 0
 
-    chains = {'/': [1, 1]}
-    jobs = distribute_jobs(chains, number_of_jobs)
-    #jobs = distribute_jobs(data_plaket['chains'], number_of_jobs)
+    #chains = {'/': [201, 201]}
+    #jobs = distribute_jobs(chains, number_of_jobs)
+    jobs = distribute_jobs(data_plaket['chains'], number_of_jobs)
 
     for job in jobs:
 

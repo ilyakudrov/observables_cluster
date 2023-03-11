@@ -18,6 +18,9 @@ fi
 conf_path_plaket="${conf_path_start_plaket}`printf %0${padding_plaket}d $i`${conf_path_end_plaket}"
 conf_path_wilson="${conf_path_start_wilson}`printf %0${padding_wilson}d $i`${conf_path_end_wilson}"
 
+echo ${conf_path_plaket}
+echo ${conf_path_wilson}
+
 if [ -f ${conf_path_plaket} ] && [ -s ${conf_path_plaket} ] && [ -f ${conf_path_wilson} ] && [ -s ${conf_path_wilson} ] ; then
 
 mkdir -p "${output_path}/longitudinal"
