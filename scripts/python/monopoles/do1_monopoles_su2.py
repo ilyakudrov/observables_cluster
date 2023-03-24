@@ -8,23 +8,22 @@ sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
 
-L_spat = 48
-L_time = 48
-#conf_size = "36^4"
-conf_size = "48^4"
 #conf_type = "gluodynamics"
-conf_type = "su2_suzuki"
+#conf_type = "su2_suzuki"
+conf_type = "qc2dstag"
 theory_type = "su2"
 
 arch = "rrcmpi-a"
 
-beta_arr = ['beta2.8']
-#mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
-mu_arr = ['/']
-additional_parameters_arr = ['steps_500/copies=1']
-conf_size_arr = ['36^4']
+#beta_arr = ['beta2.8']
+beta_arr = ['/']
+mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
+#mu_arr = ['/']
+#additional_parameters_arr = ['steps_500/copies=1']
+additional_parameters_arr = ['/']
+conf_size_arr = ['40^4']
 
-number_of_jobs = 50
+number_of_jobs = 200
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr, additional_parameters_arr]
 for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays):

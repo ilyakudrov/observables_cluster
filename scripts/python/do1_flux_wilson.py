@@ -17,12 +17,14 @@ x_trans = 0
 arch="rrcmpi-a"
 number_of_jobs = 200
 
-smearing_arr = ['HYP0_alpha=1_1_0.5_APE_alpha=0.5']
+#smearing_arr = ['HYP0_alpha=1_1_0.5_APE_alpha=0.5', 'HYP1_alpha=1_1_0.5_APE_alpha=0.5', 
+#                'HYP2_alpha=1_1_0.5_APE_alpha=0.5', 'HYP3_alpha=1_1_0.5_APE_alpha=0.5']
+smearing_arr = ['HYP0_alpha=1_1_0.5_APE_alpha=0.5', 'HYP1_alpha=1_1_0.5_APE_alpha=0.5']
 decomposition_type_plaket_arr = ["original"]
 decomposition_type_wilson_arr = ["original"]
-#beta_arr = ['/']
+beta_arr = ['/']
 beta_arr = ['beta6.2']
-#mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.33', 'mu0.35', 'mu0.37', 'mu0.45']
+#mu_arr = ['mu0.00', 'mu0.20', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
 mu_arr = ['/']
 #mu_arr = ['mu0.40']
 conf_size_arr = ['32^4']

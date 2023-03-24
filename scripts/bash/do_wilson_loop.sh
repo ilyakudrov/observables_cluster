@@ -22,7 +22,7 @@ mkdir -p ${path_wilson}
 #-conf_format_plaket ${conf_format_plaket1} -conf_path_plaket ${conf_path_plaket1} -bytes_skip_plaket ${bytes_skip_plaket1}\
 
 parameters="-conf_format ${conf_format} -conf_path ${conf_path1} -bytes_skip ${bytes_skip} -convert ${convert}\
-    -L_spat ${L_spat} -L_time ${L_time}\
+    -L_spat ${L_spat} -L_time ${L_time} -representation ${representation}\
     -path_wilson ${path_wilson}/wilson_loop_`printf %04d $i`\
     -T_min ${T_min} -T_max ${T_max} -R_min ${R_min} -R_max ${R_max}"
 

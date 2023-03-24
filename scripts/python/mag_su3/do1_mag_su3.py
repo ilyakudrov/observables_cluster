@@ -16,19 +16,19 @@ theory_type = "su3"
 
 calculate_absent = "false"
 
-copies = 4
+copies = 3
 
 tolerance = '1e-13'
 
-number_of_jobs = 20
+number_of_jobs = 120
 
-beta_arr = ['beta6.0']
+beta_arr = ['beta6.2']
 #beta_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
 mu_arr = ['/']
 #conf_size_arr = ['nt16', 'nt18', 'nt20']
-conf_size_arr = ['24^4']
-steps_arr = [200, 1000, 2000]
+conf_size_arr = ['32^3x64']
+steps_arr = [500]
 #steps_arr = [100]
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr, steps_arr]

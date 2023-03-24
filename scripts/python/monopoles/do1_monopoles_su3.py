@@ -8,25 +8,21 @@ sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
 
-L_spat = 64
-L_time = 14
-#conf_size = "36^4"
-conf_size = "nt4"
 #conf_type = "gluodynamics"
 conf_type = "QCD/140MeV"
 theory_type = "su3"
 
 arch = "rrcmpi-a"
 
-number_of_jobs = 100
-
-beta_arr = ['beta2.8']
+beta_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
 mu_arr = ['/']
+#additional_parameters_arr = ['steps_2000/copies=1', 'steps_330/copies=1']
 additional_parameters_arr = ['steps_500/copies=1']
-conf_size_arr = ['36^4']
+#conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
+conf_size_arr = ['nt16', 'nt18', 'nt20']
 
-number_of_jobs = 50
+number_of_jobs = 100
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr, additional_parameters_arr]
 for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays):
@@ -63,7 +59,7 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
         output_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/monopoles_su3/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}'
         # for nt8 and bigger
         # qsub -q mem4gb -l nodes=1:ppn=2
-        bashCommand = f'qsub -q mem4gb -l nodes=1:ppn=2 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bytes_skip={bytes_skip},'\
+        bashCommand = f'qsub -q mem8gb -l nodes=1:ppn=4 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bytes_skip={bytes_skip},'\
             f'output_path={output_path},arch={arch},'\
             f'L_spat={L_spat},L_time={L_time},chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\
             f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../../bash/monopoles/do_monopoles_su3.sh'
