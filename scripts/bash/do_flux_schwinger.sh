@@ -1,62 +1,42 @@
 #!/bin/bash
 
-for((i=$conf1;i<=${conf2};i++))
+for((i=${conf_start};i<=${conf_end};i++))
 do
 
-a=$(($i/1000))
-b=$((($i-$a*1000)/100))
-c=$((($i-$a*1000-$b*100)/10))
-d=$(($i-$a*1000-$b*100-$c*10))
+if [[ ${conf_path_end_plaket} == "/" ]]; then
 
-conf_path_qc2dstag="/home/clusters/rrcmpi/kudrov/conf/qc2dstag/${conf_size}/mu${mu}/$chain/confs/CONF$a$b$c$d"
-conf_path_monopole="/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/monopole/qc2dstag/${conf_size}/mu${mu}/$chain/conf_monopole_$a$b$c$d"
-conf_path_monopoless="/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/monopoless/qc2dstag/${conf_size}/mu${mu}/$chain/conf_monopoless_$a$b$c$d"
-
-conf_smeared_path_qc2dstag="/home/clusters/rrcmpi/kudrov/smearing_cluster/confs_smeared/qc2dstag/${conf_size}/mu${mu}/${smearing}/$chain/conf_APE_alpha=0.7_$a$b$c$d"
-conf_smeared_path_monopole="/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/monopole/qc2dstag/${conf_size}/mu${mu}/$chain/conf_monopole_$a$b$c$d"
-conf_smeared_path_monopoless="/home/clusters/rrcmpi/kudrov/smearing_cluster/confs_smeared/monopoless/qc2dstag/${conf_size}/mu${mu}/${smearing}/$chain/conf_APE_alpha=0.7_$a$b$c$d"
-
-if [[ ${monopole} == "/" ]] ; then
-
-conf_path=$conf_path_qc2dstag
-smeared_path=$conf_smeared_path_qc2dstag
-
-else
-
-path1="conf_path_${monopole}"
-conf_path=("${!path1}")
-path2="conf_smeared_path_${monopole}"
-smeared_path=("${!path2}")
+conf_path_end_plaket=""
 
 fi
 
-#echo conf_path ${conf_path}
-#echo monopole ${monopole}
-#echo path1 ${path1}
+if [[ ${conf_path_end_wilson} == "/" ]]; then
 
-if [ -f ${conf_path} ] ; then
+conf_path_end_wilson=""
 
-#echo conf_path ${conf_path}
-#echo smeared_path ${smeared_path}
+fi
 
-for R in ${R_sizes[@]}; do
-for T in ${T_sizes[@]}; do
+conf_path_plaket="${conf_path_start_plaket}`printf %0${padding_plaket}d $i`${conf_path_end_plaket}"
+conf_path_wilson="${conf_path_start_wilson}`printf %0${padding_wilson}d $i`${conf_path_end_wilson}"
 
-output_path1="/home/clusters/rrcmpi/kudrov/observables_cluster/result/flux_tube_schwinger/${monopole}/${conf_type}/${conf_size}/mu${mu}/$chain"
+echo ${conf_path_plaket}
+echo ${conf_path_wilson}
 
-output_path="${output_path1}/T=${T}/R=${R}"
-#echo ${output_path}
-mkdir -p ${output_path}
+if [ -f ${conf_path_plaket} ] && [ -s ${conf_path_plaket} ] && [ -f ${conf_path_wilson} ] && [ -s ${conf_path_wilson} ] ; then
 
-output_path_electric="${output_path}/electric_${a}${b}${c}${d}"
-output_path_magnetic="${output_path}/magnetic_${a}${b}${c}${d}"
+mkdir -p "${output_path}/longitudinal"
+# mkdir -p "${output_path}/transversal"
+output_path_electric_long="${output_path}/longitudinal/electric_`printf %04d $i`"
+# output_path_magnetic_long="${output_path}/longitudinal/magnetic_`printf %04d $i`"
+# output_path_electric_trans="${output_path}/transversal/electric_`printf %04d $i`"
+# output_path_magnetic_trans="${output_path}/transversal/magnetic_`printf %04d $i`"
 
-parameters="-conf_format $conf_format -smeared_format ${smeared_format} -conf_path $conf_path -smeared_path $smeared_path -output_path_electric ${output_path_electric} -output_path_magnetic ${output_path_magnetic} -R_size ${R} -T_size ${T} -L_spat ${L_spat} -L_time ${L_time} -x_trans ${x_trans}"
+parameters="-conf_format_plaket $conf_format_plaket -conf_format_wilson ${conf_format_wilson} -conf_path_plaket $conf_path_plaket\
+   -conf_path_wilson ${conf_path_wilson} -bytes_skip_plaket ${bytes_skip_plaket} -bytes_skip_wilson ${bytes_skip_wilson}\
+   -matrix_type_plaket ${matrix_type_plaket} -matrix_type_wilson ${matrix_type_wilson} -output_path_electric_long ${output_path_electric_long}\
+   -convert_plaket ${convert_plaket} -convert_wilson ${convert_wilson}
+   -T_min ${T_min} -T_max ${T_max} -R_min ${R_min} -R_max ${R_max} -L_spat ${L_spat} -L_time ${L_time} -x_trans ${x_trans}"
 
-/home/clusters/rrcmpi/kudrov/observables_cluster/code/exe/flux_schwinger_${matrix_type} $parameters
-
-done
-done
+/home/clusters/rrcmpi/kudrov/general_code/apps/observables/flux_tube/flux_tube_schwinger_${matrix_type_plaket}_${matrix_type_wilson}_${arch} $parameters
 
 fi
 
