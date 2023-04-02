@@ -69,9 +69,9 @@ for beta, mu, conf_size, steps in itertools.product(*iter_arrays):
         except:
             pass
         conf_path_output = f'/home/clusters/rrcmpi/kudrov/mag_su3/conf_gaugefixed/'\
-            f'{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}/{job[0]}'
+            f'{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}/{job[0]}'
         functional_path_output = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/mag/functional/'\
-            f'{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}/{job[0]}'
+            f'{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}/{job[0]}'
 
         conf_path_start1 = f'{conf_path_start}/{job[0]}/{conf_name}'
 

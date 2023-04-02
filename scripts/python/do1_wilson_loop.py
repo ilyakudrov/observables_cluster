@@ -9,13 +9,13 @@ sys.path.append(os.path.join(os.path.dirname(
 from iterate_confs import distribute_jobs
 
 #conf_type = "su2_suzuki"
-#conf_type = "gluodynamics"
+conf_type = "gluodynamics"
 #conf_type = "QCD/140MeV"
-conf_type = "qc2dstag"
-theory_type = "su2"
+#conf_type = "qc2dstag"
+theory_type = "su3"
 #decomposition_type_arr = ["original"]
 #decomposition_type_arr = ["abelian"]
-decomposition_type_arr = ["monopoless", "monopole", "photon", "offdiagonal", "abelian", "original"]
+decomposition_type_arr = ["monopoless", "monopole", "photon", "offdiagonal", "abelian"]
 #decomposition_type_arr = ["abelian"]
 #decomposition_type_arr = ["monopoless",
 #decomposition_type_arr = ["monopoless"]
@@ -23,11 +23,14 @@ decomposition_type_arr = ["monopoless", "monopole", "photon", "offdiagonal", "ab
 #decomposition_type_arr = ["monopoless", "offdiagonal"]
 
 calculate_absent = "false"
-representation="adjoint"
-#representation="fundamental"
+#representation="adjoint"
+representation="fundamental"
 
 compensate = 1
-additional_parameters_arr = ['/']
+#additional_parameters_arr = ['/']
+additional_parameters_arr = ['steps_25/copies=4', 'steps_50/copies=4',
+                             'steps_100/copies=4', 'steps_200/copies=4',
+                             'steps_1000/copies=4', 'steps_2000/copies=4']
 #additional_parameters_arr = ['steps_500/copies=3']
 #additional_parameters_arr = ['steps_500/copies=3/compensate_1']
 #additional_parameters_arr = ['T_step=0.0002']
@@ -44,19 +47,19 @@ axis = 'on-axis'
 
 # smearing_arr = ['HYP0_APE_alpha=0.5',
 #                'HYP1_alpha=1_1_0.5_APE_alpha=0.5', 'HYP2_alpha=1_1_0.5_APE_alpha=0.5']
-#smearing_arr = ['HYP0_alpha=1_1_0.5_APE_alpha=0.5', 'HYP1_alpha=1_1_0.5_APE_alpha=0.5']
-smearing_arr = ['HYP1_alpha=1_1_0.5_APE_alpha=0.5']
+smearing_arr = ['HYP0_alpha=1_1_0.5_APE_alpha=0.5', 'HYP1_alpha=1_1_0.5_APE_alpha=0.5']
+#smearing_arr = ['HYP1_alpha=1_1_0.5_APE_alpha=0.5']
 #smearing_arr = ['unsmeared']
 
 number_of_jobs = 200
 
 arch = "rrcmpi-a"
-#beta_arr = ['beta2.8']
-beta_arr = ['/']
-#mu_arr = ['/']
-mu_arr = ['mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
+beta_arr = ['beta6.0']
+#beta_arr = ['/']
+mu_arr = ['/']
+#mu_arr = ['mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
 #mu_arr = ['mu0.00']
-conf_size_arr = ['40^4']
+conf_size_arr = ['24^4']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,

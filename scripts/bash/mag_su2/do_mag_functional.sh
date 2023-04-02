@@ -11,6 +11,10 @@ fi
 
 path_conf="${conf_path_start}`printf %0${padding}d $i`${conf_path_end}"
 
+echo conf_path_start ${conf_path_start}
+echo conf_path_end ${conf_path_end}
+echo path_conf ${path_conf}
+
 if [ -f ${path_conf} ] && [ -s ${path_conf} ] ; then
 
 mkdir -p "${path_functional_output}"

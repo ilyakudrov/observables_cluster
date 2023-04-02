@@ -31,7 +31,7 @@ iter_arrays = [beta_arr, mu_arr, conf_size_arr,
                additional_parameters_arr]
 for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays):
     f = open(
-        f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_original.json')
+        f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_mag.json')
     data = json.load(f)
     conf_format = data['conf_format']
     bytes_skip = data['bytes_skip']
@@ -45,9 +45,9 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
 
     conf_path_start = conf_path_start + f'/{additional_parameters}'
 
-    # chains = {'/': [1, 50]}
+    #chains = {'/': [1, 1]}
     # chains = {'s0': [201, 201]}
-    # jobs = distribute_jobs(chains, number_of_jobs)
+    #jobs = distribute_jobs(chains, number_of_jobs)
     jobs = distribute_jobs(data['chains'], number_of_jobs)
 
     for job in jobs:
@@ -63,7 +63,7 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
         output_path_confs_gaugefixed = f'/home/clusters/rrcmpi/kudrov/Landau_U1/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}/{job[0]}'
         # qsub -q mem8gb -l nodes=1:ppn=4
         bashCommand = f'qsub -q long -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},matrix_type={matrix_type},conf_format={conf_format},bytes_skip={bytes_skip},'\
-            f'output_path_functional={output_path_functional},,output_path_confs_gaugefixed={output_path_confs_gaugefixed},'\
+            f'output_path_functional={output_path_functional},output_path_confs_gaugefixed={output_path_confs_gaugefixed},'\
             f'L_spat={L_spat},L_time={L_time},'\
             f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch}'\
             f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../../bash/Landau_gauge/do_Landau_U1_fixation.sh'
