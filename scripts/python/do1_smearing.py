@@ -45,21 +45,21 @@ number_of_jobs = 200
 
 arch = "rrcmpi-a"
 
-beta_arr = ['beta6.3']
+beta_arr = ['beta6.2']
 #beta_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.20', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
 #mu_arr = ['mu0.40']
 mu_arr = ['/']
-conf_size_arr = ['36^4']
+conf_size_arr = ['32^3x64']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
 #conf_size_arr = ['nt16', 'nt18']
 #additional_parameters_arr = ['steps_25/copies=4']
 #additional_parameters_arr = ['T_step=0.0002']
 #additional_parameters_arr = ['steps_2000/copies=1', 'steps_330/copies=1']
-#additional_parameters_arr = ['steps_500/copies=1']
-additional_parameters_arr = ['steps_25/copies=4', 'steps_50/copies=4', 
-                             'steps_100/copies=4', 'steps_200/copies=4', 
-                             'steps_1000/copies=4', 'steps_2000/copies=4']
+additional_parameters_arr = ['steps_500/copies=3']
+#additional_parameters_arr = ['steps_25/copies=4', 'steps_50/copies=4', 
+#                             'steps_100/copies=4', 'steps_200/copies=4', 
+#                             'steps_1000/copies=4', 'steps_2000/copies=4']
 #additional_parameters_arr = ['/']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
@@ -202,7 +202,7 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
         # 8gb for 48^4 su2
         # 8gb for nt6 and bigger
         # 16gb for nt10 and bigger
-        bashCommand = f'qsub -q mem8gb -l nodes=1:ppn=4 -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\
+        bashCommand = f'qsub -q mem16gb -l nodes=1:ppn=8 -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\
             f'conf_format_plaket={conf_format_plaket},bytes_skip_plaket={bytes_skip_plaket},convert_wilson={convert_wilson},'\
             f'conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
             f'conf_format_wilson={conf_format_wilson},bytes_skip_wilson={bytes_skip_wilson},convert_plaket={convert_plaket},'\
