@@ -20,6 +20,10 @@ echo path_conf_monopoless1 $path_conf_monopoless1
 
 if [ -f ${path_conf} ] && [ -s ${path_conf} ] && [ -f ${path_inverse_laplacian} ] && [ -s ${path_inverse_laplacian} ]; then
 
+if { [ ! -f ${path_conf_monopole1} ] || [ ! -f ${path_conf_monopoless1} ]; } && [  ${calculate_absent} ] ; then
+
+echo ok
+
 mkdir -p ${path_conf_monopole}
 mkdir -p ${path_conf_monopoless}
 
@@ -28,6 +32,8 @@ parameters="-conf_format ${conf_format} -path_conf $path_conf -conf_format ${con
     -x_size ${L_spat} -y_size ${L_spat} -z_size ${L_spat} -t_size ${L_time} -parallel ${parallel} -compensate_dirac ${compensate}"
 
 /home/clusters/rrcmpi/kudrov/general_code/apps/monopole_decomposition_su3/decomposition_su3_${arch} $parameters
+
+fi
 
 fi
 

@@ -12,7 +12,7 @@ conf_size = "40^4"
 conf_type = "qc2dstag"
 theory_type = "su2"
 
-T_step = 0.001
+T_step = 0.1
 T_init = 2.5
 T_final = 0.5
 OR_steps = 4
@@ -20,7 +20,7 @@ thermalization_steps = 50
 tolerance_maximal = 1e-8
 tolerance_average = 1e-12
 tolerance_digits = 7
-gauge_copies = 3
+gauge_copies = 4
 
 is_new_trial = 1
 is_final = 0
@@ -36,7 +36,7 @@ fixation_type = 'new'
 #is_functional_save = 0
 #fixation_type = 'final'
 
-number_of_jobs = 600
+number_of_jobs = 500
 
 arch = "rrcmpi-a"
 
