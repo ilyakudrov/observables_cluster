@@ -9,25 +9,25 @@ from iterate_confs import distribute_jobs
 import subprocess
 
 #conf_type = "gluodynamics"
-#conf_type = "su2_suzuki"
+conf_type = "su2_suzuki"
 #conf_type = "qc2dstag"
-conf_type = "QCD/140MeV"
-theory_type = "su3"
+#conf_type = "QCD/140MeV"
+theory_type = "su2"
 
 arch = "rrcmpi"
 number_of_jobs = 100
 
-#beta_arr = ['beta6.3']
-beta_arr = ['/']
+beta_arr = ['beta2.6']
+#beta_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.20', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
 #mu_arr = ['mu0.40']
 mu_arr = ['/']
-# conf_size_arr = ['36^4']
-conf_size_arr = ['nt6', 'nt8', 'nt10', 'nt12', 'nt14']
+conf_size_arr = ['24^4']
+#conf_size_arr = ['nt6', 'nt8', 'nt10', 'nt12', 'nt14']
 #conf_size_arr = ['nt4']
 #additional_parameters_arr = ['steps_25/copies=4']
-#additional_parameters_arr = ['T_step=0.0002']
-additional_parameters_arr = ['steps_2000/copies=1', 'steps_330/copies=1']
+additional_parameters_arr = ['T_step=0.0001', 'T_step=0.001']
+#additional_parameters_arr = ['steps_2000/copies=1', 'steps_330/copies=1']
 #additional_parameters_arr = ['steps_500/copies=1']
 # additional_parameters_arr = ['steps_25/copies=4', 'steps_50/copies=4',
 #                              'steps_100/copies=4', 'steps_200/copies=4',

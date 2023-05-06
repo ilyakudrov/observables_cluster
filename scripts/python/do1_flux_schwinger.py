@@ -13,22 +13,23 @@ conf_type = "qc2dstag"
 theory_type = "su2"
 
 x_trans = 0
+d_ouside = 10
 
 arch = "rrcmpi-a"
-number_of_jobs = 500
+number_of_jobs = 200
 
-# smearing_arr = ['HYP0_alpha=1_1_0.5_APE_alpha=0.5', 'HYP1_alpha=1_1_0.5_APE_alpha=0.5',
-#                'HYP2_alpha=1_1_0.5_APE_alpha=0.5', 'HYP3_alpha=1_1_0.5_APE_alpha=0.5']
-smearing_arr = ['HYP0_alpha=1_1_0.5_APE_alpha=0.5',
-                'HYP1_alpha=1_1_0.5_APE_alpha=0.5',
-                'HYP3_alpha=1_1_0.5_APE_alpha=0.5']
+smearing_arr = ['HYP0_alpha=1_1_0.5_APE_alpha=0.5', 'HYP1_alpha=1_1_0.5_APE_alpha=0.5',
+                'HYP2_alpha=1_1_0.5_APE_alpha=0.5', 'HYP3_alpha=1_1_0.5_APE_alpha=0.5']
+#smearing_arr = ['HYP0_alpha=1_1_0.5_APE_alpha=0.5', 'HYP1_alpha=1_1_0.5_APE_alpha=0.5']
+#smearing_arr = ['original']
 decomposition_type_plaket_arr = ["original"]
 decomposition_type_wilson_arr = ["original"]
 beta_arr = ['/']
 #beta_arr = ['beta2.5']
 #mu_arr = ['mu0.00', 'mu0.20', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
 #mu_arr = ['/']
-mu_arr = ['mu0.00']
+mu_arr = ['mu0.00', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
+#mu_arr = ['mu0.00']
 conf_size_arr = ['40^4']
 additional_parameters_arr = ['/']
 
@@ -51,12 +52,20 @@ for beta, mu, conf_size, decomposition_type_plaket, decomposition_type_wilson, s
     L_spat = data_plaket['x_size']
     L_time = data_plaket['t_size']
 
-    R_min = 4
+    conf_path_start_plaket = f'/home/clusters/rrcmpi/kudrov/smearing/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{decomposition_type_wilson}/{smearing}/{additional_parameters}'
+    conf_name_plaket = 'smeared_'
+    conf_path_end_plaket = '/'
+    conf_format_plaket = 'double'
+    padding_plaket = 4
+    bytes_skip_plaket = 0
+    convert_plaket = 0
+
+    R_min = 6
     #R_max = L_spat / 2
-    R_max = 12
-    T_min = 4
+    R_max = 16
+    T_min = 6
     #T_max = L_time / 2
-    T_max = 12
+    T_max = 10
 
     f = open(
         f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_{decomposition_type_wilson}.json')
@@ -100,7 +109,7 @@ for beta, mu, conf_size, decomposition_type_plaket, decomposition_type_wilson, s
             f'bytes_skip_wilson={bytes_skip_wilson},matrix_type_plaket={matrix_type_plaket},matrix_type_wilson={matrix_type_wilson},'\
             f'conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
             f'padding_plaket={padding_plaket},padding_wilson={padding_wilson},convert_plaket={convert_plaket},convert_wilson={convert_wilson},'\
-            f'R_min={R_min},R_max={R_max},T_min={T_min},T_max={T_max},x_trans={x_trans},L_spat={L_spat},L_time={L_time},'\
+            f'R_min={R_min},R_max={R_max},T_min={T_min},T_max={T_max},x_trans={x_trans},d_ouside={d_ouside},L_spat={L_spat},L_time={L_time},'\
             f'output_path={output_path},chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch}'\
             f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../bash/do_flux_schwinger.sh'
         # print(bashCommand)

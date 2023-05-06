@@ -10,7 +10,8 @@ from iterate_confs import distribute_jobs
 
 # conf_type = "su2_suzuki"
 # conf_type = "qc2dstag"
-conf_type = "qc2dstag"
+#conf_type = "qc2dstag"
+conf_type = "QCD/140MeV"
 theory_type = "su3"
 
 number_of_jobs = 100
@@ -47,7 +48,7 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
 
     # conf_path_start = conf_path_start + f'/{additional_parameters}'
 
-    #chains = {'/': [1, 1]}
+    #chains = {'/': [501, 501]}
     # chains = {'s0': [201, 201]}
     #jobs = distribute_jobs(chains, number_of_jobs)
     jobs = distribute_jobs(data['chains'], number_of_jobs)
@@ -64,8 +65,8 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
             f'{additional_parameters}/{job[0]}'
         output_path_confs_gaugefixed = f'/home/clusters/rrcmpi/kudrov/Landau_SU3/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}/{job[0]}'
         # qsub -q mem8gb -l nodes=1:ppn=4
-        bashCommand = f'qsub -q long -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},matrix_type={matrix_type},conf_format={conf_format},bytes_skip={bytes_skip},'\
-            f'output_path_functional={output_path_functional},output_path_confs_gaugefixed={output_path_confs_gaugefixed},'\
+        bashCommand = f'qsub -q kepler -l nodes=1:ppn=8 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},matrix_type={matrix_type},conf_format={conf_format},bytes_skip={bytes_skip},'\
+            f'output_path_functional={output_path_functional},output_conf_path={output_path_confs_gaugefixed},'\
             f'L_spat={L_spat},L_time={L_time},'\
             f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch}'\
             f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../../bash/Landau_gauge/do_Landau_SU3.sh'

@@ -9,7 +9,14 @@ conf_path_end=""
 
 fi
 
-SA_steps=100
+if [[ ${conf_format} == "ildg" ]]; then
+conf_format="ILDG"
+fi
+if [[ ${conf_format} == "double_qc2dstag" ]]; then
+conf_format="QCDSTAG"
+fi
+
+SA_steps=20
 gaugecopies=2
 samax=4
 samin=1
@@ -20,10 +27,12 @@ echo ${path_conf}
 
 if [ -f ${path_conf} ] && [ -s ${path_conf} ] ; then
 
-if [ ! -f "${output_conf_path}/conf_Landau_gaugefixed_`printf %04d $i`${conf_path_end}" ] || [  ! ${calculate_absent} ] ; then
+#if [ ! -f "${output_conf_path}/conf_Landau_`printf %04d $i`${conf_path_end}" ] || [  ! ${calculate_absent} ] ; then
 
 mkdir -p ${output_conf_path}
 output_conf_path1="${output_conf_path}/conf_Landau_"
+
+echo conf_format ${conf_format}
 
 /home/clusters/rrcmpi/kudrov/SU3_MA_gauge_GPU/src/gaugefixing/apps/U1xU1GaugeFixingSU3_4D_DP_N${L_spat}T${L_time} --ftype ${conf_format} --fbasename "${conf_path_start}/${conf_name}" \
 	--fending "$conf_path_end" --reinterpret DOUBLE --fnumberformat ${padding}\
@@ -32,5 +41,5 @@ output_conf_path1="${output_conf_path}/conf_Landau_"
 
 fi
 
-fi
+#fi
 done

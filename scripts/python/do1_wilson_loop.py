@@ -13,9 +13,9 @@ conf_type = "gluodynamics"
 #conf_type = "QCD/140MeV"
 #conf_type = "qc2dstag"
 theory_type = "su3"
-#decomposition_type_arr = ["original"]
+decomposition_type_arr = ["original"]
 #decomposition_type_arr = ["abelian"]
-decomposition_type_arr = ["monopoless", "monopole", "photon", "offdiagonal", "abelian"]
+#decomposition_type_arr = ["monopoless", "monopole", "photon", "offdiagonal", "abelian"]
 #decomposition_type_arr = ["abelian"]
 #decomposition_type_arr = ["monopoless",
 #decomposition_type_arr = ["monopoless"]
@@ -27,10 +27,10 @@ calculate_absent = "false"
 representation="fundamental"
 
 compensate = 1
-#additional_parameters_arr = ['/']
-additional_parameters_arr = ['steps_25/copies=4', 'steps_50/copies=4',
-                             'steps_100/copies=4', 'steps_200/copies=4',
-                             'steps_1000/copies=4', 'steps_2000/copies=4']
+additional_parameters_arr = ['/']
+#additional_parameters_arr = ['steps_25/copies=4', 'steps_50/copies=4',
+#                             'steps_100/copies=4', 'steps_200/copies=4',
+#                             'steps_1000/copies=4', 'steps_2000/copies=4']
 #additional_parameters_arr = ['steps_500/copies=3']
 #additional_parameters_arr = ['steps_500/copies=3/compensate_1']
 #additional_parameters_arr = ['T_step=0.0002']
@@ -54,12 +54,12 @@ smearing_arr = ['HYP0_alpha=1_1_0.5_APE_alpha=0.5', 'HYP1_alpha=1_1_0.5_APE_alph
 number_of_jobs = 200
 
 arch = "rrcmpi-a"
-beta_arr = ['beta6.0']
+beta_arr = ['beta6.2']
 #beta_arr = ['/']
 mu_arr = ['/']
 #mu_arr = ['mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
 #mu_arr = ['mu0.00']
-conf_size_arr = ['24^4']
+conf_size_arr = ['32^3x64']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
@@ -115,7 +115,7 @@ for beta, mu, conf_size, additional_parameters, decomposition_type, smearing in 
         # 8gb for 48^4 su2
         # 8gb for nt6 and bigger
         # 16gb for nt10 and bigger
-        bashCommand = f'qsub -q mem8gb -l nodes=1:ppn=4 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
+        bashCommand = f'qsub -q mem16gb -l nodes=1:ppn=8 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
             f'conf_format={conf_format},bytes_skip={bytes_skip},path_wilson={path_wilson},convert={convert},'\
             f'padding={padding},calculate_absent={calculate_absent},representation={representation},'\
             f'L_spat={L_spat},L_time={L_time},T_min={T_min},T_max={T_max},R_min={R_min},R_max={R_max},'\

@@ -38,6 +38,7 @@ fixation_type = 'new'
 #fixation_type = 'final'
 
 number_of_jobs = 500
+number_of_jobs = 500
 
 arch = "rrcmpi-a"
 
