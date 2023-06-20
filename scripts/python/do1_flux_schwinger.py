@@ -14,6 +14,7 @@ theory_type = "su2"
 
 x_trans = 0
 d_ouside = 10
+d_max = 15
 
 arch = "rrcmpi-a"
 number_of_jobs = 200
@@ -60,12 +61,12 @@ for beta, mu, conf_size, decomposition_type_plaket, decomposition_type_wilson, s
     bytes_skip_plaket = 0
     convert_plaket = 0
 
-    R_min = 6
-    #R_max = L_spat / 2
-    R_max = 16
-    T_min = 6
-    #T_max = L_time / 2
-    T_max = 10
+    R_min = 4
+    R_max = L_spat / 2
+    #R_max = 16
+    T_min = 4
+    T_max = L_time / 2
+    #T_max = 10
 
     f = open(
         f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_{decomposition_type_wilson}.json')
@@ -109,7 +110,7 @@ for beta, mu, conf_size, decomposition_type_plaket, decomposition_type_wilson, s
             f'bytes_skip_wilson={bytes_skip_wilson},matrix_type_plaket={matrix_type_plaket},matrix_type_wilson={matrix_type_wilson},'\
             f'conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
             f'padding_plaket={padding_plaket},padding_wilson={padding_wilson},convert_plaket={convert_plaket},convert_wilson={convert_wilson},'\
-            f'R_min={R_min},R_max={R_max},T_min={T_min},T_max={T_max},x_trans={x_trans},d_ouside={d_ouside},L_spat={L_spat},L_time={L_time},'\
+            f'R_min={R_min},R_max={R_max},T_min={T_min},T_max={T_max},x_trans={x_trans},d_ouside={d_ouside},d_max={d_max},L_spat={L_spat},L_time={L_time},'\
             f'output_path={output_path},chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch}'\
             f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../bash/do_flux_schwinger.sh'
         # print(bashCommand)

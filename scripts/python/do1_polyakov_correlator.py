@@ -23,7 +23,8 @@ calculate_absent = "false"
 additional_parameters = '/'
 #additional_parameters = 'DP_steps_500/copies=3'
 
-correlator_type = 'color_average'
+#correlator_type = 'color_average'
+correlator_type = 'singlet'
 
 smearing = 'HYP2_alpha=1_1_0.5'
 D_max = 32

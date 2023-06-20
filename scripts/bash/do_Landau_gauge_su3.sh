@@ -16,8 +16,8 @@ if [[ ${conf_format} == "double_qc2dstag" ]]; then
 conf_format="QCDSTAG"
 fi
 
-SA_steps=20
-gaugecopies=2
+SA_steps=50
+gaugecopies=3
 samax=4
 samin=1
 seed=$(date +%s)

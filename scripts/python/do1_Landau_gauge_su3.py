@@ -13,21 +13,21 @@ conf_type = "gluodynamics"
 theory_type = "su3"
 
 calculate_absent = "false"
-number_of_jobs = 20
+number_of_jobs = 5
 
-beta_arr = ['beta6.2']
+beta_arr = ['beta6.3']
 #beta_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
 mu_arr = ['/']
 #conf_size_arr = ['nt6', 'nt8', 'nt10', 'nt12', 'nt14']
 #additional_parameters_arr = ['steps_2000/copies=1', 'steps_330/copies=1']
 #conf_size_arr = ['nt6', 'nt8', 'nt10', 'nt12', 'nt14']
+conf_size_arr = ['36^4']
 #conf_size_arr = ['32^3x64']
-conf_size_arr = ['32^3x64']
 #conf_size_arr = ['nt16', 'nt18', 'nt20']
-#additional_parameters_arr = ['steps_25/copies=4', 'steps_50/copies=4', 'steps_100/copies=4',
-#                             'steps_200/copies=4','steps_1000/copies=4','steps_2000/copies=4']
-additional_parameters_arr = ['steps_500/copies=3']
+additional_parameters_arr = ['steps_25/copies=4', 'steps_50/copies=4', 'steps_100/copies=4',
+                             'steps_200/copies=4', 'steps_500/copies=4', 'steps_1000/copies=4','steps_2000/copies=4']
+#additional_parameters_arr = ['steps_25/copies=4']
 #additional_parameters_arr = ['steps_25/copies=4', 'steps_50/copies=4',
 #                             'steps_100/copies=4', 'steps_200/copies=4',
 #                             'steps_1000/copies=4', 'steps_2000/copies=4']
@@ -61,13 +61,12 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
     #padding = 4
     #conf_name = "conf_gaugefixed_"
 
-    #chains = {'/': [1, 1]}
+    #chains = {'/': [1, 2]}
     #chains = {'s0': [201, 250]}
     #jobs = distribute_jobs(chains, number_of_jobs)
     jobs = distribute_jobs(data['chains'], number_of_jobs)
 
     for job in jobs:
-
         log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/Landau_gauge_U1xU1/{conf_type}/{conf_size}/{beta}/{mu}/'\
             f'{additional_parameters}/{job[0]}'
         try:

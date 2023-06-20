@@ -8,12 +8,11 @@ sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
 
-conf_size = "40^4"
-#conf_type = "su2_suzuki"
-conf_type = "qc2dstag"
+conf_type = "su2_suzuki"
+#conf_type = "qc2dstag"
 theory_type = "su2"
 
-steps_arr = [0.1, 0.2]
+steps_arr = [0.1, 0.05, 0.025, 0.0125, 0.006]
 T_init = 2.5
 T_final = 0.5
 OR_steps = 4
@@ -37,17 +36,18 @@ fixation_type = 'new'
 #is_functional_save = 0
 #fixation_type = 'final'
 
-number_of_jobs = 500
-number_of_jobs = 500
+number_of_jobs = 50
 
-arch = "rrcmpi-a"
+arch = "rrcmpi"
 
-conf_size_arr = ['40^4']
-beta_arr = ['/']
-mu_arr = ['mu0.00', 'mu0.30', 'mu0.35', 'mu0.45']
+conf_size_arr = ['24^4']
+#beta_arr = ['/']
+beta_arr = ['beta2.6']
+#mu_arr = ['mu0.00', 'mu0.30', 'mu0.35', 'mu0.45']
+mu_arr = ['/']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr, steps_arr]
-for beta, mu, conf_size, T_steps in itertools.product(*iter_arrays):
+for beta, mu, conf_size, T_step in itertools.product(*iter_arrays):
     f = open(
         f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_original.json')
     data = json.load(f)
@@ -60,7 +60,8 @@ for beta, mu, conf_size, T_steps in itertools.product(*iter_arrays):
     conf_path_end = data['conf_path_end']
     padding = data['padding']
     conf_name = data['conf_name']
-    #chains = {'/': [1, 50]}
+
+    #chains = {'/': [201, 201]}
     #chains = {'s0': [201, 201]}
     #jobs = distribute_jobs(chains, number_of_jobs)
     jobs = distribute_jobs(data['chains'], number_of_jobs)
