@@ -25,6 +25,8 @@ decomposition_type_arr = ["original"]
 calculate_absent = 1
 #representation="adjoint"
 representation="fundamental"
+APE_steps=2
+alpha=1
 
 #additional_parameters_arr = ['/']
 #additional_parameters_arr = ['steps_25/copies=4', 'steps_50/copies=4',
@@ -54,8 +56,6 @@ axis = 'on-axis'
 #                             'steps_500/copies=4', 'steps_0/copies=1',
 #                             'steps_2/copies=1', 'steps_10/copies=1']
 additional_parameters_arr = ['/']
-#smearing_arr = ['HYP0_APE_alpha=0.5']
-smearing_arr = ['unsmeared']
 
 number_of_jobs = 1
 
@@ -69,8 +69,8 @@ conf_size_arr = ['32^3x8']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
-               additional_parameters_arr, decomposition_type_arr, smearing_arr]
-for beta, mu, conf_size, additional_parameters, decomposition_type, smearing in itertools.product(*iter_arrays):
+               additional_parameters_arr, decomposition_type_arr]
+for beta, mu, conf_size, additional_parameters, decomposition_type in itertools.product(*iter_arrays):
     f = open(
         f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_{decomposition_type}.json')
     data = json.load(f)
@@ -91,31 +91,22 @@ for beta, mu, conf_size, additional_parameters, decomposition_type, smearing in 
 
     #conf_path_start = conf_path_start + f'/{additional_parameters}'
 
-    if smearing != 'unsmeared':
-        conf_path_start = f'/home/clusters/rrcmpi/kudrov/smearing/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{decomposition_type}/{smearing}/{additional_parameters}'
-        conf_name = 'smeared_'
-        conf_path_end = '/'
-        conf_format = 'double'
-        padding = 4
-        bytes_skip = 0
-        convert = 0
-
-    # chains = {'s0': [1, 1]}
+    chains = {'s0': [1, 1]}
     #chains = {'s5': [1, 500], 's6': [1, 500]}
-    # jobs = distribute_jobs(chains, number_of_jobs)
-    jobs = distribute_jobs(data['chains'], number_of_jobs)
+    jobs = distribute_jobs(chains, number_of_jobs)
+    #jobs = distribute_jobs(data['chains'], number_of_jobs)
     for job in jobs:
         # log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/smearing/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
         #     f'T_step={T_step}/T_final={T_final}/OR_steps={OR_steps}/{smearing_str}/{job[0]}'
-        log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/wilson_loop/{representation}/{axis}/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
-            f'{decomposition_type}/{smearing}/{additional_parameters}/{job[0]}'
+        log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/wilson_loop_spatial/{representation}/{axis}/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
+            f'{decomposition_type}/{additional_parameters}/{job[0]}'
         conf_path_start1 = f'{conf_path_start}/{job[0]}/{conf_name}'
         try:
             os.makedirs(log_path)
         except:
             pass
-        path_wilson = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/wilson_loop/{representation}/{axis}/{theory_type}/'\
-            f'{conf_type}/{conf_size}/{beta}/{mu}/{decomposition_type}/{smearing}/{additional_parameters}/{job[0]}'
+        path_wilson = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/wilson_loop_spatial/{representation}/{axis}/{theory_type}/'\
+            f'{conf_type}/{conf_size}/{beta}/{mu}/{decomposition_type}/{additional_parameters}/{job[0]}'
         # qsub -q mem8gb -l nodes=1:ppn=4
         # qsub -q long
         # 4gb for 48^4 monopole
@@ -124,10 +115,10 @@ for beta, mu, conf_size, additional_parameters, decomposition_type, smearing in 
         # 16gb for nt10 and bigger
         bashCommand = f'qsub -q mem16gb -l nodes=1:ppn=8 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
             f'conf_format={conf_format},bytes_skip={bytes_skip},path_wilson={path_wilson},convert={convert},'\
-            f'padding={padding},calculate_absent={calculate_absent},representation={representation},'\
+            f'padding={padding},calculate_absent={calculate_absent},representation={representation},APE_steps={APE_steps},alpha={alpha},'\
             f'L_spat={L_spat},L_time={L_time},T_min={T_min},T_max={T_max},R_min={R_min},R_max={R_max},'\
             f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch},matrix_type={matrix_type}'\
-            f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../bash/do_wilson_loop.sh'
+            f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../../bash/do_wilson_loop_spatial.sh'
         # print(bashCommand)
         process = subprocess.Popen(bashCommand.split())
         output, error = process.communicate()
