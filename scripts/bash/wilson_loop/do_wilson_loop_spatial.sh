@@ -26,7 +26,7 @@ parameters="-conf_format ${conf_format} -conf_path ${conf_path1} -bytes_skip ${b
     -path_wilson ${path_wilson}/wilson_loop_`printf %04d $i`\
     -T_min ${T_min} -T_max ${T_max} -R_min ${R_min} -R_max ${R_max}"
 
-/home/clusters/rrcmpi/kudrov/general_code/apps/observables/wilson_loops/wilson_loops_spatial_${matrix_type}_${arch} $parameters
+/home/clusters/rrcmpi/kudrov/general_code/apps/observables/wilson_loops_spatial/wilson_loops_spatial_${matrix_type}_${arch} $parameters
 
 fi
 fi

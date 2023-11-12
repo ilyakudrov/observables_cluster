@@ -5,7 +5,7 @@ import os
 import itertools
 
 sys.path.append(os.path.join(os.path.dirname(
-    os.path.abspath(__file__)), "..", "..", "lib", "src", "python"))
+    os.path.abspath(__file__)), "..", "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
 
 #conf_type = "su2_suzuki"
@@ -57,7 +57,7 @@ axis = 'on-axis'
 #                             'steps_2/copies=1', 'steps_10/copies=1']
 additional_parameters_arr = ['/']
 
-number_of_jobs = 1
+number_of_jobs = 500
 
 arch = "rrcmpi-a"
 beta_arr = ['beta2.542']
@@ -85,16 +85,16 @@ for beta, mu, conf_size, additional_parameters, decomposition_type in itertools.
     L_spat = data['x_size']
     L_time = data['t_size']
     T_min = 1
-    T_max = L_time // 2
+    T_max = L_spat // 2
     R_min = 1
     R_max = L_spat // 2
 
     #conf_path_start = conf_path_start + f'/{additional_parameters}'
 
-    chains = {'s0': [1, 1]}
+    #chains = {'s0': [1, 1]}
     #chains = {'s5': [1, 500], 's6': [1, 500]}
-    jobs = distribute_jobs(chains, number_of_jobs)
-    #jobs = distribute_jobs(data['chains'], number_of_jobs)
+    #jobs = distribute_jobs(chains, number_of_jobs)
+    jobs = distribute_jobs(data['chains'], number_of_jobs)
     for job in jobs:
         # log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/smearing/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
         #     f'T_step={T_step}/T_final={T_final}/OR_steps={OR_steps}/{smearing_str}/{job[0]}'
@@ -113,12 +113,12 @@ for beta, mu, conf_size, additional_parameters, decomposition_type in itertools.
         # 8gb for 48^4 su2
         # 8gb for nt6 and bigger
         # 16gb for nt10 and bigger
-        bashCommand = f'qsub -q mem16gb -l nodes=1:ppn=8 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
+        bashCommand = f'qsub -q mem4gb -l nodes=1:ppn=2 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
             f'conf_format={conf_format},bytes_skip={bytes_skip},path_wilson={path_wilson},convert={convert},'\
             f'padding={padding},calculate_absent={calculate_absent},representation={representation},APE_steps={APE_steps},alpha={alpha},'\
             f'L_spat={L_spat},L_time={L_time},T_min={T_min},T_max={T_max},R_min={R_min},R_max={R_max},'\
             f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch},matrix_type={matrix_type}'\
-            f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../../bash/do_wilson_loop_spatial.sh'
+            f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../../bash/wilson_loop/do_wilson_loop_spatial.sh'
         # print(bashCommand)
         process = subprocess.Popen(bashCommand.split())
         output, error = process.communicate()
