@@ -8,23 +8,25 @@ sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
 
-conf_type = "su2_suzuki"
+#conf_type = "su2_suzuki"
+conf_type = "gluodynamics"
 # conf_type = "qc2dstag"
 theory_type = "su2"
 
-number_of_jobs = 100
+number_of_jobs = 500
 
 arch = "rrcmpi-a"
 
 # additional_parameters_arr = ['/']
-additional_parameters_arr = ['T_step=0.0001']
+additional_parameters_arr = ['T_step=0.001']
 
-beta_arr = ['beta2.5']
+beta_arr = ['beta2.478']
+
 # beta_arr = ['/']
 mu_arr = ['/']
 # mu_arr = ['mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
 # mu_arr = ['mu0.00']
-conf_size_arr = ['24^4']
+conf_size_arr = ['32^3x8']
 # conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,

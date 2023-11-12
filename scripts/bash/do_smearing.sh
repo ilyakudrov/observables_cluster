@@ -37,7 +37,7 @@ if [ ${save_conf} -eq 1 ] ; then
 mkdir -p ${conf_path_output}
 fi
 
-#if [ ! -f "${path_wilson}/wilson_loop_`printf %04d $i`" ] || [  ! ${calculate_absent} ] ; then
+if [[ ! "${conf_path_output}/smeared_`printf %04d $i`" ]] || [ ! $calculate_absent -eq 0 ] ; then
 
 #-conf_format_plaket ${conf_format_plaket1} -conf_path_plaket ${conf_path_plaket1} -bytes_skip_plaket ${bytes_skip_plaket1}\
 
@@ -53,7 +53,7 @@ parameters="-conf_format_wilson ${conf_format_wilson} -conf_path_wilson ${conf_p
 
 /home/clusters/rrcmpi/kudrov/general_code/apps/smearing/smearing_${matrix_type_wilson}_${matrix_type_plaket}_${arch} $parameters
 
-#fi
+fi
 fi
 fi
 

@@ -8,42 +8,46 @@ sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
 
-conf_type = "su2_suzuki"
+#conf_type = "su2_suzuki"
 #conf_type = "qc2dstag"
+conf_type = "gluodynamics"
 theory_type = "su2"
 
-steps_arr = [0.1, 0.05, 0.025, 0.0125, 0.006]
-T_init = 2.5
-T_final = 0.5
+#steps_arr = [0.00125, 0.0025, 0.00375, 0.00625, 0.01]
+#steps_arr = [0.006, 0.0125, 0.025, 0.05, 0.1]
+steps_arr = [0.001]
+T_init = 2
+T_final = 0.7
 OR_steps = 4
-thermalization_steps = 50
+thermalization_steps = 20
 tolerance_maximal = 1e-8
 tolerance_average = 1e-12
 tolerance_digits = 7
-gauge_copies = 4
+gauge_copies = 1
 
-is_new_trial = 1
-is_final = 0
-is_compare = 1
-is_compare_spins = 1
-is_functional_save = 1
-fixation_type = 'new'
+#is_new_trial = 1
+#is_final = 0
+#is_compare = 1
+#is_compare_spins = 1
+#is_functional_save = 1
+#fixation_type = 'new'
 
-#is_new_trial = 0
-#is_final = 1
-#is_compare = 0
-#is_compare_spins = 0
-#is_functional_save = 0
-#fixation_type = 'final'
+is_new_trial = 0
+is_final = 1
+is_compare = 0
+is_compare_spins = 0
+is_functional_save = 0
+fixation_type = 'final'
 
-number_of_jobs = 50
+number_of_jobs = 1000
 
-arch = "rrcmpi"
+arch = "rrcmpi-a"
 
-conf_size_arr = ['24^4']
+conf_size_arr = ['32^3x8']
 #beta_arr = ['/']
-beta_arr = ['beta2.6']
+beta_arr = ['beta2.542']
 #mu_arr = ['mu0.00', 'mu0.30', 'mu0.35', 'mu0.45']
+#mu_arr = ['mu0.45']
 mu_arr = ['/']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr, steps_arr]

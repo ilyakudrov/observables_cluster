@@ -12,19 +12,21 @@ from iterate_confs import distribute_jobs
 conf_type = "gluodynamics"
 #conf_type = "QCD/140MeV"
 #conf_type = "qc2dstag"
-theory_type = "su3"
-#wilson_type_array = ["monopoless", "photon",
-#                     "offdiagonal", "monopole", "abelian"]
-#wilson_type_array = ['original']
-wilson_type_array = ['abelian']
+theory_type = "su2"
+#wilson_type_array = ['monopole', 'original']
+#wilson_type_array = ['monopoless', 'monopole']
+wilson_type_array = ['original']
+#wilson_type_array = ['abelian']
+#wilson_type_array = ['mag', 'mag_Landau']
 #wilson_type_array = ['monopoless']
 #wilson_type_array = ["", "offdiagonal"]
 plaket_type = 'original'
 
-calculate_absent = "false"
+#calculate_absent = "true"
+calculate_absent = 1
 
 APE_enabled = 1
-HYP_enabled = 1
+HYP_enabled = 0
 #HYP_alpha1 = "0.75"
 #HYP_alpha2 = "0.6"
 #HYP_alpha3 = "0.3"
@@ -32,7 +34,7 @@ HYP_alpha1 = "1"
 HYP_alpha2 = "1"
 HYP_alpha3 = "0.5"
 APE_alpha = "0.5"
-APE_steps = "200"
+APE_steps = "300"
 HYP_steps_array = ['0']
 calculation_step_APE = 100
 calculation_APE_start = 700
@@ -41,26 +43,40 @@ wilson_enabled = 0
 flux_enabled = 0
 save_conf = 1
 
-number_of_jobs = 100
+number_of_jobs = 500
 
 arch = "rrcmpi-a"
 
-beta_arr = ['beta6.3']
+beta_arr = ['beta2.542']
 #beta_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.20', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
-#mu_arr = ['mu0.40']
+#mu_arr = ['mu0.10']
 mu_arr = ['/']
-conf_size_arr = ['36^4']
+conf_size_arr = ['32^3x8']
+#conf_size_arr = ['32^3x64']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
 #conf_size_arr = ['nt16', 'nt18']
-#additional_parameters_arr = ['steps_25/copies=4']
-#additional_parameters_arr = ['T_step=0.0002']
+#additional_parameters_arr = ['T_step=0.001']
+#additional_parameters_arr = ['T_step=0.0001', 'T_step=0.0002', 'T_step=0.0004' 'T_step=0.0005', 
+#				'T_step=0.0008', 'T_step=0.001', 'T_step=0.0015', 'T_step=0.002',
+#				'T_step=0.004', 'T_step=0.006', 'T_step=0.008', 'T_step=0.01', 'T_step=0.0125',
+#				'T_step=0.025', 'T_step=0.05', 'T_step=0.1', 'T_step=5e-05']
+#additional_parameters_arr = ['T_step=0.0001', 'T_step=0.006', 'T_step=0.001', 'T_step=0.0125',
+#				'T_step=0.025', 'T_step=0.05', 'T_step=0.1']
+#additional_parameters_arr = ['T_step=0.0001', 'T_step=0.0006', 'T_step=0.001', 'T_step=0.00125',
+#                               'T_step=0.0025', 'T_step=0.00375', 'T_step=0.00625', 'T_step=0.01']
+#additional_parameters_arr = ['T_step=0.0001', 'T_step=0.0004', 'T_step=0.0008', 'T_step=0.0015', 'T_step=0.004',
+#				'T_step=0.008', 'T_step=0.0125', 'T_step=0.05', 'T_step=5e-05',
+#				'T_step=0.0002', 'T_step=0.0005', 'T_step=0.001', 'T_step=0.002', 
+#				'T_step=0.006', 'T_step=0.01', 'T_step=0.025', 'T_step=0.1']
 #additional_parameters_arr = ['steps_2000/copies=1', 'steps_330/copies=1']
-#additional_parameters_arr = ['steps_25/copies=4']
-additional_parameters_arr = ['steps_25/copies=4', 'steps_50/copies=4', 
-                             'steps_100/copies=4', 'steps_200/copies=4', 
-                             'steps_500/copies=4', 'steps_1000/copies=4', 'steps_2000/copies=4']
-#additional_parameters_arr = ['/']
+#additional_parameters_arr = ['steps_500/copies=1']
+#additional_parameters_arr = ['steps_25/copies=4', 'steps_100/copies=2', 'steps_100/copies=1',
+#                             'steps_50/copies=4', 'steps_50/copies=2',
+#                             'steps_100/copies=4', 'steps_200/copies=4', 
+#                             'steps_500/copies=4', 'steps_0/copies=1', 
+#                             'steps_2/copies=1', 'steps_10/copies=1']
+additional_parameters_arr = ['/']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
                additional_parameters_arr, wilson_type_array, HYP_steps_array]
@@ -173,8 +189,8 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
     if APE_enabled == 0:
         smearing_str = f'HYP{HYP_steps}_alpha={HYP_alpha1}_{HYP_alpha2}_{HYP_alpha3}'
 
-    #chains = {'/': [1, 2]}
-    #chains = {'s0': [201, 201]}
+    #chains = {'/': [1, 1]}
+    #chains = {'s5': [1, 450], 's6': [1, 450]}
     #jobs = distribute_jobs(chains, number_of_jobs)
     jobs = distribute_jobs(data['chains'], number_of_jobs)
 
@@ -203,7 +219,7 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
         # 8gb for 48^4 su2
         # 8gb for nt6 and bigger
         # 16gb for nt10 and bigger
-        bashCommand = f'qsub -q mem8gb -l nodes=1:ppn=4 -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\
+        bashCommand = f'qsub -q long -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\
             f'conf_format_plaket={conf_format_plaket},bytes_skip_plaket={bytes_skip_plaket},convert_wilson={convert_wilson},'\
             f'conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
             f'conf_format_wilson={conf_format_wilson},bytes_skip_wilson={bytes_skip_wilson},convert_plaket={convert_plaket},'\

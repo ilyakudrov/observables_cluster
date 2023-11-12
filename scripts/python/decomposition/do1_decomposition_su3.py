@@ -8,29 +8,30 @@ sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
 
-conf_type = "gluodynamics"
-#conf_type = "QCD/140MeV"
+#conf_type = "gluodynamics"
+conf_type = "QCD/140MeV"
 theory_type = "su3"
 
-calculate_absent="false"
 compensate = 1
+calculate_absent="false"
 parallel = 1
-#additional_parameters_arr = ['steps_25/copies=4', 'steps_50/copies=4', 
-#                             'steps_100/copies=4', 'steps_200/copies=4', 
-#                            'steps_1000/copies=4', 'steps_2000/copies=4']
-#additional_parameters_arr = ['steps_25/copies=4']
-additional_parameters_arr = ['steps_500/copies=3']
+#additional_parameters_arr = ['steps_0/copies=1', 'steps_2/copies=1', 
+#                             'steps_10/copies=1', 'steps_25/copies=4', 
+#                             'steps_50/copies=4', 'steps_100/copies=4', 
+#                             'steps_200/copies=4', 'steps_500/copies=4']
+additional_parameters_arr = ['steps_500/copies=1']
 
-number_of_jobs = 200
+number_of_jobs = 100
 
 arch = "rrcmpi-a"
-#beta_arr = ['/']
-beta_arr = ['beta6.2']
+beta_arr = ['/']
+#beta_arr = ['beta6.3']
 mu_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
 #conf_size_arr = ['nt16', 'nt18', 'nt20']
-conf_size_arr = ['32^3x64']
+#conf_size_arr = ['32^3x64']
+conf_size_arr = ['nt18']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
                additional_parameters_arr]
@@ -65,7 +66,7 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
 
     for job in jobs:
 
-        log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/decomposition_su3/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
+        log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/decomposition/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
             f'{additional_parameters}/{job[0]}'
         conf_path_start1 = f'{conf_path_start}/{job[0]}/{conf_name}'
         try:

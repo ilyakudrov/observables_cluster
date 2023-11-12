@@ -17,7 +17,7 @@ if [ -f ${conf_path1} ] && [ -s ${conf_path1} ]; then
 
 mkdir -p ${path_wilson}
 
-#if [ ! -f "${path_wilson}/wilson_loop_`printf %04d $i`" ] || [  ! ${calculate_absent} ] ; then
+if [[ ! -f "${path_wilson}/wilson_loop_`printf %04d $i`" ]] || [ ! $calculate_absent -eq 0 ] ; then
 
 #-conf_format_plaket ${conf_format_plaket1} -conf_path_plaket ${conf_path_plaket1} -bytes_skip_plaket ${bytes_skip_plaket1}\
 
@@ -28,7 +28,7 @@ parameters="-conf_format ${conf_format} -conf_path ${conf_path1} -bytes_skip ${b
 
 /home/clusters/rrcmpi/kudrov/general_code/apps/observables/wilson_loops/wilson_loops_${matrix_type}_${arch} $parameters
 
-#fi
+fi
 fi
 
 done

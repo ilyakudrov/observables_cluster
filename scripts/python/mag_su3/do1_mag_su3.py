@@ -14,22 +14,24 @@ conf_type = "gluodynamics"
 #conf_type = "qc2dstag"
 theory_type = "su3"
 
-calculate_absent = "false"
+calculate_absent = 0
 
 copies = 4
 
 tolerance = '1e-13'
+#doSA = 0
 
-number_of_jobs = 20
+number_of_jobs = 1
 
-beta_arr = ['beta6.3']
+beta_arr = ['beta6.0']
 #beta_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
 mu_arr = ['/']
 #conf_size_arr = ['nt16', 'nt18', 'nt20']
-conf_size_arr = ['36^4']
-steps_arr = [25, 50, 100, 200, 500, 1000, 2000]
-#steps_arr = [100]
+conf_size_arr = ['24^4']
+#steps_arr = [25, 50, 100, 200, 500, 1000, 2000]
+steps_arr = [1000]
+#steps_arr = [0, 2, 10]
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr, steps_arr]
 for beta, mu, conf_size, steps in itertools.product(*iter_arrays):
@@ -47,6 +49,11 @@ for beta, mu, conf_size, steps in itertools.product(*iter_arrays):
     L_spat = data['x_size']
     L_time = data['t_size']
 
+    if steps == 0:
+        doSA = 0
+    else:
+        doSA = 1
+
     #conf_path_start = f'/home/clusters/rrcmpi/kudrov/mag_su3/conf_gaugefixed/{conf_type}/{conf_size}/{additional_parameters}'
     #padding = 4
     #conf_name = 'CONFDP_gaugefixed_'
@@ -56,10 +63,10 @@ for beta, mu, conf_size, steps in itertools.product(*iter_arrays):
     #conf_name = 'conf.SP_gaugefixed_'
     #conf_path_end = '.ildg'
 
-    #chains = {'/': [1211, 5000]}
+    chains = {'/': [4770, 4770]}
     #chains = {'s0': [201, 250]}
-    #jobs = distribute_jobs(chains, number_of_jobs)
-    jobs = distribute_jobs(data['chains'], number_of_jobs)
+    jobs = distribute_jobs(chains, number_of_jobs)
+    #jobs = distribute_jobs(data['chains'], number_of_jobs)
 
     for job in jobs:
         log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/mag_su3/conf_gaugefixed/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
@@ -78,7 +85,7 @@ for beta, mu, conf_size, steps in itertools.product(*iter_arrays):
         bashCommand = f'qsub -q kepler -l nodes=1:ppn=8 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
             f'conf_format={conf_format},bytes_skip={bytes_skip},tolerance={tolerance},conf_path_output={conf_path_output},'\
             f'padding={padding},calculate_absent={calculate_absent},functional_path_output={functional_path_output},'\
-            f'L_spat={L_spat},L_time={L_time},steps={steps},copies={copies},'\
+            f'L_spat={L_spat},L_time={L_time},steps={steps},copies={copies},doSA={doSA},'\
             f'chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\
             f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../../bash/mag_su3/do_mag_su3.sh'
         # print(bashCommand)
