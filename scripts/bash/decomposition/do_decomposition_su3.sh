@@ -9,9 +9,28 @@ conf_path_end=""
 
 fi
 
+if [[ ${gauge_copies} == 0 ]]; then
+starting_copy=0
+else
+starting_copy=1
+fi
+
+for((copy=${starting_copy};copy<=${gauge_copies};copy++))
+do
+
 path_conf="${conf_path_start}`printf %0${padding}d $i`${conf_path_end}"
 path_conf_monopole1="${path_conf_monopole}/conf_monopole_`printf %04d $i`"
 path_conf_monopoless1="${path_conf_monopoless}/conf_monopoless_`printf %04d $i`"
+
+if [[ ${copy} == 0 ]]; then
+path_conf="${path_conf}"
+path_conf_monopole1="${path_conf_monopole1}"
+path_conf_monopoless1="${path_conf_monopoless1}"
+else
+path_conf="${path_conf}_${copy}"
+path_conf_monopole1="${path_conf_monopole1}_${copy}"
+path_conf_monopoless1="${path_conf_monopoless1}_${copy}"
+fi
 
 echo path_conf $path_conf
 echo path_inverse_laplacian ${path_inverse_laplacian}
@@ -32,4 +51,5 @@ parameters="-conf_format ${conf_format} -path_conf $path_conf -conf_format ${con
 
 fi
 
+done
 done

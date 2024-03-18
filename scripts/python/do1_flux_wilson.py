@@ -8,26 +8,26 @@ sys.path.append(os.path.join(os.path.dirname(
 from iterate_confs import distribute_jobs
 
 #conf_type = "su2_suzuki"
-#conf_type = "qc2dstag"
-conf_type = "gluodynamics"
-theory_type = "su3"
+conf_type = "qc2dstag"
+#conf_type = "gluodynamics"
+theory_type = "su2"
 
 x_trans = 0
 
 arch="rrcmpi-a"
-number_of_jobs = 200
+number_of_jobs = 100
 
 #smearing_arr = ['HYP0_alpha=1_1_0.5_APE_alpha=0.5', 'HYP1_alpha=1_1_0.5_APE_alpha=0.5', 
 #                'HYP2_alpha=1_1_0.5_APE_alpha=0.5', 'HYP3_alpha=1_1_0.5_APE_alpha=0.5']
-smearing_arr = ['HYP0_alpha=1_1_0.5_APE_alpha=0.5', 'HYP1_alpha=1_1_0.5_APE_alpha=0.5']
-decomposition_type_plaket_arr = ["original"]
-decomposition_type_wilson_arr = ["original"]
+smearing_arr = ['HYP0_APE_alpha=0.5']
+decomposition_type_plaket_arr = ["original", "monopole", "monopoless", "abelian"]
+decomposition_type_wilson_arr = ["original", "monopole", "monopoless", "abelian"]
 beta_arr = ['/']
-beta_arr = ['beta6.2']
+#beta_arr = ['beta6.2']
 #mu_arr = ['mu0.00', 'mu0.20', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
-mu_arr = ['/']
-#mu_arr = ['mu0.40']
-conf_size_arr = ['32^4']
+#mu_arr = ['/']
+mu_arr = ['mu0.00', 'mu0.20']
+conf_size_arr = ['40^4']
 additional_parameters_arr = ['/']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
@@ -94,7 +94,7 @@ for beta, mu, conf_size, decomposition_type_plaket, decomposition_type_wilson, s
         output_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/flux_tube_wilson/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{decomposition_type_plaket}-{decomposition_type_wilson}'\
             f'/{smearing}/{job[0]}'
         #-q mem8gb -l nodes=1:ppn=4
-        bashCommand = f'qsub -q mem8gb -l nodes=1:ppn=4 -v conf_format_plaket={conf_format_plaket},conf_format_wilson={conf_format_wilson},bytes_skip_plaket={bytes_skip_plaket},'\
+        bashCommand = f'qsub -q mem4gb -l nodes=1:ppn=2 -v conf_format_plaket={conf_format_plaket},conf_format_wilson={conf_format_wilson},bytes_skip_plaket={bytes_skip_plaket},'\
             f'bytes_skip_wilson={bytes_skip_wilson},matrix_type_plaket={matrix_type_plaket},matrix_type_wilson={matrix_type_wilson},'\
             f'conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
             f'padding_plaket={padding_plaket},padding_wilson={padding_wilson},convert_plaket={convert_plaket},convert_wilson={convert_wilson},'\

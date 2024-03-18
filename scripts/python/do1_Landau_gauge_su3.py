@@ -13,9 +13,10 @@ conf_type = "gluodynamics"
 theory_type = "su3"
 
 calculate_absent = 0
-number_of_jobs = 38
+number_of_jobs = 80
+gauge_copies = 20
 
-beta_arr = ['beta6.2']
+beta_arr = ['beta6.0']
 #beta_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
 mu_arr = ['/']
@@ -23,11 +24,12 @@ mu_arr = ['/']
 #additional_parameters_arr = ['steps_2000/copies=1', 'steps_330/copies=1']
 #conf_size_arr = ['nt6', 'nt8', 'nt10', 'nt12', 'nt14']
 #conf_size_arr = ['nt18']
-conf_size_arr = ['32^3x64']
+conf_size_arr = ['16^4']
 #conf_size_arr = ['nt16', 'nt18', 'nt20']
 #additional_parameters_arr = ['steps_25/copies=4', 'steps_50/copies=4', 'steps_100/copies=4',
 #                             'steps_200/copies=4', 'steps_500/copies=4', 'steps_1000/copies=4','steps_2000/copies=4']
-additional_parameters_arr = ['steps_500/copies=4']
+#additional_parameters_arr = ['steps_100/copies=20/0.01']
+additional_parameters_arr = ['steps_500/copies=20']
 #additional_parameters_arr = ['steps_25/copies=4', 'steps_50/copies=4',
 #                             'steps_100/copies=4', 'steps_200/copies=4', 'steps_500/copies=4',
 #                             'steps_1000/copies=4', 'steps_2000/copies=4']
@@ -60,7 +62,7 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
     #padding = 4
     #conf_name = "conf_gaugefixed_"
 
-    #chains = {'/': [1978, 1979]}
+    #chains = {'/': [1, 20]}
     #chains = {'s0': [201, 250]}
     #jobs = distribute_jobs(chains, number_of_jobs)
     jobs = distribute_jobs(data['chains'], number_of_jobs)
@@ -78,7 +80,7 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
 
         # qsub -q mem8gb -l nodes=1:ppn=4
         bashCommand = f'qsub -q kepler -l nodes=1:ppn=8 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bytes_skip={bytes_skip},'\
-            f'output_conf_path={output_conf_path},conf_name={conf_name},calculate_absent={calculate_absent},path_decomp={path_decomp},'\
+            f'output_conf_path={output_conf_path},conf_name={conf_name},calculate_absent={calculate_absent},path_decomp={path_decomp},gauge_copies={gauge_copies},'\
             f'L_spat={L_spat},L_time={L_time},chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\
             f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../bash/do_Landau_gauge_su3.sh'
         # print(bashCommand)

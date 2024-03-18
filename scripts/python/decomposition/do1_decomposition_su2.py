@@ -16,7 +16,7 @@ theory_type = "su2"
 #additional_parameters_arr = ['T_step=0.006', 'T_step=0.0125', 'T_step=0.025', 'T_step=0.05', 'T_step=0.1']
 additional_parameters_arr = ['T_step=0.001']
 
-number_of_jobs = 500
+number_of_jobs = 1000
 
 arch = "rrcmpi-a"
 beta_arr = ['beta2.478']

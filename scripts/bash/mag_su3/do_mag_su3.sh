@@ -27,7 +27,7 @@ echo ${path_conf}
 
 if [ -f ${path_conf} ] && [ -s ${path_conf} ] ; then
 
-if [ ! -f "${conf_path_output}/conf_gaugefixed_`printf %0${padding}d $i`${conf_path_end}" ] || [ ! $calculate_absent -eq 0 ] ; then
+if [ ! -f "${conf_path_output}/conf_gaugefixed_`printf %0${padding}d $i`${conf_path_end}" ] || [ $calculate_absent -eq 0 ] ; then
 
 echo conf_path_output ${conf_path_output}
 echo functional_path_output ${functional_path_output}
@@ -40,9 +40,9 @@ path_functional_output="${functional_path_output}/functional"
 seed=$(date +%s)
 
 /home/clusters/rrcmpi/kudrov/SU3_MA_gauge_GPU/src/gaugefixing/apps/MAGaugeFixingSU3_4D_DP_N${L_spat}T${L_time}  --ftype ${conf_format} --fbasename ${conf_path_start} \
- --fending "$conf_path_end" --reinterpret DOUBLE --fnumberformat ${padding} -m 1 --fstartnumber ${i} --sasteps ${steps} --samin 0.5 --samax 1.25\
+ --fending "$conf_path_end" --reinterpret DOUBLE --fnumberformat ${padding} -m 1 --fstartnumber ${i} --sasteps ${steps} --samin ${T_min} --samax 1.25\
  --output_SA_functional ${path_functional_output} --gaugecopies ${copies} --output_conf "${conf_path_output}/conf_" --output_ending "${conf_path_end}" --seed ${seed} \
- --microupdates 6 --precision ${tolerance} --ormaxiter 5000 --doSA ${doSA}
+ --microupdates 6 --precision ${tolerance} --ormaxiter 10000 --doSA ${doSA} --save_each ${save_each}
 
 fi
 fi

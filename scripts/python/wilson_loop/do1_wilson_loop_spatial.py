@@ -13,11 +13,11 @@ conf_type = "gluodynamics"
 #conf_type = "QCD/140MeV"
 #conf_type = "qc2dstag"
 theory_type = "su2"
-decomposition_type_arr = ["original"]
+#decomposition_type_arr = ["original"]
 #decomposition_type_arr = ["abelian"]
 #decomposition_type_arr = ["monopoless", "monopole", "original", "mag_Landau"]
 #decomposition_type_arr = [""]
-#decomposition_type_arr = ["monopoless",
+decomposition_type_arr = ["monopoless", "monopole"]
 #decomposition_type_arr = ["monopoless"]
 #decomposition_type_arr = ["monopole", "monopoless", "offdiagonal", "photon"]
 #decomposition_type_arr = ["monopoless", "offdiagonal"]
@@ -25,8 +25,8 @@ decomposition_type_arr = ["original"]
 calculate_absent = 1
 #representation="adjoint"
 representation="fundamental"
-APE_steps=2
-alpha=1
+APE_steps=5
+alpha=0.35
 
 #additional_parameters_arr = ['/']
 #additional_parameters_arr = ['steps_25/copies=4', 'steps_50/copies=4',
@@ -34,7 +34,7 @@ alpha=1
 #                             'steps_500/copies=4', 'steps_1000/copies=4', 'steps_2000/copies=4']
 #additional_parameters_arr = ['steps_500/copies=3']
 #additional_parameters_arr = ['steps_500/copies=3/compensate_1']
-#additional_parameters_arr = ['T_step=0.001']
+additional_parameters_arr = ['T_step=0.001']
 #additional_parameters_arr = ['T_step=0.0001',  'T_step=0.0004',  'T_step=0.0008',  'T_step=0.0015',  'T_step=0.004',  'T_step=0.008',  'T_step=0.0125',  'T_step=0.05',  'T_step=5e-05'
 #'T_step=0.0002',  'T_step=0.0005',  'T_step=0.001',   'T_step=0.002',   'T_step=0.006',  'T_step=0.01',   'T_step=0.025',   'T_step=0.1']
 #additional_parameters_arr = ['T_step=0.0001', 'T_step=0.0002', 'T_step=0.0004', 'T_step=0.0008',
@@ -55,12 +55,12 @@ axis = 'on-axis'
 #                             'steps_100/copies=4', 'steps_200/copies=4',
 #                             'steps_500/copies=4', 'steps_0/copies=1',
 #                             'steps_2/copies=1', 'steps_10/copies=1']
-additional_parameters_arr = ['/']
+#additional_parameters_arr = ['/']
 
-number_of_jobs = 500
+number_of_jobs = 200
 
 arch = "rrcmpi-a"
-beta_arr = ['beta2.542']
+beta_arr = ['beta2.6', 'beta2.779']
 #beta_arr = ['/']
 mu_arr = ['/']
 #mu_arr = ['mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
@@ -89,7 +89,7 @@ for beta, mu, conf_size, additional_parameters, decomposition_type in itertools.
     R_min = 1
     R_max = L_spat // 2
 
-    #conf_path_start = conf_path_start + f'/{additional_parameters}'
+    conf_path_start = conf_path_start + f'/{additional_parameters}'
 
     #chains = {'s0': [1, 1]}
     #chains = {'s5': [1, 500], 's6': [1, 500]}
