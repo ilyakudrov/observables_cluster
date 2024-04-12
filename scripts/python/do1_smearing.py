@@ -28,21 +28,21 @@ gauge_copies = 0
 
 APE_enabled = 1
 HYP_enabled = 1
-#HYP_alpha1 = "0.75"
-#HYP_alpha2 = "0.6"
-#HYP_alpha3 = "0.3"
-HYP_alpha1 = "1"
-HYP_alpha2 = "1"
-HYP_alpha3 = "0.5"
-APE_alpha = "0.5"
-APE_steps = "700"
+HYP_alpha1 = "0.75"
+HYP_alpha2 = "0.6"
+HYP_alpha3 = "0.3"
+#HYP_alpha1 = "1"
+#HYP_alpha2 = "1"
+#HYP_alpha3 = "0.5"
+APE_alpha = "0.8"
+APE_steps = "22"
 HYP_steps_array = ['1']
-calculation_step_APE = 50
-calculation_APE_start = 20
+calculation_step_APE = 3
+calculation_APE_start = 1
 
-wilson_enabled = 0
+wilson_enabled = 1
 flux_enabled = 0
-save_conf = 1
+save_conf = 0
 
 number_of_jobs = 300
 
@@ -54,9 +54,11 @@ beta_arr = ['beta6.0']
 #mu_arr = ['mu0.00', 'mu0.20', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
 #mu_arr = ['mu0.35', 'mu0.40']
 mu_arr = ['/']
-conf_size_arr = ['16^4']
+conf_size_arr = ['24^4']
 #conf_size_arr = ['32^3x64']
+#conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14', 'nt16', 'nt18', 'nt20']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
+#conf_size_arr = ['nt16', 'nt18', 'nt20']
 #conf_size_arr = ['nt20']
 #additional_parameters_arr = ['T_step=0.001']
 #additional_parameters_arr = ['T_step=0.0001', 'T_step=0.0002', 'T_step=0.0004' 'T_step=0.0005', 
@@ -71,8 +73,8 @@ conf_size_arr = ['16^4']
 #				'T_step=0.008', 'T_step=0.0125', 'T_step=0.05', 'T_step=5e-05',
 #				'T_step=0.0002', 'T_step=0.0005', 'T_step=0.001', 'T_step=0.002', 
 #				'T_step=0.006', 'T_step=0.01', 'T_step=0.025', 'T_step=0.1']
-#additional_parameters_arr = ['steps_500/copies=4']
-#additional_parameters_arr = ['steps_100/copies=20/0.01', 'steps_4000/copies=20/0.01']
+#additional_parameters_arr = ['steps_500/copies=1']
+#additional_parameters_arr = ['steps_0/copies=20', 'steps_100/copies=20/0.01', 'steps_4000/copies=20/0.01']
 #additional_parameters_arr = ['steps_25/copies=4', 'steps_100/copies=2', 'steps_100/copies=1',
 #                             'steps_50/copies=4', 'steps_50/copies=2',
 #                             'steps_100/copies=4', 'steps_200/copies=4', 
@@ -222,7 +224,7 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
         # 8gb for 48^4 su2
         # 8gb for nt6 and bigger
         # 16gb for nt10 and bigger
-        bashCommand = f'qsub -q mem16gb -l nodes=1:ppn=8 -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\
+        bashCommand = f'qsub -q long -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\
             f'conf_format_plaket={conf_format_plaket},bytes_skip_plaket={bytes_skip_plaket},convert_wilson={convert_wilson},'\
             f'conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
             f'conf_format_wilson={conf_format_wilson},bytes_skip_wilson={bytes_skip_wilson},convert_plaket={convert_plaket},'\

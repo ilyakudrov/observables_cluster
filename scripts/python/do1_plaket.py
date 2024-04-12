@@ -7,7 +7,7 @@ sys.path.append(os.path.join(os.path.dirname(
 from iterate_confs import distribute_jobs
 
 #conf_size = "24^4"
-conf_size = "32^4"
+conf_size = "24^4"
 #conf_size = "32^3x8"
 #conf_size = "48^4"
 #conf_size = "28^4"
@@ -19,13 +19,13 @@ theory_type = "su3"
 
 calculate_absent = 0
 
-number_of_jobs = 100
+number_of_jobs = 500
 arch = "rrcmpi-a"
-#additional_parameters = 'steps_4000/copies=20/0.01'
-additional_parameters = '/'
-gauge_copies = 0
+additional_parameters = 'steps_0/copies=20'
+#additional_parameters = '/'
+gauge_copies = 20
 
-for wilson_type in ['original']:
+for wilson_type in ['abelian']:
     # for monopole in ['monopoless']:
     #for beta in ['/']:
     for beta in ['beta6.0']:

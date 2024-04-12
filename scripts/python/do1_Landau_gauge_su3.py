@@ -16,20 +16,20 @@ calculate_absent = 0
 number_of_jobs = 80
 gauge_copies = 20
 
-beta_arr = ['beta6.0']
+beta_arr = ['beta6.2']
 #beta_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
 mu_arr = ['/']
 #conf_size_arr = ['nt6', 'nt8', 'nt10', 'nt12', 'nt14']
 #additional_parameters_arr = ['steps_2000/copies=1', 'steps_330/copies=1']
-#conf_size_arr = ['nt6', 'nt8', 'nt10', 'nt12', 'nt14']
-#conf_size_arr = ['nt18']
-conf_size_arr = ['16^4']
+#conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
+#conf_size_arr = ['nt16', 'nt18', 'nt20']
+conf_size_arr = ['32^4']
 #conf_size_arr = ['nt16', 'nt18', 'nt20']
 #additional_parameters_arr = ['steps_25/copies=4', 'steps_50/copies=4', 'steps_100/copies=4',
 #                             'steps_200/copies=4', 'steps_500/copies=4', 'steps_1000/copies=4','steps_2000/copies=4']
 #additional_parameters_arr = ['steps_100/copies=20/0.01']
-additional_parameters_arr = ['steps_500/copies=20']
+additional_parameters_arr = ['steps_0/copies=20']
 #additional_parameters_arr = ['steps_25/copies=4', 'steps_50/copies=4',
 #                             'steps_100/copies=4', 'steps_200/copies=4', 'steps_500/copies=4',
 #                             'steps_1000/copies=4', 'steps_2000/copies=4']
