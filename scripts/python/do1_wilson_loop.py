@@ -9,13 +9,13 @@ sys.path.append(os.path.join(os.path.dirname(
 from iterate_confs import distribute_jobs
 
 #conf_type = "su2_suzuki"
-conf_type = "gluodynamics"
-#conf_type = "QCD/140MeV"
+#conf_type = "gluodynamics"
+conf_type = "QCD/140MeV"
 #conf_type = "qc2dstag"
 theory_type = "su3"
-decomposition_type_arr = ["abelian"]
+#decomposition_type_arr = ["abelian"]
 #decomposition_type_arr = ["original"]
-#decomposition_type_arr = ["monopoless", "monopole"]
+decomposition_type_arr = ["monopoless", "monopole"]
 #decomposition_type_arr = ["monopoless", "monopole", "original", "mag_Landau"]
 #decomposition_type_arr = ["photon", "offdiagonal"]
 #decomposition_type_arr = ["monopoless",
@@ -26,13 +26,13 @@ decomposition_type_arr = ["abelian"]
 calculate_absent = 0
 #representation = "adjoint"
 representation = "fundamental"
-gauge_copies = 20
+gauge_copies = 0
 
 #additional_parameters_arr = ['steps_25/copies=4', 'steps_50/copies=4',
 #                             'steps_100/copies=4', 'steps_200/copies=4',
 #                             'steps_500/copies=4', 'steps_1000/copies=4', 'steps_2000/copies=4']
-additional_parameters_arr = ['steps_100/copies=20/0.01', 'steps_4000/copies=20/0.01']
-#additional_parameters_arr = ['steps_0/copies=20']
+#additional_parameters_arr = ['steps_100/copies=20/0.01', 'steps_4000/copies=20/0.01']
+additional_parameters_arr = ['steps_2000/copies=1']
 #additional_parameters_arr = ['T_step=0.001']
 #additional_parameters_arr = ['T_step=0.0001',  'T_step=0.0004',  'T_step=0.0008',  'T_step=0.0015',  'T_step=0.004',  'T_step=0.008',  'T_step=0.0125',  'T_step=0.05',  'T_step=5e-05'
 #'T_step=0.0002',  'T_step=0.0005',  'T_step=0.001',   'T_step=0.002',   'T_step=0.006',  'T_step=0.01',   'T_step=0.025',   'T_step=0.1']
@@ -56,24 +56,26 @@ axis = 'on-axis'
 #                             'steps_2/copies=1', 'steps_10/copies=1',
 #                             'steps_1000/copies=4', 'steps_2000/copies=4']
 #additional_parameters_arr = ['/']
-#smearing_arr = ['HYP0_APE_alpha=0.5']
+smearing_arr = ['HYP0_APE_alpha=0.2']
 #smearing_arr = ['HYP1_alpha=1_1_0.5_APE_alpha=0.5']
-smearing_arr = ['unsmeared']
+#smearing_arr = ['unsmeared']
 
 
-number_of_jobs = 300
+number_of_jobs = 50
 
 arch = "rrcmpi-a"
 #beta_arr = ['beta2.478', 'beta2.542']
-beta_arr = ['beta6.0']
+#beta_arr = ['beta6.0']
 #beta_arr = ['beta2.542']
-#beta_arr = ['/']
+beta_arr = ['/']
 mu_arr = ['/']
 #mu_arr = ['mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
 #mu_arr = ['mu0.35', 'mu0.40']
-conf_size_arr = ['24^4']
+#conf_size_arr = ['24^4']
 #conf_size_arr = ['nt20']
-#conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
+#conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14', 'nt16', 'nt18', 'nt20']
+conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
+#conf_size_arr = ['nt16', 'nt18', 'nt20']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
                additional_parameters_arr, decomposition_type_arr, smearing_arr]
@@ -129,7 +131,7 @@ for beta, mu, conf_size, additional_parameters, decomposition_type, smearing in 
         # 8gb for 48^4 su2
         # 8gb for nt6 and bigger
         # 16gb for nt10 and bigger
-        bashCommand = f'qsub -q mem8gb -l nodes=1:ppn=4 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
+        bashCommand = f'qsub -q mem16gb -l nodes=1:ppn=8 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
             f'conf_format={conf_format},bytes_skip={bytes_skip},path_wilson={path_wilson},convert={convert},'\
             f'padding={padding},calculate_absent={calculate_absent},representation={representation},axis={axis},'\
             f'L_spat={L_spat},L_time={L_time},T_min={T_min},T_max={T_max},R_min={R_min},R_max={R_max},gauge_copies={gauge_copies},'\

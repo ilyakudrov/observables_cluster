@@ -8,31 +8,31 @@ sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
 
-#conf_type = "gluodynamics"
-conf_type = "QCD/140MeV"
+conf_type = "gluodynamics"
+#conf_type = "QCD/140MeV"
 theory_type = "su3"
 
 compensate = 1
 calculate_absent="false"
 parallel = 1
-gauge_copies = 0
+gauge_copies = 20
 #additional_parameters_arr = ['steps_0/copies=1', 'steps_2/copies=1', 
 #                             'steps_10/copies=1', 'steps_25/copies=4', 
 #                             'steps_50/copies=4', 'steps_100/copies=4', 
 #                             'steps_200/copies=4', 'steps_500/copies=4']
-additional_parameters_arr = ['steps_500/copies=1']
+additional_parameters_arr = ['steps_0/copies=20']
 
 number_of_jobs = 200
 
 arch = "rrcmpi-a"
-beta_arr = ['/']
-#beta_arr = ['beta6.0']
+#beta_arr = ['/']
+beta_arr = ['beta6.2']
 mu_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
-conf_size_arr = ['nt16', 'nt18', 'nt20']
+#conf_size_arr = ['nt16', 'nt18', 'nt20']
 #conf_size_arr = ['32^3x64']
-#conf_size_arr = ['32^4']
+conf_size_arr = ['32^4']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
                additional_parameters_arr]

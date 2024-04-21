@@ -24,20 +24,20 @@ plaket_type = 'original'
 
 #calculate_absent = "true"
 calculate_absent = 0
-gauge_copies = 0
+gauge_copies = 20
 
 APE_enabled = 1
-HYP_enabled = 1
-HYP_alpha1 = "0.75"
-HYP_alpha2 = "0.6"
-HYP_alpha3 = "0.3"
-#HYP_alpha1 = "1"
-#HYP_alpha2 = "1"
-#HYP_alpha3 = "0.5"
-APE_alpha = "0.8"
-APE_steps = "22"
+HYP_enabled = 0
+#HYP_alpha1 = "0.75"
+#HYP_alpha2 = "0.6"
+#HYP_alpha3 = "0.3"
+HYP_alpha1 = "1"
+HYP_alpha2 = "1"
+HYP_alpha3 = "0.5"
+APE_alpha = "0.6"
+APE_steps = "31"
 HYP_steps_array = ['1']
-calculation_step_APE = 3
+calculation_step_APE = 5
 calculation_APE_start = 1
 
 wilson_enabled = 1
@@ -73,7 +73,7 @@ conf_size_arr = ['24^4']
 #				'T_step=0.008', 'T_step=0.0125', 'T_step=0.05', 'T_step=5e-05',
 #				'T_step=0.0002', 'T_step=0.0005', 'T_step=0.001', 'T_step=0.002', 
 #				'T_step=0.006', 'T_step=0.01', 'T_step=0.025', 'T_step=0.1']
-#additional_parameters_arr = ['steps_500/copies=1']
+#additional_parameters_arr = ['steps_0/copies=20']
 #additional_parameters_arr = ['steps_0/copies=20', 'steps_100/copies=20/0.01', 'steps_4000/copies=20/0.01']
 #additional_parameters_arr = ['steps_25/copies=4', 'steps_100/copies=2', 'steps_100/copies=1',
 #                             'steps_50/copies=4', 'steps_50/copies=2',
@@ -102,9 +102,9 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
         L_time = data['t_size']
 
         T_min = 1
-        T_max = L_time / 2
+        T_max = L_time
         R_min = 1
-        R_max = L_spat / 2
+        R_max = L_spat
 
         #print("path start", conf_path_start_wilson)
 
@@ -224,7 +224,7 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
         # 8gb for 48^4 su2
         # 8gb for nt6 and bigger
         # 16gb for nt10 and bigger
-        bashCommand = f'qsub -q long -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\
+        bashCommand = f'qsub -q mem16gb -l nodes=1:ppn=8 -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\
             f'conf_format_plaket={conf_format_plaket},bytes_skip_plaket={bytes_skip_plaket},convert_wilson={convert_wilson},'\
             f'conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
             f'conf_format_wilson={conf_format_wilson},bytes_skip_wilson={bytes_skip_wilson},convert_plaket={convert_plaket},'\
