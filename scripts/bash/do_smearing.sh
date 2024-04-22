@@ -58,10 +58,12 @@ if [[ ${copy} == 0 ]]; then
 output_smeared="${conf_path_output}/smeared_`printf %04d $i`"
 output_wilson="${path_wilson}/wilson_loop_`printf %04d $i`"
 output_flux_tube="${path_flux}/flux_tube_`printf %04d $i`"
+output_polyakov_correlator="${path_flux}/polyakov_correlator_`printf %04d $i`"
 else
 output_smeared="${conf_path_output}/smeared_`printf %04d $i`_${copy}"
 output_wilson="${path_wilson}/wilson_loop_`printf %04d $i`_${copy}"
 output_flux_tube="${path_flux}/flux_tube_`printf %04d $i`_${copy}"
+output_polyakov_correlator="${path_flux}/polyakov_correlator_`printf %04d $i`_${copy}"
 fi
 
 echo "output_smeared" "${output_smeared}"
@@ -75,9 +77,10 @@ parameters="-conf_format_wilson ${conf_format_wilson} -conf_path_wilson ${conf_p
     -HYP_alpha1 ${HYP_alpha1} -HYP_alpha2 ${HYP_alpha2} -HYP_alpha3 ${HYP_alpha3}\
     -APE_alpha ${APE_alpha} -APE_enabled ${APE_enabled} -HYP_enabled ${HYP_enabled}\
     -APE_steps ${APE_steps} -HYP_steps ${HYP_steps} -L_spat ${L_spat} -L_time ${L_time}\
-    -path_wilson ${output_wilson} -path_flux ${output_flux_tube}\
-    -wilson_enabled ${wilson_enabled} -flux_enabled ${flux_enabled}\
+    -path_wilson ${output_wilson} -path_flux ${output_flux_tube} -path_polyakov_correlator ${output_polyakov_correlator}\
+    -wilson_enabled ${wilson_enabled} -flux_enabled ${flux_enabled} -polyakov_correlator_enabled ${polyakov_correlator_enabled}\
     -T_min ${T_min} -T_max ${T_max} -R_min ${R_min} -R_max ${R_max} -calculation_step_APE ${calculation_step_APE}\
+    -polyakov_correlator_D ${polyakov_correlator_D} -calculation_step_HYP ${calculation_step_HYP} -calculation_HYP_start ${calculation_HYP_start}\
     -calculation_APE_start ${calculation_APE_start} -save_conf ${save_conf} -conf_path_output ${output_smeared}"
 
 /home/clusters/rrcmpi/kudrov/general_code/apps/smearing/smearing_${matrix_type_wilson}_${matrix_type_plaket}_${arch} $parameters

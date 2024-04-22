@@ -36,12 +36,15 @@ HYP_alpha2 = "1"
 HYP_alpha3 = "0.5"
 APE_alpha = "0.6"
 APE_steps = "100"
-HYP_steps_array = ['1']
+HYP_steps_array = ['2']
 calculation_step_APE = 10
 calculation_APE_start = 20
+calculation_step_HYP = 1
+calculation_HYP_start = 1
 
-wilson_enabled = 1
+wilson_enabled = 0
 flux_enabled = 0
+polyakov_correlator_enabled = 1
 save_conf = 0
 
 number_of_jobs = 500
@@ -61,7 +64,7 @@ mu_arr = ['/']
 #conf_size_arr = ['nt16', 'nt18', 'nt20']
 conf_size_arr = ['nt20']
 #additional_parameters_arr = ['T_step=0.001']
-#additional_parameters_arr = ['T_step=0.0001', 'T_step=0.0002', 'T_step=0.0004' 'T_step=0.0005', 
+#additional_parameters_arr = ['T_step=0.0001', 'T_step=0.0002', 'T_step=0.0004' 'T_step=0.0005',
 #				'T_step=0.0008', 'T_step=0.001', 'T_step=0.0015', 'T_step=0.002',
 #				'T_step=0.004', 'T_step=0.006', 'T_step=0.008', 'T_step=0.01', 'T_step=0.0125',
 #				'T_step=0.025', 'T_step=0.05', 'T_step=0.1', 'T_step=5e-05']
@@ -71,15 +74,15 @@ conf_size_arr = ['nt20']
 #                               'T_step=0.0025', 'T_step=0.00375', 'T_step=0.00625', 'T_step=0.01']
 #additional_parameters_arr = ['T_step=0.0001', 'T_step=0.0004', 'T_step=0.0008', 'T_step=0.0015', 'T_step=0.004',
 #				'T_step=0.008', 'T_step=0.0125', 'T_step=0.05', 'T_step=5e-05',
-#				'T_step=0.0002', 'T_step=0.0005', 'T_step=0.001', 'T_step=0.002', 
+#				'T_step=0.0002', 'T_step=0.0005', 'T_step=0.001', 'T_step=0.002',
 #				'T_step=0.006', 'T_step=0.01', 'T_step=0.025', 'T_step=0.1']
 #additional_parameters_arr = ['steps_0/copies=20']
 #additional_parameters_arr = ['steps_0/copies=20', 'steps_100/copies=20/0.01', 'steps_4000/copies=20/0.01']
 #additional_parameters_arr = ['steps_25/copies=4', 'steps_100/copies=2', 'steps_100/copies=1',
 #                             'steps_50/copies=4', 'steps_50/copies=2',
-#                             'steps_100/copies=4', 'steps_200/copies=4', 
-#                             'steps_500/copies=4', 'steps_0/copies=1', 
-#                             'steps_2/copies=1', 'steps_10/copies=1', 
+#                             'steps_100/copies=4', 'steps_200/copies=4',
+#                             'steps_500/copies=4', 'steps_0/copies=1',
+#                             'steps_2/copies=1', 'steps_10/copies=1',
 #                             'steps_1000/copies=4', 'steps_2000/copies=4']
 additional_parameters_arr = ['/']
 
@@ -105,6 +108,7 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
         T_max = L_time
         R_min = 1
         R_max = L_spat
+        polyakov_correlator_D = L_spat
 
         #print("path start", conf_path_start_wilson)
 
@@ -211,9 +215,11 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
             os.makedirs(log_path)
         except:
             pass
-        path_conf_wilson_loop = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/smearing/wilson_loop/fundamental/on-axis/{theory_type}/'\
+        path_wilson_loop = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/smearing/wilson_loop/fundamental/on-axis/{theory_type}/'\
             f'{conf_type}/{conf_size}/{beta}/{mu}/{wilson_type}/{smearing_str}/{additional_parameters}/{job[0]}'
-        path_conf_flux_tube = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/smearing/flux_tube/{theory_type}/'\
+        path_flux_tube = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/smearing/flux_tube/{theory_type}/'\
+            f'{conf_type}/{conf_size}/{beta}/{mu}/{wilson_type}_{plaket_type}/{smearing_str}/{additional_parameters}/{job[0]}'
+        path_polyakov_correlator = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/smearing/polyakov_correlator/{theory_type}/'\
             f'{conf_type}/{conf_size}/{beta}/{mu}/{wilson_type}_{plaket_type}/{smearing_str}/{additional_parameters}/{job[0]}'
         conf_path_output = f'/home/clusters/rrcmpi/kudrov/smearing/{theory_type}/'\
             f'{conf_type}/{conf_size}/{beta}/{mu}/{wilson_type}/{smearing_str}/{additional_parameters}/{job[0]}'
@@ -232,7 +238,9 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
             f'HYP_alpha1={HYP_alpha1},HYP_alpha2={HYP_alpha2},HYP_alpha3={HYP_alpha3},'\
             f'APE_alpha={APE_alpha},APE_enabled={APE_enabled},HYP_enabled={HYP_enabled},'\
             f'APE_steps={APE_steps},HYP_steps={HYP_steps},calculation_step_APE={calculation_step_APE},calculation_APE_start={calculation_APE_start},'\
-            f'path_wilson={path_conf_wilson_loop},path_flux={path_conf_flux_tube},wilson_enabled={wilson_enabled},flux_enabled={flux_enabled},'\
+            f'calculation_step_HYP={calculation_step_HYP},calculation_HYP_start={calculation_HYP_start},polyakov_correlator_D={polyakov_correlator_D},'\
+            f'path_wilson={path_wilson_loop},path_flux={path_flux_tube},path_polyakov_correlator={path_polyakov_correlator},'\
+            f'wilson_enabled={wilson_enabled},flux_enabled={flux_enabled},polyakov_correlator_enabled={polyakov_correlator_enabled},'\
             f'L_spat={L_spat},L_time={L_time},T_min={T_min},T_max={T_max},R_min={R_min},R_max={R_max},gauge_copies={gauge_copies},'\
             f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch},matrix_type_plaket={matrix_type_plaket},matrix_type_wilson={matrix_type_wilson}'\
             f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../bash/do_smearing.sh'
