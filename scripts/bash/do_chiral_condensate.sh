@@ -1,4 +1,10 @@
 #!/bin/bash
+gpu_pstate=$(nvidia-smi --query-gpu=pstate --format=csv,noheader)
+if [ ${gpu_pstate:1:1} -lt 8 ]; then
+GPU=1
+else
+GPU=0
+fi
 
 for((i=${conf_start};i<=${conf_end};i++))
 do
@@ -31,9 +37,10 @@ echo "conf_path" ${conf_path}
 if [ -f ${conf_path} ] && [ -s ${conf_path} ] ; then
 
 if [[ ${copy} == 0 ]]; then
+#output_path_cond="${output_path}/ChiralCond_`printf %0${padding}d $conf_start`-`printf %0${padding}d $conf_end`.txt"
 output_path_cond="${output_path}/ChiralCond_`printf %0${padding}d $i`.txt"
 else
-output_path_conf="${output_path}/ChiralCond_`printf %0${padding}d $i`_${copy}.txt"
+output_path_cond="${output_path}/ChiralCond_`printf %0${padding}d $i`_${copy}.txt"
 fi
 
 echo "output_path_cond" ${output_path_cond}
@@ -46,7 +53,10 @@ output_path1=${output_path_cond}
 
 cd ${output_path}
 
-parameters="${conf_path} --calc -p ${conf_path_start}/param_last.txt --calc-postfix _`printf %0${padding}d $i` --binout --debug 1 --obs-ChiralCond 0"
+#parameters="--calc --rnd-gpu-seed -p ${conf_path_start}/param_last.txt -c ${conf_path_start} --calc-postfix _`printf %0${padding}d $conf_start`-`printf %0${padding}d $conf_end`\
+# -i $conf_start:$conf_end --binout --debug 1 --obs-ChiralCond 0"
+parameters="${conf_path} --calc --rnd-gpu-seed -p ${conf_path_start}/param_last.txt --calc-postfix _`printf %0${padding}d $i`\
+ --binout --debug 1 --obs-ChiralCond 0 -d $GPU"
 
 /lustre/rrcmpi/goy/qc2dstag/bin/qc2dstagEO $parameters
 
