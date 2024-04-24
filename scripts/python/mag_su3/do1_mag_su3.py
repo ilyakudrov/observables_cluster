@@ -23,14 +23,14 @@ tolerance = '1e-13'
 #doSA = 0
 save_each = 1
 
-number_of_jobs = 100
+number_of_jobs = 120
 
-beta_arr = ['beta6.1']
+beta_arr = ['beta6.4']
 #beta_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
 mu_arr = ['/']
 #conf_size_arr = ['nt16', 'nt18', 'nt20']
-conf_size_arr = ['28^4']
+conf_size_arr = ['40^4']
 #steps_arr = [25, 50, 100, 200, 500, 1000, 2000]
 steps_arr = [0]
 #steps_arr = [62, 125, 250]

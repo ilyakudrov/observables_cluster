@@ -50,6 +50,10 @@ if [ ${flux_enabled} -eq 1 ] ; then
 mkdir -p ${path_flux}
 fi
 
+if [ ${polyakov_correlator_enabled} -eq 1 ] ; then
+mkdir -p ${path_polyakov_correlator}
+fi
+
 if [ ${save_conf} -eq 1 ] ; then
 mkdir -p ${conf_path_output}
 fi
@@ -63,7 +67,7 @@ else
 output_smeared="${conf_path_output}/smeared_`printf %04d $i`_${copy}"
 output_wilson="${path_wilson}/wilson_loop_`printf %04d $i`_${copy}"
 output_flux_tube="${path_flux}/flux_tube_`printf %04d $i`_${copy}"
-output_polyakov_correlator="${path_flux}/polyakov_correlator_`printf %04d $i`_${copy}"
+output_polyakov_correlator="${path_polyakov_correlator}/polyakov_correlator_`printf %04d $i`_${copy}"
 fi
 
 echo "output_smeared" "${output_smeared}"
