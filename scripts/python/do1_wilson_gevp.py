@@ -31,13 +31,13 @@ HYP_alpha1 = "1"
 HYP_alpha2 = "1"
 HYP_alpha3 = "0.5"
 APE_alpha = "0.6"
-APE_steps = "41"
-HYP_steps_array = ['0', '1']
-calculation_step_APE = 5
+APE_steps = "2"
+HYP_steps_array = ['1']
+calculation_step_APE = 1
 calculation_APE_start = 1
 N_dir = 4
 
-number_of_jobs = 400
+number_of_jobs = 1
 
 arch = "rrcmpi-a"
 
@@ -107,8 +107,9 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
 
     #chains = {'/': [501, 501]}
     #chains = {'s5': [1, 450], 's6': [1, 450]}
-    #jobs = distribute_jobs(chains, number_of_jobs)
-    jobs = distribute_jobs(data['chains'], number_of_jobs)
+    chains = {'s1': [1, 1]}
+    jobs = distribute_jobs(chains, number_of_jobs)
+    #jobs = distribute_jobs(data['chains'], number_of_jobs)
 
     for job in jobs:
 
@@ -130,7 +131,7 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
         # 8gb for 48^4 su2
         # 8gb for nt6 and bigger
         # 16gb for nt10 and bigger
-        bashCommand = f'qsub -q mem16gb -l nodes=1:ppn=8 -v convert_wilson={convert_wilson},'\
+        bashCommand = f'qsub -q mem4gb -l nodes=1:ppn=2 -v convert_wilson={convert_wilson},'\
             f'conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
             f'conf_format_wilson={conf_format_wilson},bytes_skip_wilson={bytes_skip_wilson},'\
             f'padding_wilson={padding_wilson},calculate_absent={calculate_absent},'\
