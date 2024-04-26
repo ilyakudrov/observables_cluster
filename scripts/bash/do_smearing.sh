@@ -82,7 +82,7 @@ parameters="-conf_format_wilson ${conf_format_wilson} -conf_path_wilson ${conf_p
     -APE_alpha ${APE_alpha} -APE_enabled ${APE_enabled} -HYP_enabled ${HYP_enabled}\
     -APE_steps ${APE_steps} -HYP_steps ${HYP_steps} -L_spat ${L_spat} -L_time ${L_time}\
     -path_wilson ${output_wilson} -path_flux ${output_flux_tube} -path_polyakov_correlator ${output_polyakov_correlator}\
-    -wilson_enabled ${wilson_enabled} -flux_enabled ${flux_enabled} -polyakov_correlator_enabled ${polyakov_correlator_enabled}\
+    -wilson_enabled ${wilson_enabled} -flux_enabled ${flux_enabled} -polyakov_correlator_enabled ${polyakov_correlator_enabled} -correlator_type ${polyakov_correlator_type}\
     -T_min ${T_min} -T_max ${T_max} -R_min ${R_min} -R_max ${R_max} -calculation_step_APE ${calculation_step_APE}\
     -polyakov_correlator_D ${polyakov_correlator_D} -calculation_step_HYP ${calculation_step_HYP} -calculation_HYP_start ${calculation_HYP_start}\
     -calculation_APE_start ${calculation_APE_start} -save_conf ${save_conf} -conf_path_output ${output_smeared}"

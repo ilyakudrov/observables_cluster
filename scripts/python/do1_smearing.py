@@ -45,6 +45,8 @@ calculation_HYP_start = 10
 wilson_enabled = 1
 flux_enabled = 0
 polyakov_correlator_enabled = 0
+polyakov_correlator_type = 'singlet'
+# polyakov_correlator_type = 'color_average'
 save_conf = 0
 
 number_of_jobs = 200
@@ -176,7 +178,7 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
         path_flux_tube = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/smearing/flux_tube/{theory_type}/'\
             f'{conf_type}/{conf_size}/{beta}/{mu}/{wilson_type}_{plaket_type}/{smearing_str}/{additional_parameters}/{job[0]}'
         path_polyakov_correlator = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/smearing/polyakov_correlator/{theory_type}/'\
-            f'{conf_type}/{conf_size}/{beta}/{mu}/{wilson_type}_{plaket_type}/{smearing_str}/{additional_parameters}/{job[0]}'
+            f'{conf_type}/{conf_size}/{beta}/{mu}/{wilson_type}_{plaket_type}/{smearing_str}/{additional_parameters}/{polyakov_correlator_type}/{job[0]}'
         conf_path_output = f'/home/clusters/rrcmpi/kudrov/smearing/{theory_type}/'\
             f'{conf_type}/{conf_size}/{beta}/{mu}/{wilson_type}/{smearing_str}/{additional_parameters}/{job[0]}'
         # qsub -q mem8gb -l nodes=1:ppn=4
@@ -195,7 +197,7 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
             f'APE_alpha={APE_alpha},APE_enabled={APE_enabled},HYP_enabled={HYP_enabled},'\
             f'APE_steps={APE_steps},HYP_steps={HYP_steps},calculation_step_APE={calculation_step_APE},calculation_APE_start={calculation_APE_start},'\
             f'calculation_step_HYP={calculation_step_HYP},calculation_HYP_start={calculation_HYP_start},polyakov_correlator_D={polyakov_correlator_D},'\
-            f'path_wilson={path_wilson_loop},path_flux={path_flux_tube},path_polyakov_correlator={path_polyakov_correlator},'\
+            f'path_wilson={path_wilson_loop},path_flux={path_flux_tube},path_polyakov_correlator={path_polyakov_correlator},polyakov_correlator_type={polyakov_correlator_type},'\
             f'wilson_enabled={wilson_enabled},flux_enabled={flux_enabled},polyakov_correlator_enabled={polyakov_correlator_enabled},'\
             f'L_spat={L_spat},L_time={L_time},T_min={T_min},T_max={T_max},R_min={R_min},R_max={R_max},gauge_copies={gauge_copies},'\
             f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch},matrix_type_plaket={matrix_type_plaket},matrix_type_wilson={matrix_type_wilson}'\
