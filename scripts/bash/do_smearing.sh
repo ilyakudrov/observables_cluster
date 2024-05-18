@@ -62,7 +62,7 @@ if [[ ${copy} == 0 ]]; then
 output_smeared="${conf_path_output}/smeared_`printf %04d $i`"
 output_wilson="${path_wilson}/wilson_loop_`printf %04d $i`"
 output_flux_tube="${path_flux}/flux_tube_`printf %04d $i`"
-output_polyakov_correlator="${path_flux}/polyakov_correlator_`printf %04d $i`"
+output_polyakov_correlator="${path_polyakov_correlator}/polyakov_correlator_`printf %04d $i`"
 else
 output_smeared="${conf_path_output}/smeared_`printf %04d $i`_${copy}"
 output_wilson="${path_wilson}/wilson_loop_`printf %04d $i`_${copy}"

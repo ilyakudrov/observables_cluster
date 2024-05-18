@@ -55,7 +55,7 @@ cd ${output_path}
 
 #parameters="--calc --rnd-gpu-seed -p ${conf_path_start}/param_last.txt -c ${conf_path_start} --calc-postfix _`printf %0${padding}d $conf_start`-`printf %0${padding}d $conf_end`\
 # -i $conf_start:$conf_end --binout --debug 1 --obs-ChiralCond 0"
-parameters="${conf_path} --calc --rnd-gpu-seed -p ${conf_path_start}/param_last.txt --calc-postfix _`printf %0${padding}d $i`\
+parameters="${conf_path} --calc --rnd-gpu-seed -p ${conf_path_start}/${chain}/param_last.txt --calc-postfix _`printf %0${padding}d $i`\
  --binout --debug 1 --obs-ChiralCond 0 -d $GPU"
 
 /lustre/rrcmpi/goy/qc2dstag/bin/qc2dstagEO $parameters

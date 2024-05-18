@@ -13,9 +13,10 @@ conf_type = "gluodynamics"
 #conf_type = "QCD/140MeV"
 #conf_type = "qc2dstag"
 theory_type = "su3"
-#wilson_type_array = ['original']
-wilson_type_array = ['monopoless', 'monopole']
-#wilson_type_array = ['original']
+wilson_type_array = ['original']
+#wilson_type_array = ['coulomb']
+#wilson_type_array = ['monopoless', 'monopole', 'abelian', 'photon', 'offdiagonal']
+#wilson_type_array = ['monopoless', 'offdiagonal']
 #wilson_type_array = ['abelian']
 #wilson_type_array = ['mag', 'mag_Landau']
 #wilson_type_array = ['offdiagonal']
@@ -24,7 +25,7 @@ plaket_type = 'original'
 
 #calculate_absent = "true"
 calculate_absent = 0
-gauge_copies = 20
+gauge_copies = 0
 
 APE_enabled = 1
 HYP_enabled = 1
@@ -35,12 +36,12 @@ HYP_alpha1 = "1"
 HYP_alpha2 = "1"
 HYP_alpha3 = "0.5"
 APE_alpha = "0.6"
-APE_steps = "40"
-HYP_steps_array = ['0', '1']
-calculation_step_APE = 5
-calculation_APE_start = 10
-calculation_step_HYP = 5
-calculation_HYP_start = 10
+APE_steps = "30"
+HYP_steps_array = ['0', '1', '3']
+calculation_step_APE = 10
+calculation_APE_start = 30
+calculation_step_HYP = 1
+calculation_HYP_start = 1
 
 wilson_enabled = 1
 flux_enabled = 0
@@ -49,22 +50,22 @@ polyakov_correlator_type = 'singlet'
 # polyakov_correlator_type = 'color_average'
 save_conf = 0
 
-number_of_jobs = 200
+number_of_jobs = 50
 
 arch = "rrcmpi-a"
 
 #beta_arr = ['beta2.6', 'beta2.779']
-beta_arr = ['beta6.1']
+beta_arr = ['beta6.2']
 #beta_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.20', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
 #mu_arr = ['mu0.35', 'mu0.40']
 mu_arr = ['/']
-conf_size_arr = ['28^4']
-#conf_size_arr = ['32^3x64']
+#conf_size_arr = ['40^4']
+conf_size_arr = ['32^3x64']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14', 'nt16', 'nt18', 'nt20']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
 #conf_size_arr = ['nt16', 'nt18', 'nt20']
-#conf_size_arr = ['nt4']
+#conf_size_arr = ['nt20']
 #additional_parameters_arr = ['T_step=0.001']
 #additional_parameters_arr = ['T_step=0.0001', 'T_step=0.0002', 'T_step=0.0004' 'T_step=0.0005',
 #				'T_step=0.0008', 'T_step=0.001', 'T_step=0.0015', 'T_step=0.002',
@@ -78,7 +79,7 @@ conf_size_arr = ['28^4']
 #				'T_step=0.008', 'T_step=0.0125', 'T_step=0.05', 'T_step=5e-05',
 #				'T_step=0.0002', 'T_step=0.0005', 'T_step=0.001', 'T_step=0.002',
 #				'T_step=0.006', 'T_step=0.01', 'T_step=0.025', 'T_step=0.1']
-additional_parameters_arr = ['steps_0/copies=20']
+#additional_parameters_arr = ['steps_500/copies=4']
 #additional_parameters_arr = ['steps_0/copies=20', 'steps_100/copies=20/0.01', 'steps_4000/copies=20/0.01']
 #additional_parameters_arr = ['steps_25/copies=4', 'steps_100/copies=2', 'steps_100/copies=1',
 #                             'steps_50/copies=4', 'steps_50/copies=2',
@@ -86,7 +87,7 @@ additional_parameters_arr = ['steps_0/copies=20']
 #                             'steps_500/copies=4', 'steps_0/copies=1',
 #                             'steps_2/copies=1', 'steps_10/copies=1',
 #                             'steps_1000/copies=4', 'steps_2000/copies=4']
-#additional_parameters_arr = ['/']
+additional_parameters_arr = ['/']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
                additional_parameters_arr, wilson_type_array, HYP_steps_array]
@@ -105,10 +106,10 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
     L_spat = data['x_size']
     L_time = data['t_size']
     T_min = 1
-    T_max = L_time
+    T_max = L_time / 2
     R_min = 1
-    R_max = L_spat
-    polyakov_correlator_D = L_spat
+    R_max = L_spat / 2
+    polyakov_correlator_D = L_spat/2-1
     if wilson_type != 'original':
         conf_path_start_wilson = conf_path_start_wilson + \
             f'/{additional_parameters}'

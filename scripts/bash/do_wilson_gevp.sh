@@ -51,7 +51,6 @@ parameters="-conf_format_wilson ${conf_format_wilson} -conf_path_wilson ${conf_p
 
 fi
 fi
-fi
 
 done
 done
