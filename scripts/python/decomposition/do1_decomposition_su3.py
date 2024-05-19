@@ -22,17 +22,17 @@ gauge_copies = 20
 #                             'steps_200/copies=4', 'steps_500/copies=4']
 additional_parameters_arr = ['steps_0/copies=20']
 
-number_of_jobs = 200
+number_of_jobs = 500
 
 arch = "rrcmpi-a"
 #beta_arr = ['/']
-beta_arr = ['beta6.2']
+beta_arr = ['beta6.4']
 mu_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
 #conf_size_arr = ['nt16', 'nt18', 'nt20']
 #conf_size_arr = ['32^3x64']
-conf_size_arr = ['32^4']
+conf_size_arr = ['40^4']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
                additional_parameters_arr]

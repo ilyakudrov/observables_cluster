@@ -13,8 +13,8 @@ conf_type = "gluodynamics"
 #conf_type = "QCD/140MeV"
 #conf_type = "qc2dstag"
 theory_type = "su3"
-wilson_type_array = ['original']
-# wilson_type_array = ['monopoless', 'monopole']
+#wilson_type_array = ['original']
+wilson_type_array = ['monopoless', 'monopole']
 #wilson_type_array = ['original']
 #wilson_type_array = ['abelian']
 #wilson_type_array = ['mag', 'mag_Landau']
@@ -24,30 +24,30 @@ plaket_type = 'original'
 
 #calculate_absent = "true"
 calculate_absent = 0
-gauge_copies = 0
+gauge_copies = 20
 
 HYP_enabled = 1
 HYP_alpha1 = "1"
 HYP_alpha2 = "1"
 HYP_alpha3 = "0.5"
 APE_alpha = "0.6"
-APE_steps = "2"
-HYP_steps_array = ['1']
-calculation_step_APE = 1
+APE_steps = "41"
+HYP_steps_array = ['0', '1', '3']
+calculation_step_APE = 5
 calculation_APE_start = 1
 N_dir = 4
 
-number_of_jobs = 1
+number_of_jobs = 20
 
 arch = "rrcmpi-a"
 
 #beta_arr = ['beta2.6', 'beta2.779']
-beta_arr = ['beta6.4']
+beta_arr = ['beta6.3']
 #beta_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.20', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
 #mu_arr = ['mu0.35', 'mu0.40']
 mu_arr = ['/']
-conf_size_arr = ['40^4']
+conf_size_arr = ['36^4']
 #conf_size_arr = ['32^3x64']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14', 'nt16', 'nt18', 'nt20']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
@@ -66,7 +66,7 @@ conf_size_arr = ['40^4']
 #				'T_step=0.008', 'T_step=0.0125', 'T_step=0.05', 'T_step=5e-05',
 #				'T_step=0.0002', 'T_step=0.0005', 'T_step=0.001', 'T_step=0.002',
 #				'T_step=0.006', 'T_step=0.01', 'T_step=0.025', 'T_step=0.1']
-# additional_parameters_arr = ['steps_0/copies=20']
+additional_parameters_arr = ['steps_0/copies=20']
 #additional_parameters_arr = ['steps_0/copies=20', 'steps_100/copies=20/0.01', 'steps_4000/copies=20/0.01']
 #additional_parameters_arr = ['steps_25/copies=4', 'steps_100/copies=2', 'steps_100/copies=1',
 #                             'steps_50/copies=4', 'steps_50/copies=2',
@@ -74,7 +74,7 @@ conf_size_arr = ['40^4']
 #                             'steps_500/copies=4', 'steps_0/copies=1',
 #                             'steps_2/copies=1', 'steps_10/copies=1',
 #                             'steps_1000/copies=4', 'steps_2000/copies=4']
-additional_parameters_arr = ['/']
+#additional_parameters_arr = ['/']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
                additional_parameters_arr, wilson_type_array, HYP_steps_array]
@@ -105,11 +105,11 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
     else:
         smearing_str = f'HYP{HYP_steps}_alpha={HYP_alpha1}_{HYP_alpha2}_{HYP_alpha3}_APE_alpha={APE_alpha}'
 
-    #chains = {'/': [501, 501]}
+    #chains = {'/': [1001, 1001]}
     #chains = {'s5': [1, 450], 's6': [1, 450]}
-    chains = {'s1': [1, 1]}
-    jobs = distribute_jobs(chains, number_of_jobs)
-    #jobs = distribute_jobs(data['chains'], number_of_jobs)
+    #chains = {'s1': [1001, 1001]}
+    #jobs = distribute_jobs(chains, number_of_jobs)
+    jobs = distribute_jobs(data['chains'], number_of_jobs)
 
     for job in jobs:
 
@@ -131,7 +131,7 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
         # 8gb for 48^4 su2
         # 8gb for nt6 and bigger
         # 16gb for nt10 and bigger
-        bashCommand = f'qsub -q mem4gb -l nodes=1:ppn=2 -v convert_wilson={convert_wilson},'\
+        bashCommand = f'qsub -q mem16gb -l nodes=1:ppn=8 -v convert_wilson={convert_wilson},'\
             f'conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
             f'conf_format_wilson={conf_format_wilson},bytes_skip_wilson={bytes_skip_wilson},'\
             f'padding_wilson={padding_wilson},calculate_absent={calculate_absent},'\

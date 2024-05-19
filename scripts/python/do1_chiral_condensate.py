@@ -15,7 +15,7 @@ theory_type = "su2"
 
 calculate_absent = 0
 
-number_of_jobs = 36
+number_of_jobs = 30
 arch = "rrcmpi"
 # additional_parameters = 'steps_0/copies=20'
 additional_parameters = '/'
@@ -28,7 +28,7 @@ for decomposition_type in ['original']:
         # for beta in ['beta2.4', 'beta2.5', 'beta2.6']:
         # for beta in ['beta2.4']:
         # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
-        for mu in ['mu0.00']:
+        for mu in ['mu0.05']:
         #for mu in ['/']:
 
             f = open(
@@ -70,7 +70,7 @@ for decomposition_type in ['original']:
                     f'output_path={output_path},chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\
                     f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../bash/do_chiral_condensate.sh'
                 # print(bashCommand)
-                time.sleep(10)
+                time.sleep(30)
                 process = subprocess.Popen(bashCommand.split())
                 output, error = process.communicate()
                 #print(output, error)
