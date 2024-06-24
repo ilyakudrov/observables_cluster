@@ -19,7 +19,7 @@ for((copy=${starting_copy};copy<=${gauge_copies};copy++))
 do
 
 if [[ ${copy} != 0 ]]; then
-conf_path_end1="_${copy}${conf_path_end}"
+conf_path_end1="${conf_path_end}_${copy}"
 else
 conf_path_end1="${conf_path_end}"
 fi

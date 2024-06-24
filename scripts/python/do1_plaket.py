@@ -6,7 +6,7 @@ sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
 
-conf_size = "32^3x24"
+conf_size = "32^3x32"
 #conf_type = "su2_suzuki"
 #conf_type = "gluodynamics"
 conf_type = "qc2dstag"
@@ -14,7 +14,7 @@ theory_type = "su2"
 
 calculate_absent = 0
 
-number_of_jobs = 50
+number_of_jobs = 500
 arch = "rrcmpi-a"
 #additional_parameters = 'steps_0/copies=20'
 additional_parameters = '/'

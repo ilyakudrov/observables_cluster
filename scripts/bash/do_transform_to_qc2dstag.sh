@@ -47,7 +47,6 @@ parameters="-conf_format ${conf_format} -conf_path ${conf_path} -bytes_skip ${by
 
 fi
 fi
-fi
 
 done
 done

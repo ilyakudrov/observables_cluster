@@ -16,14 +16,14 @@ theory_type = "su2"
 #steps_arr = [0.00125, 0.0025, 0.00375, 0.00625, 0.01]
 #steps_arr = [0.006, 0.0125, 0.025, 0.05, 0.1]
 steps_arr = [0.001]
-T_init = 2
-T_final = 0.3
+T_init = 2.5
+T_final = 0.1
 OR_steps = 4
-thermalization_steps = 20
+thermalization_steps = 50
 tolerance_maximal = 1e-8
 tolerance_average = 1e-12
 tolerance_digits = 7
-gauge_copies = 4
+gauge_copies = 5
 
 #is_new_trial = 1
 #is_final = 0
@@ -41,12 +41,12 @@ fixation_type = 'final'
 
 number_of_jobs = 400
 
-arch = "rrcmpi-a"
+arch = "rrcmpi"
 
 conf_size_arr = ['40^4']
 beta_arr = ['/']
 #beta_arr = ['beta2.441']
-mu_arr = ['mu0.35', 'mu0.45']
+mu_arr = ['mu0.15']
 #mu_arr = ['mu0.45']
 #mu_arr = ['/']
 

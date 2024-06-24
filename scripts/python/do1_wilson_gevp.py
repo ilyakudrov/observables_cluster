@@ -9,22 +9,21 @@ sys.path.append(os.path.join(os.path.dirname(
 from iterate_confs import distribute_jobs
 
 #conf_type = "su2_suzuki"
-conf_type = "gluodynamics"
+#conf_type = "gluodynamics"
 #conf_type = "QCD/140MeV"
-#conf_type = "qc2dstag"
-theory_type = "su3"
-#wilson_type_array = ['original']
-wilson_type_array = ['monopoless', 'monopole']
+conf_type = "qc2dstag"
+theory_type = "su2"
+wilson_type_array = ['original']
+#wilson_type_array = ['monopoless', 'monopole']
 #wilson_type_array = ['original']
 #wilson_type_array = ['abelian']
 #wilson_type_array = ['mag', 'mag_Landau']
 #wilson_type_array = ['offdiagonal']
 #wilson_type_array = ["photon", "offdiagonal"]
-plaket_type = 'original'
 
 #calculate_absent = "true"
 calculate_absent = 0
-gauge_copies = 20
+gauge_copies = 0
 
 HYP_enabled = 1
 HYP_alpha1 = "1"
@@ -32,22 +31,24 @@ HYP_alpha2 = "1"
 HYP_alpha3 = "0.5"
 APE_alpha = "0.6"
 APE_steps = "41"
-HYP_steps_array = ['0', '1', '3']
-calculation_step_APE = 5
+#HYP_steps_array = ['0', '1', '3']
+HYP_steps_array = ['1']
+calculation_step_APE = 10
 calculation_APE_start = 1
 N_dir = 4
 
-number_of_jobs = 20
+number_of_jobs = 1000
 
 arch = "rrcmpi-a"
 
 #beta_arr = ['beta2.6', 'beta2.779']
-beta_arr = ['beta6.3']
-#beta_arr = ['/']
+#beta_arr = ['beta6.3']
+beta_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.20', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
-#mu_arr = ['mu0.35', 'mu0.40']
-mu_arr = ['/']
-conf_size_arr = ['36^4']
+mu_arr = ['mu0.15']
+#mu_arr = ['/']
+conf_size_arr = ['40^4']
+#conf_size_arr = ['32^3x8', '32^3x16', '32^3x20', '32^3x24', '32^3x28', '32^3x32']
 #conf_size_arr = ['32^3x64']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14', 'nt16', 'nt18', 'nt20']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
@@ -66,7 +67,7 @@ conf_size_arr = ['36^4']
 #				'T_step=0.008', 'T_step=0.0125', 'T_step=0.05', 'T_step=5e-05',
 #				'T_step=0.0002', 'T_step=0.0005', 'T_step=0.001', 'T_step=0.002',
 #				'T_step=0.006', 'T_step=0.01', 'T_step=0.025', 'T_step=0.1']
-additional_parameters_arr = ['steps_0/copies=20']
+#additional_parameters_arr = ['steps_0/copies=20']
 #additional_parameters_arr = ['steps_0/copies=20', 'steps_100/copies=20/0.01', 'steps_4000/copies=20/0.01']
 #additional_parameters_arr = ['steps_25/copies=4', 'steps_100/copies=2', 'steps_100/copies=1',
 #                             'steps_50/copies=4', 'steps_50/copies=2',
@@ -74,7 +75,7 @@ additional_parameters_arr = ['steps_0/copies=20']
 #                             'steps_500/copies=4', 'steps_0/copies=1',
 #                             'steps_2/copies=1', 'steps_10/copies=1',
 #                             'steps_1000/copies=4', 'steps_2000/copies=4']
-#additional_parameters_arr = ['/']
+additional_parameters_arr = ['/']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
                additional_parameters_arr, wilson_type_array, HYP_steps_array]
@@ -93,9 +94,9 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
     L_spat = data['x_size']
     L_time = data['t_size']
     T_min = 1
-    T_max = L_time
+    T_max = L_time/2
     R_min = 1
-    R_max = L_spat
+    R_max = L_spat/2
     if wilson_type != 'original':
         conf_path_start_wilson = conf_path_start_wilson + \
             f'/{additional_parameters}'
@@ -116,7 +117,7 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
         # log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/smearing/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
         #     f'T_step={T_step}/T_final={T_final}/OR_steps={OR_steps}/{smearing_str}/{job[0]}'
         log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/wilson_gevp/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
-            f'{wilson_type}_{plaket_type}/{smearing_str}/{additional_parameters}/{job[0]}'
+            f'{wilson_type}/{smearing_str}/{additional_parameters}/{job[0]}'
         conf_path_start_wilson1 = f'{conf_path_start_wilson}/{job[0]}/{conf_name_wilson}'
         try:
             os.makedirs(log_path)
@@ -131,7 +132,7 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
         # 8gb for 48^4 su2
         # 8gb for nt6 and bigger
         # 16gb for nt10 and bigger
-        bashCommand = f'qsub -q mem16gb -l nodes=1:ppn=8 -v convert_wilson={convert_wilson},'\
+        bashCommand = f'qsub -q mem4gb -l nodes=1:ppn=2 -v convert_wilson={convert_wilson},'\
             f'conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
             f'conf_format_wilson={conf_format_wilson},bytes_skip_wilson={bytes_skip_wilson},'\
             f'padding_wilson={padding_wilson},calculate_absent={calculate_absent},'\

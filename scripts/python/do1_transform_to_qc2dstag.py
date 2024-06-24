@@ -11,22 +11,23 @@ from iterate_confs import distribute_jobs
 conf_type = "qc2dstag"
 theory_type = "su2"
 decomposition_type_array = ['monopoless', 'monopole']
+#decomposition_type_array = ['monopoless']
 
 calculate_absent = 0
 gauge_copies = 0
 
-number_of_jobs = 10
+number_of_jobs = 600
 arch = "rrcmpi"
 
 #beta_arr = ['beta6.1']
 beta_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.20', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
-mu_arr = ['mu0.00', 'mu0.05', 'mu0.15']
+mu_arr = ['mu0.15']
+#mu_arr = ['mu0.05']
 # mu_arr = ['/']
 conf_size_arr = ['40^4']
-additional_parameters_arr = ['steps_0/copies=20']
+additional_parameters_arr = ['T_step=0.001']
 #additional_parameters_arr = ['/']
-conf_name_new = 'decomposition_type_'
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
                additional_parameters_arr, decomposition_type_array]
@@ -45,8 +46,10 @@ for beta, mu, conf_size, additional_parameters, decomposition_type in itertools.
     L_spat = data['x_size']
     L_time = data['t_size']
 
+    conf_path_start = conf_path_start + f'/{additional_parameters}'
+
     #chains = {'/': [501, 501]}
-    #chains = {'s5': [1, 450], 's6': [1, 450]}
+    #chains = {'s0': [201, 201]}
     #jobs = distribute_jobs(chains, number_of_jobs)
     jobs = distribute_jobs(data['chains'], number_of_jobs)
 
@@ -59,7 +62,7 @@ for beta, mu, conf_size, additional_parameters, decomposition_type in itertools.
             pass
         # qsub -q mem8gb -l nodes=1:ppn=4
         # qsub -q long
-        bashCommand = f'qsub -q long -l nodes=1:ppn=8 -v convert={convert},'\
+        bashCommand = f'qsub -q long -v convert={convert},'\
             f'conf_path_start={conf_path_start},conf_path_end={conf_path_end},'\
             f'conf_format={conf_format},bytes_skip={bytes_skip},conf_name={conf_name},'\
             f'padding={padding},calculate_absent={calculate_absent},'\

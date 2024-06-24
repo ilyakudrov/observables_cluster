@@ -9,22 +9,22 @@ sys.path.append(os.path.join(os.path.dirname(
 from iterate_confs import distribute_jobs
 
 #conf_type = "su2_suzuki"
-conf_type = "gluodynamics"
-#conf_type = "qc2dstag"
+#conf_type = "gluodynamics"
+conf_type = "qc2dstag"
 theory_type = "su2"
 
 #additional_parameters_arr = ['T_step=0.006', 'T_step=0.0125', 'T_step=0.025', 'T_step=0.05', 'T_step=0.1']
 additional_parameters_arr = ['T_step=0.001']
 
-number_of_jobs = 1000
+number_of_jobs = 600
 
-arch = "rrcmpi-a"
-beta_arr = ['beta2.478']
-#beta_arr = ['/']
-mu_arr = ['/']
+arch = "rrcmpi"
+#beta_arr = ['beta2.478']
+beta_arr = ['/']
+#mu_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
-#mu_arr = ['mu0.45']
-conf_size_arr = ['32^3x8']
+mu_arr = ['mu0.15']
+conf_size_arr = ['40^4']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
                additional_parameters_arr]
@@ -39,6 +39,7 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
     conf_path_end = data['conf_path_end']
     padding = data['padding']
     conf_name = data['conf_name']
+    convert = data['convert']
     L_spat = data['x_size']
     L_time = data['t_size']
 
@@ -53,7 +54,7 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
     #conf_name = 'conf_'
 
     #chains = {'/': [1, 5]}
-    #chains = {'s0': [1, 1]}
+    #chains = {'s0': [201, 201]}
     #jobs = distribute_jobs(chains, number_of_jobs)
     jobs = distribute_jobs(data['chains'], number_of_jobs)
 

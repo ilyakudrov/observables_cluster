@@ -13,19 +13,19 @@ conf_type = "gluodynamics"
 theory_type = "su3"
 
 arch = "rrcmpi-a"
-gauge_copies = 0
+gauge_copies = 20
 
 #beta_arr = ['/']
-beta_arr = ['beta6.3']
+beta_arr = ['beta6.0']
 #mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
 mu_arr = ['/']
 #additional_parameters_arr = ['steps_2000/copies=1', 'steps_330/copies=1']
-additional_parameters_arr = ['steps_500/copies=4']
+additional_parameters_arr = ['steps_100/copies=20']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
 #conf_size_arr = ['nt20']
-conf_size_arr = ['36^4']
+conf_size_arr = ['32^4']
 
-number_of_jobs = 200
+number_of_jobs = 300
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr, additional_parameters_arr]
 for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays):
@@ -60,7 +60,7 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
             os.makedirs(log_path)
         except:
             pass
-        output_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/monopoles_su3/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}'
+        output_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/monopoles_su3/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}/{job[0]}'
         # for nt8 and bigger
         # qsub -q mem4gb -l nodes=1:ppn=2
         bashCommand = f'qsub -q long -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bytes_skip={bytes_skip},'\
