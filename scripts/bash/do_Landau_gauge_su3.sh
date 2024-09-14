@@ -11,9 +11,9 @@ conf_path_end=""
 fi
 
 if [[ ${gauge_copies} == 0 ]]; then
-starting_copy=0
+ending_copy=1
 else
-starting_copy=1
+ending_copy=${gauge_copies}
 fi
 
 if [[ ${conf_format} == "ildg" ]]; then
@@ -23,7 +23,7 @@ if [[ ${conf_format} == "double_qc2dstag" ]]; then
 conf_format="QCDSTAG"
 fi
 
-for((copy=${starting_copy};copy<=${gauge_copies};copy++))
+for((copy=0;copy<${ending_copy};copy++))
 do
 
 SA_steps=20
@@ -32,7 +32,7 @@ samin=0.5
 seed=$(date +%s)
 
 path_conf="${conf_path_start}/${conf_name}`printf %0${padding}d $i`${conf_path_end}"
-if [[ ${copy} == 0 ]]; then
+if [[ ${gauge_copies} == 0 ]]; then
 path_conf="${path_conf}"
 else
 path_conf="${path_conf}_${copy}"
@@ -42,7 +42,7 @@ echo ${path_conf}
 if [ -f ${path_conf} ] && [ -s ${path_conf} ] ; then
 
 conf_out="${output_conf_path}/conf_Landau_`printf %0${padding}d $i`$conf_path_end"
-if [[ ${copy} == 0 ]]; then
+if [[ ${gauge_copies} == 0 ]]; then
 conf_out="${conf_out}"
 conf_path_end1="$conf_path_end"
 echo conf_path_end1 ${conf_path_end1}

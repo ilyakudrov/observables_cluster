@@ -16,23 +16,24 @@ theory_type = "su3"
 
 calculate_absent = 0
 
-copies = 20
+copies = 100
 T_min = 0.001
 
 tolerance = '1e-13'
 #doSA = 0
 save_each = 1
+save_best = 0
 
-number_of_jobs = 120
+number_of_jobs = 80
 
-beta_arr = ['beta6.4']
+beta_arr = ['beta6.0']
 #beta_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
 mu_arr = ['/']
 #conf_size_arr = ['nt16', 'nt18', 'nt20']
-conf_size_arr = ['40^4']
+conf_size_arr = ['24^4']
 #steps_arr = [25, 50, 100, 200, 500, 1000, 2000]
-steps_arr = [0]
+steps_arr = [100]
 #steps_arr = [62, 125, 250]
 #steps_arr = [0, 2, 10]
 
@@ -66,12 +67,12 @@ for beta, mu, conf_size, steps in itertools.product(*iter_arrays):
     #conf_name = 'conf.SP_gaugefixed_'
     #conf_path_end = '.ildg'
 
-    #chains = {'/': [1, 1]}
+    chains = {'/': [1, 1000]}
     #chains = {'/': [1001, 1001]}
     #chains = {'s2': [1, 2000]}
     #chains = {'s1': [20, 20]}
-    #jobs = distribute_jobs(chains, number_of_jobs)
-    jobs = distribute_jobs(data['chains'], number_of_jobs)
+    jobs = distribute_jobs(chains, number_of_jobs)
+    #jobs = distribute_jobs(data['chains'], number_of_jobs)
 
     for job in jobs:
         log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/mag_su3/conf_gaugefixed/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
@@ -90,7 +91,7 @@ for beta, mu, conf_size, steps in itertools.product(*iter_arrays):
         bashCommand = f'qsub -q kepler -l nodes=1:ppn=8 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
             f'conf_format={conf_format},bytes_skip={bytes_skip},tolerance={tolerance},conf_path_output={conf_path_output},'\
             f'padding={padding},calculate_absent={calculate_absent},functional_path_output={functional_path_output},'\
-            f'L_spat={L_spat},L_time={L_time},steps={steps},T_min={T_min},copies={copies},doSA={doSA},save_each={save_each},'\
+            f'L_spat={L_spat},L_time={L_time},steps={steps},T_min={T_min},copies={copies},doSA={doSA},save_each={save_each},save_best={save_best},'\
             f'chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\
             f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../../bash/mag_su3/do_mag_su3.sh'
         # print(bashCommand)

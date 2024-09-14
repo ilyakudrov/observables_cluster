@@ -10,19 +10,19 @@ conf_path_end=""
 fi
 
 if [[ ${gauge_copies} == 0 ]]; then
-starting_copy=0
+ending_copy=1
 else
-starting_copy=1
+ending_copy=${gauge_copies}
 fi
 
-for((copy=${starting_copy};copy<=${gauge_copies};copy++))
+for((copy=0;copy<${ending_copy};copy++))
 do
 
 path_conf="${conf_path_start}`printf %0${padding}d $i`${conf_path_end}"
 path_conf_monopole1="${path_conf_monopole}/conf_monopole_`printf %04d $i`"
 path_conf_monopoless1="${path_conf_monopoless}/conf_monopoless_`printf %04d $i`"
 
-if [[ ${copy} == 0 ]]; then
+if [[ ${gauge_copies} == 0 ]]; then
 path_conf="${path_conf}"
 path_conf_monopole1="${path_conf_monopole1}"
 path_conf_monopoless1="${path_conf_monopoless1}"

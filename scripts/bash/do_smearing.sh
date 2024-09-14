@@ -16,18 +16,18 @@ conf_path_end_wilson=""
 fi
 
 if [[ ${gauge_copies} == 0 ]]; then
-starting_copy=0
+ending_copy=1
 else
-starting_copy=1
+ending_copy=${gauge_copies}
 fi
 
-for((copy=${starting_copy};copy<=${gauge_copies};copy++))
+for((copy=0;copy<${ending_copy};copy++))
 do
 
 conf_path_plaket1="${conf_path_start_plaket}`printf %0${padding_plaket}d $i`${conf_path_end_plaket}"
 conf_path_wilson1="${conf_path_start_wilson}`printf %0${padding_wilson}d $i`${conf_path_end_wilson}"
 
-if [[ ${copy} == 0 ]]; then
+if [[ ${gauge_copies} == 0 ]]; then
 conf_path_plaket1="${conf_path_plaket1}"
 conf_path_wilson1="${conf_path_wilson1}"
 else
@@ -54,20 +54,26 @@ if [ ${polyakov_correlator_enabled} -eq 1 ] ; then
 mkdir -p ${path_polyakov_correlator}
 fi
 
+if [ ${polyakov_loop_enabled} -eq 1 ] ; then
+mkdir -p ${path_polyakov_loop}
+fi
+
 if [ ${save_conf} -eq 1 ] ; then
 mkdir -p ${conf_path_output}
 fi
 
-if [[ ${copy} == 0 ]]; then
+if [[ ${gauge_copies} == 0 ]]; then
 output_smeared="${conf_path_output}/smeared_`printf %04d $i`"
 output_wilson="${path_wilson}/wilson_loop_`printf %04d $i`"
 output_flux_tube="${path_flux}/flux_tube_`printf %04d $i`"
 output_polyakov_correlator="${path_polyakov_correlator}/polyakov_correlator_`printf %04d $i`"
+output_polyakov_loop="${path_polyakov_loop}/polyakov_loop_`printf %04d $i`"
 else
 output_smeared="${conf_path_output}/smeared_`printf %04d $i`_${copy}"
 output_wilson="${path_wilson}/wilson_loop_`printf %04d $i`_${copy}"
 output_flux_tube="${path_flux}/flux_tube_`printf %04d $i`_${copy}"
 output_polyakov_correlator="${path_polyakov_correlator}/polyakov_correlator_`printf %04d $i`_${copy}"
+output_polyakov_loop="${path_polyakov_loop}/polyakov_loop_`printf %04d $i`_${copy}"
 fi
 
 echo "output_smeared" "${output_smeared}"
@@ -79,8 +85,8 @@ if [[ ! "${output_smeared}" ]] || [ ! $calculate_absent -eq 1 ] ; then
 parameters="-conf_format_wilson ${conf_format_wilson} -conf_path_wilson ${conf_path_wilson1} -bytes_skip_wilson ${bytes_skip_wilson} -convert_wilson ${convert_wilson}\
     -conf_format_plaket ${conf_format_plaket} -conf_path_plaket ${conf_path_plaket1} -bytes_skip_plaket ${bytes_skip_plaket} -convert_plaket ${convert_plaket}\
     -HYP_alpha1 ${HYP_alpha1} -HYP_alpha2 ${HYP_alpha2} -HYP_alpha3 ${HYP_alpha3}\
-    -APE_alpha ${APE_alpha} -APE_enabled ${APE_enabled} -HYP_enabled ${HYP_enabled}\
-    -APE_steps ${APE_steps} -HYP_steps ${HYP_steps} -L_spat ${L_spat} -L_time ${L_time}\
+    -APE_alpha ${APE_alpha} -APE_enabled ${APE_enabled} -HYP_enabled ${HYP_enabled} -polyakov_loop_enabled ${polyakov_loop_enabled}\
+    -APE_steps ${APE_steps} -HYP_steps ${HYP_steps} -L_spat ${L_spat} -L_time ${L_time} -path_polyakov_loop ${output_polyakov_loop}\
     -path_wilson ${output_wilson} -path_flux ${output_flux_tube} -path_polyakov_correlator ${output_polyakov_correlator}\
     -wilson_enabled ${wilson_enabled} -flux_enabled ${flux_enabled} -polyakov_correlator_enabled ${polyakov_correlator_enabled} -correlator_type ${polyakov_correlator_type}\
     -T_min ${T_min} -T_max ${T_max} -R_min ${R_min} -R_max ${R_max} -calculation_step_APE ${calculation_step_APE}\

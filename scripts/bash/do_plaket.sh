@@ -10,16 +10,16 @@ conf_path_end=""
 fi
 
 if [[ ${gauge_copies} == 0 ]]; then
-starting_copy=0
+ending_copy=1
 else
-starting_copy=1
+ending_copy=${gauge_copies}
 fi
 
-for((copy=${starting_copy};copy<=${gauge_copies};copy++))
+for((copy=0;copy<${ending_copy};copy++))
 do
 
-if [[ ${copy} != 0 ]]; then
-conf_path_end1="_${copy}${conf_path_end}"
+if [[ ${gauge_copies} == 0 ]]; then
+conf_path_end1="${conf_path_end}_${copy}"
 else
 conf_path_end1="${conf_path_end}"
 fi
@@ -30,7 +30,7 @@ echo "conf_path" ${conf_path}
 
 if [ -f ${conf_path} ] && [ -s ${conf_path} ] ; then
 
-if [[ ${copy} == 0 ]]; then
+if [[ ${gauge_copies} == 0 ]]; then
 output_path_plaket="${output_path}/plaket_`printf %04d $i`"
 else
 output_path_plaket="${output_path}/plaket_`printf %04d $i`_${copy}"

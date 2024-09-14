@@ -10,18 +10,18 @@ conf_path_end=""
 fi
 
 if [[ ${gauge_copies} == 0 ]]; then
-starting_copy=0
+ending_copy=1
 else
-starting_copy=1
+ending_copy=${gauge_copies}
 fi
 
-for((copy=${starting_copy};copy<=${gauge_copies};copy++))
+for((copy=0;copy<${ending_copy};copy++))
 do
 
-if [[ ${copy} != 0 ]]; then
-conf_path_end1="${conf_path_end}_${copy}"
-else
+if [[ ${gauge_copies} == 0 ]]; then
 conf_path_end1="${conf_path_end}"
+else
+conf_path_end1="${conf_path_end}_${copy}"
 fi
 
 path_conf="${conf_path_start}`printf %0${padding}d $i`${conf_path_end1}"
@@ -34,7 +34,7 @@ mkdir -p "${output_path}/clusters_wrapped"
 mkdir -p "${output_path}/windings"
 mkdir -p "${output_path}/monopoles"
 
-if [[ ${copy} == 0 ]]; then
+if [[ ${gauge_copies} == 0 ]]; then
 path_output_clusters_unwrapped="${output_path}/clusters_unwrapped/clusters_unwrapped_`printf %04d $i`"
 path_output_clusters_wrapped="${output_path}/clusters_wrapped/clusters_wrapped_`printf %04d $i`"
 path_output_windings="${output_path}/windings/windings_`printf %04d $i`"

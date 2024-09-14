@@ -6,29 +6,29 @@ sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
 
-conf_size = "32^3x32"
+conf_size = "36^4"
 #conf_type = "su2_suzuki"
-#conf_type = "gluodynamics"
-conf_type = "qc2dstag"
-theory_type = "su2"
+conf_type = "gluodynamics"
+#conf_type = "qc2dstag"
+theory_type = "su3"
 
 calculate_absent = 0
 
-number_of_jobs = 500
+number_of_jobs = 50
 arch = "rrcmpi-a"
-#additional_parameters = 'steps_0/copies=20'
-additional_parameters = '/'
+additional_parameters = 'steps_500/copies=4'
+#additional_parameters = '/'
 gauge_copies = 0
 
-for wilson_type in ['original']:
-    # for monopole in ['monopoless']:
-    for beta in ['/']:
-    #for beta in ['beta6.0']:
+#for wilson_type in ['original']:
+for wilson_type in ['monopole', 'monopoless', 'photon', 'offdiagonal', 'abelian']:
+    #for beta in ['/']:
+    for beta in ['beta6.3']:
         # for beta in ['beta2.4', 'beta2.5', 'beta2.6']:
         # for beta in ['beta2.4']:
         # for mu in ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']:
-        for mu in ['mu0.15']:
-        #for mu in ['/']:
+        #for mu in ['mu0.15']:
+        for mu in ['/']:
 
             f = open(
                 f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_{wilson_type}.json')
