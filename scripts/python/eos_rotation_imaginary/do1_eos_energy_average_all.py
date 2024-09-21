@@ -18,7 +18,7 @@ def get_dir_names(path: str) -> list[str]:
         break
     return directories
 
-def queue_job(df, spec_additional_path):
+def queue_job(df, spec_additional_path, bin_test):
     df = df.reset_index()
     df['lattice_dir'] = df['lattice_dir'].apply(lambda x: x[:x.rfind('/')])
     base_paths = ' '.join(df['lattice_dir'])
@@ -26,8 +26,8 @@ def queue_job(df, spec_additional_path):
     velocities = ' '.join(df['velocity'])
     boundaries = ' '.join(df['boundary'])
     betas = ' '.join(df['beta'])
-    start = f'{df.loc[df.index[0], 'lattice_size']}/{df.loc[df.index[0], 'boundary']}/{df.loc[df.index[0], 'velocity']}/{df.loc[df.index[0], 'beta']}'
-    end = f'{df.loc[df.index[-1], 'lattice_size']}/{df.loc[df.index[-1], 'boundary']}/{df.loc[df.index[-1], 'velocity']}/{df.loc[df.index[-1], 'beta']}'
+    start = df.loc[df.index[0], 'lattice_size'] + '_' + df.loc[df.index[0], 'boundary'] + '_' + df.loc[df.index[0], 'velocity'] + '_' + df.loc[df.index[0], 'beta']
+    end = df.loc[df.index[-1], 'lattice_size'] + '_' + df.loc[df.index[-1], 'boundary'] + '_' + df.loc[df.index[-1], 'velocity'] + '_' + df.loc[df.index[-1], 'beta']
     log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/eos_energy_average/common'
     try:
         os.makedirs(log_path)
@@ -50,7 +50,7 @@ data_summary_path = '/home/clusters/rrcmpi/kudrov/observables/result/eos_rotatio
 df_data = pd.read_csv(data_summary_path, dtype=str)
 data_size = len(df_data.index)
 bin_size = (data_size + job_number - 1) // job_number
-bins = [i//bin_size for i in range(df_data)]
+bins = [i//bin_size for i in range(data_size)]
 df_data['bins'] = bins
 spec_additional_path = '/home/clusters/rrcmpi/kudrov/observables/data/eos_rotation_imaginary'
 bin_test = False
