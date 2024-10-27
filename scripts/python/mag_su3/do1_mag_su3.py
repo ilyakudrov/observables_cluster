@@ -19,7 +19,7 @@ calculate_absent = 0
 copies = 100
 T_min = 0.001
 
-tolerance = '1e-13'
+tolerance = '1e-15'
 #doSA = 0
 save_each = 1
 save_best = 0
@@ -33,13 +33,13 @@ mu_arr = ['/']
 #conf_size_arr = ['nt16', 'nt18', 'nt20']
 conf_size_arr = ['24^4']
 #steps_arr = [25, 50, 100, 200, 500, 1000, 2000]
-steps_arr = [100]
+steps_arr = [0]
 #steps_arr = [62, 125, 250]
 #steps_arr = [0, 2, 10]
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr, steps_arr]
 for beta, mu, conf_size, steps in itertools.product(*iter_arrays):
-    additional_parameters = f'steps_{steps}/copies={copies}'
+    additional_parameters = f'steps_{steps}_{tolerance}/copies={copies}'
     f = open(
         f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_original.json')
     data = json.load(f)
@@ -67,7 +67,7 @@ for beta, mu, conf_size, steps in itertools.product(*iter_arrays):
     #conf_name = 'conf.SP_gaugefixed_'
     #conf_path_end = '.ildg'
 
-    chains = {'/': [1, 1000]}
+    chains = {'/': [1, 500]}
     #chains = {'/': [1001, 1001]}
     #chains = {'s2': [1, 2000]}
     #chains = {'s1': [20, 20]}

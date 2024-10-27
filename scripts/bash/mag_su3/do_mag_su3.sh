@@ -42,7 +42,7 @@ seed=$(date +%s)
 /home/clusters/rrcmpi/kudrov/SU3_MA_gauge_GPU/src/gaugefixing/apps/MAGaugeFixingSU3_4D_DP_N${L_spat}T${L_time}  --ftype ${conf_format} --fbasename ${conf_path_start} \
  --fending "$conf_path_end" --reinterpret DOUBLE --fnumberformat ${padding} -m 1 --fstartnumber ${i} --sasteps ${steps} --samin ${T_min} --samax 1.25\
  --output_SA_functional ${path_functional_output} --gaugecopies ${copies} --output_conf "${conf_path_output}/conf_" --output_ending "${conf_path_end}" --seed ${seed} \
- --microupdates 6 --precision ${tolerance} --ormaxiter 10000 --doSA ${doSA} --save_each ${save_each} --save_best ${save_best}
+ --microupdates 6 --precision ${tolerance} --ormaxiter 100000 --doSA ${doSA} --save_each ${save_each} --save_best ${save_best}
 
 fi
 fi

@@ -38,7 +38,7 @@ else
 output_wilson="${path_wilson}/wilson_loop_`printf %04d $i`_${copy}"
 fi
 
-if [[ ! "${output_wilson}" ]] || [ ! $calculate_absent -eq 1 ] ; then
+if [[ ! -f "${output_wilson}" ]] || [ ! $calculate_absent -eq 1 ] ; then
 
 parameters="-conf_format_wilson ${conf_format_wilson} -conf_path_wilson ${conf_path_wilson1} -bytes_skip_wilson ${bytes_skip_wilson} -convert_wilson ${convert_wilson}\
     -HYP_alpha1 ${HYP_alpha1} -HYP_alpha2 ${HYP_alpha2} -HYP_alpha3 ${HYP_alpha3}\

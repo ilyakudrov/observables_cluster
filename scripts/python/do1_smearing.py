@@ -13,9 +13,9 @@ conf_type = "gluodynamics"
 #conf_type = "QCD/140MeV"
 #conf_type = "qc2dstag"
 theory_type = "su3"
-wilson_type_array = ['abelian', 'monopole', 'offdiagonal', 'photon']
+#wilson_type_array = ['abelian', 'monopole', 'offdiagonal', 'photon']
 #wilson_type_array = ['coulomb']
-#wilson_type_array = ['monopole']
+wilson_type_array = ['original']
 #wilson_type_array = ['monopoless', 'monopole', 'abelian', 'photon', 'offdiagonal']
 #wilson_type_array = ['monopoless', 'offdiagonal']
 #wilson_type_array = ['original']
@@ -26,7 +26,7 @@ plaket_type = 'original'
 
 #calculate_absent = "true"
 calculate_absent = 0
-gauge_copies = 19
+gauge_copies = 0
 
 APE_enabled = 1
 HYP_enabled = 1
@@ -37,8 +37,8 @@ HYP_alpha1 = "1"
 HYP_alpha2 = "1"
 HYP_alpha3 = "0.5"
 APE_alpha = "0.5"
-APE_steps = "151"
-HYP_steps_array = ['0', '1']
+APE_steps = "1"
+HYP_steps_array = ['1']
 #HYP_steps_array = ['10']
 calculation_step_APE = 10
 calculation_APE_start = 1
@@ -53,12 +53,12 @@ polyakov_loop_enabled = 0
 #polyakov_correlator_type = 'color_average'
 save_conf = 0
 
-number_of_jobs = 50
+number_of_jobs = 1
 
 arch = "rrcmpi-a"
 
 #beta_arr = ['beta2.6', 'beta2.779']
-beta_arr = ['beta6.3']
+beta_arr = ['beta6.1']
 #beta_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.20', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
 #mu_arr = ['mu0.15']
@@ -84,7 +84,7 @@ conf_size_arr = ['36^4']
 #				'T_step=0.008', 'T_step=0.0125', 'T_step=0.05', 'T_step=5e-05',
 #				'T_step=0.0002', 'T_step=0.0005', 'T_step=0.001', 'T_step=0.002',
 #				'T_step=0.006', 'T_step=0.01', 'T_step=0.025', 'T_step=0.1']
-additional_parameters_arr = ['steps_0/copies=20']
+#additional_parameters_arr = ['steps_0/copies=10']
 #additional_parameters_arr = ['steps_2000/copies=1']
 #additional_parameters_arr = ['steps_0/copies=20', 'steps_100/copies=20/0.01', 'steps_4000/copies=20/0.01']
 #additional_parameters_arr = ['steps_25/copies=4', 'steps_100/copies=2', 'steps_100/copies=1',
@@ -93,7 +93,7 @@ additional_parameters_arr = ['steps_0/copies=20']
 #                             'steps_500/copies=4', 'steps_0/copies=1',
 #                             'steps_2/copies=1', 'steps_10/copies=1',
 #                             'steps_1000/copies=4', 'steps_2000/copies=4']
-#additional_parameters_arr = ['/']
+additional_parameters_arr = ['/']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
                additional_parameters_arr, wilson_type_array, HYP_steps_array]
@@ -163,10 +163,10 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
     if APE_enabled == 0:
         smearing_str = f'HYP{HYP_steps}_alpha={HYP_alpha1}_{HYP_alpha2}_{HYP_alpha3}'
 
-    #chains = {'/': [1001, 1001]}
+    chains = {'s1': [1, 1]}
     #chains = {'s5': [1, 450], 's6': [1, 450]}
-    #jobs = distribute_jobs(chains, number_of_jobs)
-    jobs = distribute_jobs(data['chains'], number_of_jobs)
+    jobs = distribute_jobs(chains, number_of_jobs)
+    #jobs = distribute_jobs(data['chains'], number_of_jobs)
 
     for job in jobs:
 
@@ -197,7 +197,7 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
         # 8gb for 48^4 su2
         # 8gb for nt6 and bigger
         # 16gb for nt10 and bigger
-        bashCommand = f'qsub -q mem16gb -l nodes=1:ppn=8 -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\
+        bashCommand = f'qsub -q mem8gb -l nodes=1:ppn=4 -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\
             f'conf_format_plaket={conf_format_plaket},bytes_skip_plaket={bytes_skip_plaket},convert_wilson={convert_wilson},'\
             f'conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
             f'conf_format_wilson={conf_format_wilson},bytes_skip_wilson={bytes_skip_wilson},convert_plaket={convert_plaket},'\

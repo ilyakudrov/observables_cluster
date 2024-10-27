@@ -19,9 +19,9 @@ for((copy=0;copy<${ending_copy};copy++))
 do
 
 if [[ ${gauge_copies} == 0 ]]; then
-conf_path_end1="${conf_path_end}_${copy}"
-else
 conf_path_end1="${conf_path_end}"
+else
+conf_path_end1="${conf_path_end}_${copy}"
 fi
 
 conf_path="${conf_path_start}`printf %0${padding}d $i`${conf_path_end1}"

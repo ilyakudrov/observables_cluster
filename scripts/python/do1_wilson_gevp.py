@@ -9,12 +9,12 @@ sys.path.append(os.path.join(os.path.dirname(
 from iterate_confs import distribute_jobs
 
 #conf_type = "su2_suzuki"
-conf_type = "gluodynamics"
+#conf_type = "gluodynamics"
 #conf_type = "QCD/140MeV"
-#conf_type = "qc2dstag"
-theory_type = "su3"
+conf_type = "qc2dstag"
+theory_type = "su2"
 wilson_type_array = ['original']
-#wilson_type_array = ['monopoless', 'monopole']
+#wilson_type_array = ['monopoless', 'monopole', 'offdiagonal', 'photon', 'abelian']
 #wilson_type_array = ['monopole']
 #wilson_type_array = ['abelian']
 #wilson_type_array = ['mag', 'mag_Landau']
@@ -30,24 +30,24 @@ HYP_alpha1 = "1"
 HYP_alpha2 = "1"
 HYP_alpha3 = "0.5"
 APE_alpha = "0.6"
-APE_steps = "151"
+APE_steps = "51"
 #HYP_steps_array = ['0', '1']
 HYP_steps_array = ['1']
 calculation_step_APE = 10
 calculation_APE_start = 1
-N_dir = 4
+N_dir = 1
 
-number_of_jobs = 800
+number_of_jobs = 100
 
 arch = "rrcmpi-a"
 
 #beta_arr = ['beta2.6', 'beta2.779']
-beta_arr = ['beta6.0']
-#beta_arr = ['/']
+#beta_arr = ['beta6.1']
+beta_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.20', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
-#mu_arr = ['mu0.15']
-mu_arr = ['/']
-conf_size_arr = ['16^4']
+mu_arr = ['mu0.00', 'mu0.25', 'mu0.30', 'mu0.40']
+#mu_arr = ['/']
+conf_size_arr = ['32^4']
 #conf_size_arr = ['32^3x8', '32^3x16', '32^3x20', '32^3x24', '32^3x28', '32^3x32']
 #conf_size_arr = ['32^3x64']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14', 'nt16', 'nt18', 'nt20']
@@ -94,9 +94,9 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
     L_spat = data['x_size']
     L_time = data['t_size']
     T_min = 1
-    T_max = L_time/2
+    T_max = L_time//2
     R_min = 1
-    R_max = L_spat/2
+    R_max = L_spat//2
     if wilson_type != 'original':
         conf_path_start_wilson = conf_path_start_wilson + \
             f'/{additional_parameters}'
@@ -107,13 +107,12 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
         smearing_str = f'HYP{HYP_steps}_alpha={HYP_alpha1}_{HYP_alpha2}_{HYP_alpha3}_APE_alpha={APE_alpha}'
 
     #chains = {'/': [1001, 1001]}
-    #chains = {'s5': [1, 450], 's6': [1, 450]}
-    #chains = {'s1': [1001, 1001]}
+    #chains = {'s3': [5932, 5932]}
+    #chains = {'s2': [1, 1424], 's3': [1, 6000], 's4': [1, 6000]}
     #jobs = distribute_jobs(chains, number_of_jobs)
     jobs = distribute_jobs(data['chains'], number_of_jobs)
 
     for job in jobs:
-
         # log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/smearing/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
         #     f'T_step={T_step}/T_final={T_final}/OR_steps={OR_steps}/{smearing_str}/{job[0]}'
         log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/wilson_gevp/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
