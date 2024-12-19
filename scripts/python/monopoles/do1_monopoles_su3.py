@@ -20,10 +20,10 @@ beta_arr = ['beta6.0']
 #mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
 mu_arr = ['/']
 #additional_parameters_arr = ['steps_2000/copies=1', 'steps_330/copies=1']
-additional_parameters_arr = ['steps_0_1e-15/copies=100']
+additional_parameters_arr = ['steps_100/copies=100']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
 #conf_size_arr = ['nt16', 'nt18', 'nt20']
-conf_size_arr = ['24^4']
+conf_size_arr = ['32^4']
 
 number_of_jobs = 500
 
@@ -46,10 +46,10 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
 
     conf_path_start = conf_path_start + f'/{additional_parameters}'
 
-    chains = {'/': [1, 500]}
+    #chains = {'s0': [1, 500]}
     #chains = {'s4': [1, 6000]}
-    jobs = distribute_jobs(chains, number_of_jobs)
-    #jobs = distribute_jobs(data['chains'], number_of_jobs)
+    #jobs = distribute_jobs(chains, number_of_jobs)
+    jobs = distribute_jobs(data['chains'], number_of_jobs)
 
     for job in jobs:
 

@@ -26,9 +26,9 @@ fi
 for((copy=0;copy<${ending_copy};copy++))
 do
 
-SA_steps=20
+SA_steps=100
 samax=3.5
-samin=0.5
+samin=0.001
 seed=$(date +%s)
 
 path_conf="${conf_path_start}/${conf_name}`printf %0${padding}d $i`${conf_path_end}"

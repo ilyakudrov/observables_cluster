@@ -15,24 +15,24 @@ theory_type = "su3"
 compensate = 1
 calculate_absent="false"
 parallel = 1
-gauge_copies = 10
+gauge_copies = 100
 #additional_parameters_arr = ['steps_0/copies=1', 'steps_2/copies=1', 
 #                             'steps_10/copies=1', 'steps_25/copies=4', 
 #                             'steps_50/copies=4', 'steps_100/copies=4', 
 #                             'steps_200/copies=4', 'steps_500/copies=4']
-additional_parameters_arr = ['steps_0/copies=10']
+additional_parameters_arr = ['steps_100/copies=100']
 
-number_of_jobs = 2000
+number_of_jobs = 500
 
 arch = "rrcmpi-a"
 #beta_arr = ['/']
-beta_arr = ['beta6.1']
+beta_arr = ['beta6.0']
 mu_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
 #conf_size_arr = ['nt16', 'nt18', 'nt20']
 #conf_size_arr = ['32^3x64']
-conf_size_arr = ['36^4']
+conf_size_arr = ['16^4']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
                additional_parameters_arr]
@@ -61,9 +61,9 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
     #conf_name = "conf_Landau_gaugefixed_"
 
     #chains = {'/': [1, 1]}
-    chains = {'s4': [1, 6000]}
-    jobs = distribute_jobs(chains, number_of_jobs)
-    #jobs = distribute_jobs(data['chains'], number_of_jobs)
+    #chains = {'s1': [1, 500]}
+    #jobs = distribute_jobs(chains, number_of_jobs)
+    jobs = distribute_jobs(data['chains'], number_of_jobs)
 
     for job in jobs:
 
@@ -78,7 +78,7 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
         path_conf_monopoless = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/monopoless/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}/{job[0]}'
         path_inverse_laplacian = f'/home/clusters/rrcmpi/kudrov/soft/inverse_laplacian/ALPHA{L_spat}x{L_time}_d.LAT'
         # qsub -q mem8gb -l nodes=1:ppn=4
-        bashCommand = f'qsub -q mem4gb -l nodes=1:ppn=2 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bytes_skip={bytes_skip},'\
+        bashCommand = f'qsub -q long -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bytes_skip={bytes_skip},'\
             f'path_conf_monopole={path_conf_monopole},path_conf_monopoless={path_conf_monopoless},path_inverse_laplacian={path_inverse_laplacian},'\
             f'L_spat={L_spat},L_time={L_time},parallel={parallel},compensate={compensate},gauge_copies={gauge_copies},'\
             f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch},calculate_absent={calculate_absent}'\

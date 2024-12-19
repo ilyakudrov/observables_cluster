@@ -28,7 +28,7 @@ def queue_job(df, spec_additional_path, bin_test):
     betas = ' '.join(df['beta'])
     start = df.loc[df.index[0], 'lattice_size'] + '_' + df.loc[df.index[0], 'boundary'] + '_' + df.loc[df.index[0], 'velocity'] + '_' + df.loc[df.index[0], 'beta']
     end = df.loc[df.index[-1], 'lattice_size'] + '_' + df.loc[df.index[-1], 'boundary'] + '_' + df.loc[df.index[-1], 'velocity'] + '_' + df.loc[df.index[-1], 'beta']
-    log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/eos_energy_average/common_distribution'
+    log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/eos_energy_average/common_average_ring'
     try:
         os.makedirs(log_path)
     except:
@@ -36,7 +36,7 @@ def queue_job(df, spec_additional_path, bin_test):
     add_parameters = f'--spec_additional_path {spec_additional_path}'
     if bin_test:
         add_parameters += '--bin_test'
-    command_qsub = f'qsub -q mem8gb -l nodes=1:ppn=4 -v'
+    command_qsub = f'qsub -q mem16gb -l nodes=1:ppn=8 -v'
     command_parameters = f'base_paths={base_paths},lattice_sizes={lattice_sizes},boundaries={boundaries},velocities={velocities},betas={betas},add_parameters={add_parameters}'
     command_script = f'-o {log_path}/{start}-{end}.o -e {log_path}/{start}-{end}.e ../../bash/eos_rotation_imaginary/do_eos_energy_average_all.sh'
     command = command_qsub.split() + [command_parameters] + command_script.split()
