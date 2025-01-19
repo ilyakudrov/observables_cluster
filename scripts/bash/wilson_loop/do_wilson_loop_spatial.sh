@@ -26,6 +26,8 @@ else
 conf_path1="${conf_path1}_${copy}"
 fi
 
+echo ${conf_path1}
+
 if [ -f ${conf_path1} ] && [ -s ${conf_path1} ]; then
 
 mkdir -p ${path_wilson}

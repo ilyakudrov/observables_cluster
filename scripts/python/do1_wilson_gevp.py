@@ -13,26 +13,26 @@ conf_type = "gluodynamics"
 #conf_type = "QCD/140MeV"
 #conf_type = "qc2dstag"
 theory_type = "su3"
-#wilson_type_array = ['original']
+wilson_type_array = ['original']
 #wilson_type_array = ['abelian', 'monopole', 'monopoless', 'abelian', 'photon']
 #wilson_type_array = ['monopoless', 'monopole', 'offdiagonal', 'photon', 'abelian']
 #wilson_type_array = ['monopoless', 'abelian', 'photon']
-wilson_type_array = ['abelian']
+#wilson_type_array = ['abelian']
 #wilson_type_array = ['mag', 'mag_Landau']
 #wilson_type_array = ['offdiagonal']
 #wilson_type_array = ["photon", "offdiagonal"]
 #representation = 'adjoint'
-representation = 'fundamental'
+representation = 'adjoint'
 
 #calculate_absent = "true"
 calculate_absent = 0
-gauge_copies = 100
+gauge_copies = 0
 
 HYP_enabled = 1
 HYP_alpha1 = "1"
 HYP_alpha2 = "1"
 HYP_alpha3 = "0.5"
-APE_alpha = "0.6"
+APE_alpha = "0.1"
 APE_steps = "21"
 #HYP_steps_array = ['0', '1']
 HYP_steps_array = ['0']
@@ -70,7 +70,7 @@ conf_size_arr = ['24^4']
 #				'T_step=0.008', 'T_step=0.0125', 'T_step=0.05', 'T_step=5e-05',
 #				'T_step=0.0002', 'T_step=0.0005', 'T_step=0.001', 'T_step=0.002',
 #				'T_step=0.006', 'T_step=0.01', 'T_step=0.025', 'T_step=0.1']
-additional_parameters_arr = ['steps_0/copies=100']
+#additional_parameters_arr = ['steps_0/copies=100']
 #additional_parameters_arr = ['steps_0/copies=20', 'steps_100/copies=20/0.01', 'steps_4000/copies=20/0.01']
 #additional_parameters_arr = ['steps_25/copies=4', 'steps_100/copies=2', 'steps_100/copies=1',
 #                             'steps_50/copies=4', 'steps_50/copies=2',
@@ -78,7 +78,7 @@ additional_parameters_arr = ['steps_0/copies=100']
 #                             'steps_500/copies=4', 'steps_0/copies=1',
 #                             'steps_2/copies=1', 'steps_10/copies=1',
 #                             'steps_1000/copies=4', 'steps_2000/copies=4']
-#additional_parameters_arr = ['/']
+additional_parameters_arr = ['/']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
                additional_parameters_arr, wilson_type_array, HYP_steps_array]
@@ -109,11 +109,11 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
     else:
         smearing_str = f'HYP{HYP_steps}_alpha={HYP_alpha1}_{HYP_alpha2}_{HYP_alpha3}_APE_alpha={APE_alpha}'
 
-    chains = {'/': [1, 1000]}
+    #chains = {'/': [1, 1000]}
     #chains = {'s3': [5932, 5932]}
     #chains = {'s2': [1, 1424], 's3': [1, 6000], 's4': [1, 6000]}
-    jobs = distribute_jobs(chains, number_of_jobs)
-    #jobs = distribute_jobs(data['chains'], number_of_jobs)
+    #jobs = distribute_jobs(chains, number_of_jobs)
+    jobs = distribute_jobs(data['chains'], number_of_jobs)
 
     for job in jobs:
         # log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/smearing/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
