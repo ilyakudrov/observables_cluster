@@ -62,7 +62,7 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
     #padding = 4
     #conf_name = "conf_gaugefixed_"
 
-    chains = {'/': [1, 1000]}
+    chains = {'/': [1, 500]}
     #chains = {'s1': [1, 1000]}
     jobs = distribute_jobs(chains, number_of_jobs)
     #jobs = distribute_jobs(data['chains'], number_of_jobs)
