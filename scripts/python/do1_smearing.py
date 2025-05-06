@@ -9,13 +9,13 @@ sys.path.append(os.path.join(os.path.dirname(
 from iterate_confs import distribute_jobs
 
 #conf_type = "su2_suzuki"
-conf_type = "gluodynamics"
-#conf_type = "QCD/140MeV"
+#conf_type = "gluodynamics"
+conf_type = "QCD/140MeV"
 #conf_type = "qc2dstag"
 theory_type = "su3"
 #wilson_type_array = ['abelian', 'monopole', 'offdiagonal', 'photon']
 #wilson_type_array = ['coulomb']
-wilson_type_array = ['abelian', 'monopole']
+wilson_type_array = ['monopoless', 'monopole']
 #wilson_type_array = ['monopoless', 'monopole', 'abelian', 'photon', 'offdiagonal']
 #wilson_type_array = ['monopoless', 'offdiagonal']
 #wilson_type_array = ['original']
@@ -26,9 +26,9 @@ plaket_type = 'original'
 
 #calculate_absent = "true"
 calculate_absent = 0
-gauge_copies = 19
+gauge_copies = 0
 
-APE_enabled = 1
+APE_enabled = 0
 HYP_enabled = 1
 #HYP_alpha1 = "0.75"
 #HYP_alpha2 = "0.6"
@@ -36,40 +36,40 @@ HYP_enabled = 1
 HYP_alpha1 = "1"
 HYP_alpha2 = "1"
 HYP_alpha3 = "0.5"
-APE_alpha = "1"
-APE_steps = "301"
-HYP_steps_array = ['0']
+APE_alpha = "0.5"
+APE_steps = "71"
+HYP_steps_array = ['7']
 #HYP_steps_array = ['10']
 calculation_step_APE = 10
 calculation_APE_start = 1
-calculation_step_HYP = 0
-calculation_HYP_start = 0
+calculation_step_HYP = 1
+calculation_HYP_start = 1
 
-wilson_enabled = 1
+wilson_enabled = 0
 flux_enabled = 0
-polyakov_correlator_enabled = 0
-polyakov_correlator_type = 'singlet'
+polyakov_correlator_enabled = 1
+#polyakov_correlator_type = 'singlet'
 polyakov_loop_enabled = 0
-#polyakov_correlator_type = 'color_average'
+polyakov_correlator_type = 'color_average'
 save_conf = 0
 
-number_of_jobs = 50
+number_of_jobs = 100
 
 arch = "rrcmpi-a"
 
 #beta_arr = ['beta2.6', 'beta2.779']
-beta_arr = ['beta6.0']
-#beta_arr = ['/']
+#beta_arr = ['beta6.0']
+beta_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.20', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
 #mu_arr = ['mu0.15']
 mu_arr = ['/']
-conf_size_arr = ['24^4']
+#conf_size_arr = ['24^4']
 #conf_size_arr = ['32^3x8', '32^3x16', '32^3x20', '32^3x24', '32^3x28', '32^3x32']
 #conf_size_arr = ['16^4', '24^4', '32^4']
 #conf_size_arr = ['32^3x64']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14', 'nt16', 'nt18', 'nt20']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
-#conf_size_arr = ['nt16', 'nt18', 'nt20']
+conf_size_arr = ['nt16', 'nt18', 'nt20']
 #conf_size_arr = ['nt10']
 #additional_parameters_arr = ['T_step=0.001']
 #additional_parameters_arr = ['T_step=0.0001', 'T_step=0.0002', 'T_step=0.0004' 'T_step=0.0005',
@@ -84,8 +84,8 @@ conf_size_arr = ['24^4']
 #				'T_step=0.008', 'T_step=0.0125', 'T_step=0.05', 'T_step=5e-05',
 #				'T_step=0.0002', 'T_step=0.0005', 'T_step=0.001', 'T_step=0.002',
 #				'T_step=0.006', 'T_step=0.01', 'T_step=0.025', 'T_step=0.1']
-additional_parameters_arr = ['steps_0/copies=20']
-#additional_parameters_arr = ['steps_2000/copies=1']
+#additional_parameters_arr = ['steps_0/copies=20']
+additional_parameters_arr = ['steps_500/copies=1']
 #additional_parameters_arr = ['steps_0/copies=20', 'steps_100/copies=20/0.01', 'steps_4000/copies=20/0.01']
 #additional_parameters_arr = ['steps_25/copies=4', 'steps_100/copies=2', 'steps_100/copies=1',
 #                             'steps_50/copies=4', 'steps_50/copies=2',
@@ -196,7 +196,7 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
         # 8gb for 48^4 su2
         # 8gb for nt6 and bigger
         # 16gb for nt10 and bigger
-        bashCommand = f'qsub -q long -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\
+        bashCommand = f'qsub -q mem16gb -l nodes=1:ppn=8 -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\
             f'conf_format_plaket={conf_format_plaket},bytes_skip_plaket={bytes_skip_plaket},convert_wilson={convert_wilson},'\
             f'conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
             f'conf_format_wilson={conf_format_wilson},bytes_skip_wilson={bytes_skip_wilson},convert_plaket={convert_plaket},'\

@@ -17,7 +17,7 @@ def get_dir_names(path: str) -> list[str]:
         break
     return directories
 
-script_name_arr = ['average', 'average_distribution', 'average_rings']
+script_name_arr = ['average_distribution', 'average_observables_rings', 'average_observables']
 #script_name = 'average_distribution'
 #script_name = 'average_rings'
 #additional_dir = 'nt4p_re2_global_vm48'
@@ -25,7 +25,7 @@ script_name_arr = ['average', 'average_distribution', 'average_rings']
 additional_dir = '/'
 #lattice_size_arr = ['5x30x121sq', '6x36x145sq', '7x42x169sq']
 #lattice_size_arr = ['30x30x121sq', '36x36x145sq', '42x42x169sq', '5x30x121sq', '6x36x145sq', '7x42x169sq']
-lattice_size_arr = ['5x30x121sq']
+lattice_size_arr = ['5x30x181sq']
 #boundary_arr = ["PBC_cV"]
 boundary_arr = ["OBCb_cV"]
 #boundary_arr = ["OBCb_cV", "PBC_cV"]
@@ -36,7 +36,7 @@ boundary_arr = ["OBCb_cV"]
 #base_path = '/home/clusters/rrcmpi/kudrov/eos_high_precision/results/EoS-Sym/logs'
 #base_path = '/lustre/rrcmpi/roenko/sychev_hydra/gluo_rotation/eos_run3_p3/nt7p_d2/logs'
 #base_path = '/lustre/rrcmpi/roenko/sychev_hydra/gluo_rotation/eos_run4/nt4p_re2_global_vm48/nt4p_re2_global_vm48/logs'
-base_path = '/home/clusters/rrcmpi/kudrov/eos_high_precision/result/logs'
+base_path = '/home/clusters/rrcmpi/kudrov/eos_high_precision/results/EoS-Sym/logs'
 #base_path = '/home/clusters/rrcmpi/sychev/gluo_rotation/eos_run3/nt6p_v1/logs'
 spec_additional_path = '/home/clusters/rrcmpi/kudrov/observables/data/eos_rotation_imaginary'
 bin_test = False

@@ -31,7 +31,7 @@ def get_error_files(path: str):
         break
     return list(f for f in files if f.endswith('.e'))
 
-base_path = "/home/clusters/rrcmpi/kudrov/observables_cluster/logs/eos_energy_average/common_distribution"
+base_path = "/home/clusters/rrcmpi/kudrov/observables_cluster/logs/eos_energy_average/common_average_polyakov"
 lattice_dirs = get_dir_names(base_path)
 file_list = get_error_files(base_path)
 for file in file_list:

@@ -33,7 +33,7 @@ mu_arr = ['/']
 #conf_size_arr = ['nt16', 'nt18', 'nt20']
 conf_size_arr = ['24^4']
 #steps_arr = [25, 50, 100, 200, 500, 1000, 2000]
-steps_arr = [10]
+steps_arr = [100]
 #steps_arr = [62, 125, 250]
 #steps_arr = [0, 2, 10]
 

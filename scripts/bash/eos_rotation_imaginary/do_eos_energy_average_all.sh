@@ -13,6 +13,8 @@ result_path="/home/clusters/rrcmpi/kudrov/observables/result/eos_rotation_imagin
 # --boundary ${boundaries[i]} --beta ${betas[i]} --result_path ${result_path} ${add_parameters[@]}
 #python3 /home/clusters/rrcmpi/kudrov/observables/code/python/eos_rotation_imaginary/average_distribution.py --base_path ${base_paths[i]} --lattice_size ${lattice_sizes[i]} --velocity ${velocities[i]}\
 # --boundary ${boundaries[i]} --beta ${betas[i]} --result_path ${result_path} ${add_parameters[@]}
-python3 /home/clusters/rrcmpi/kudrov/observables/code/python/eos_rotation_imaginary/average_rings.py --base_path ${base_paths[i]} --lattice_size ${lattice_sizes[i]} --velocity ${velocities[i]}\
+#python3 /home/clusters/rrcmpi/kudrov/observables/code/python/eos_rotation_imaginary/average_rings.py --base_path ${base_paths[i]} --lattice_size ${lattice_sizes[i]} --velocity ${velocities[i]}\
+# --boundary ${boundaries[i]} --beta ${betas[i]} --result_path ${result_path} ${add_parameters[@]}
+/home/clusters/rrcmpi/kudrov/observables/code/c++/eos_rotation_imaginary/${program_name}_test --base_path ${base_paths[i]} --lattice_size ${lattice_sizes[i]} --velocity ${velocities[i]}\
  --boundary ${boundaries[i]} --beta ${betas[i]} --result_path ${result_path} ${add_parameters[@]}
 done

@@ -9,8 +9,8 @@ sys.path.append(os.path.join(os.path.dirname(
 from iterate_confs import distribute_jobs
 
 #conf_type = "su2_suzuki"
-conf_type = "gluodynamics"
-#conf_type = "QCD/140MeV"
+#conf_type = "gluodynamics"
+conf_type = "QCD/140MeV"
 #conf_type = "qc2dstag"
 #conf_size = "40^4"
 # conf_size = "48^4"
@@ -18,7 +18,7 @@ theory_type = "su3"
 
 #decomposition_type_arr = ['mag_Landau']
 #decomposition_type_arr = ["monopoless", "monopole"]
-decomposition_type_arr = ["monopole"]
+decomposition_type_arr = ["original"]
 #decomposition_type_arr = ["monopoless", "monopole", "photon", "offdiagonal", "abelian"]
 
 calculate_absent = "false"
@@ -36,8 +36,8 @@ calculate_absent = "false"
 #                             'steps_2000/copies=3/compensate_1', 'steps_4000/copies=3/compensate_1']
 #additional_parameters_arr = ['steps_1000/copies=3/compensate_1',
 #                             'steps_2000/copies=3/compensate_1', 'steps_4000/copies=3/compensate_1']
-additional_parameters_arr = ['steps_500/copies=4']
-#additional_parameters_arr = ['/']
+#additional_parameters_arr = ['steps_500/copies=4']
+additional_parameters_arr = ['/']
 
 correlator_type = 'color_average'
 #correlator_type = 'singlet'
@@ -48,19 +48,19 @@ correlator_type = 'color_average'
 #smearing_arr = ['HYP1_alpha=1_1_0.5_APE_alpha=0.5']
 #smearing_arr = ['unsmeared', 'HYP1_alpha=1_1_0.5', 'HYP2_alpha=1_1_0.5', 'HYP3_alpha=1_1_0.5']
 #smearing_arr = ['HYP3_alpha=1_1_0.5']
-smearing_arr = ['unsmeared']
+#smearing_arr = ['unsmeared']
 
 number_of_jobs = 200
 
 arch = "rrcmpi-a"
 #beta_arr = ['beta2.542']
-beta_arr = ['beta6.3']
-#beta_arr = ['/']
+#beta_arr = ['beta6.3']
+beta_arr = ['/']
 mu_arr = ['/']
 #mu_arr = ['mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
 #mu_arr = ['mu0.00']
-conf_size_arr = ['36^4']
-#conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14', 'nt16', 'nt18']
+#conf_size_arr = ['36^4']
+conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14', 'nt16', 'nt18', 'nt20']
 #conf_size_arr = ['nt4']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
@@ -113,7 +113,7 @@ for beta, mu, conf_size, additional_parameters, decomposition_type, smearing in 
         # qsub -q long
         # 4gb since nt8
         # 8gb since nt16
-        bashCommand = f'qsub -q mem4gb -l nodes=1:ppn=2 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
+        bashCommand = f'qsub -q mem16gb -l nodes=1:ppn=8 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
             f'conf_format={conf_format},bytes_skip={bytes_skip},path_output_correlator={path_output_correlator},'\
             f'padding={padding},calculate_absent={calculate_absent},correlator_type={correlator_type},'\
             f'L_spat={L_spat},L_time={L_time},D_max={D_max},matrix_type={matrix_type},'\

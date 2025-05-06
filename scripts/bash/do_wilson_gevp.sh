@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ "${matrix_type_wilson}" = "su3_abelian" ] && [ "${representation}" = "adjoint" ] ; then
+matrix_type_wilson="su3_angles"
+fi
+
 for((i=${conf_start};i<=${conf_end};i++))
 do
 
