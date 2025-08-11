@@ -14,7 +14,8 @@ conf_type = "gluodynamics"
 #conf_type = "qc2dstag"
 theory_type = "su3"
 #wilson_type_array = ['original']
-#wilson_type_array = ['abelian', 'monopole', 'monopoless']
+#wilson_type_array = ['monopole', 'abelian', 'photon']
+#wilson_type_array = ['monopoless', 'offdiagonal']
 wilson_type_array = ['abelian']
 #wilson_type_array = ['abelian', 'monopole', 'monopoless', 'offdiagonal', 'photon']
 #representation = 'adjoint'
@@ -30,50 +31,30 @@ HYP_alpha2 = "1"
 HYP_alpha3 = "0.5"
 APE_alpha = "0.5"
 APE_steps = "31"
-#HYP_steps_array = ['1', 2]
+#HYP_steps_array = ['0', '1']
 HYP_steps_array = ['0']
 calculation_step_APE = 10
 calculation_APE_start = 11
 N_dir = 4
 
-number_of_jobs = 1000
+number_of_jobs = 500
 
 arch = "rrcmpi-a"
 
 #beta_arr = ['beta2.6', 'beta2.779']
 beta_arr = ['beta6.0']
 #beta_arr = ['/']
-#mu_arr = ['mu0.15']
+#mu_arr = ['mu0.00', 'mu0.25', 'mu0.30', 'mu0.40']
 #mu_arr = ['mu0.00', 'mu0.05', 'mu0.10', 'mu0.15', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.33', 'mu0.35', 'mu0.37', 'mu0.40', 'mu0.45', 'mu0.50']
 mu_arr = ['/']
-conf_size_arr = ['24^4']
+conf_size_arr = ['32^4']
 #conf_size_arr = ['32^3x8', '32^3x16', '32^3x20', '32^3x24', '32^3x28', '32^3x32']
 #conf_size_arr = ['32^3x64']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14', 'nt16', 'nt18', 'nt20']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
 #conf_size_arr = ['nt16', 'nt18', 'nt20']
 #conf_size_arr = ['nt4']
-#additional_parameters_arr = ['T_step=0.001']
-#additional_parameters_arr = ['T_step=0.0001', 'T_step=0.0002', 'T_step=0.0004' 'T_step=0.0005',
-#				'T_step=0.0008', 'T_step=0.001', 'T_step=0.0015', 'T_step=0.002',
-#				'T_step=0.004', 'T_step=0.006', 'T_step=0.008', 'T_step=0.01', 'T_step=0.0125',
-#				'T_step=0.025', 'T_step=0.05', 'T_step=0.1', 'T_step=5e-05']
-#additional_parameters_arr = ['T_step=0.0001', 'T_step=0.006', 'T_step=0.001', 'T_step=0.0125',
-#				'T_step=0.025', 'T_step=0.05', 'T_step=0.1']
-#additional_parameters_arr = ['T_step=0.0001', 'T_step=0.0006', 'T_step=0.001', 'T_step=0.00125',
-#                               'T_step=0.0025', 'T_step=0.00375', 'T_step=0.00625', 'T_step=0.01']
-#additional_parameters_arr = ['T_step=0.0001', 'T_step=0.0004', 'T_step=0.0008', 'T_step=0.0015', 'T_step=0.004',
-#				'T_step=0.008', 'T_step=0.0125', 'T_step=0.05', 'T_step=5e-05',
-#				'T_step=0.0002', 'T_step=0.0005', 'T_step=0.001', 'T_step=0.002',
-#				'T_step=0.006', 'T_step=0.01', 'T_step=0.025', 'T_step=0.1']
-additional_parameters_arr = ['steps_100/copies=100']
-#additional_parameters_arr = ['steps_0/copies=20', 'steps_100/copies=20/0.01', 'steps_4000/copies=20/0.01']
-#additional_parameters_arr = ['steps_25/copies=4', 'steps_100/copies=2', 'steps_100/copies=1',
-#                             'steps_50/copies=4', 'steps_50/copies=2',
-#                             'steps_100/copies=4', 'steps_200/copies=4',
-#                             'steps_500/copies=4', 'steps_0/copies=1',
-#                             'steps_2/copies=1', 'steps_10/copies=1',
-#                             'steps_1000/copies=4', 'steps_2000/copies=4']
+additional_parameters_arr = ['steps_0/copies=100']
 #additional_parameters_arr = ['/']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
@@ -94,6 +75,7 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
     L_time = data['t_size']
     T_min = 1
     T_max = L_time//2
+    #T_max = L_time
     R_min = 1
     R_max = L_spat//2
     if wilson_type != 'original':
@@ -105,8 +87,8 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
     else:
         smearing_str = f'HYP{HYP_steps}_alpha={HYP_alpha1}_{HYP_alpha2}_{HYP_alpha3}_APE_alpha={APE_alpha}'
 
-    chains = {'/': [1, 1000]}
-    #chains = {'s1': [2, 2]}
+    #chains = {'/': [1, 1000]}
+    chains = {'s1': [1, 500]}
     #chains = {'s2': [1, 1424], 's3': [1, 6000], 's4': [1, 6000]}
     jobs = distribute_jobs(chains, number_of_jobs)
     #jobs = distribute_jobs(data['chains'], number_of_jobs)
@@ -128,7 +110,7 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
         # su3:
         # original: 24^4: 2GB, 28^4: 4GB, 32^4: 8GB, 36^4: 8GB, 40^4: 16GB
         # abelian: 28^4: 2GB, 32^4: 4GB, 36^4: 4GB, 40^4: 8GB
-        bashCommand = f'qsub -q long -v convert_wilson={convert_wilson},'\
+        bashCommand = f'qsub -q mem4gb -l nodes=1:ppn=2 -v convert_wilson={convert_wilson},'\
             f'conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
             f'conf_format_wilson={conf_format_wilson},bytes_skip_wilson={bytes_skip_wilson},representation={representation},'\
             f'padding_wilson={padding_wilson},calculate_absent={calculate_absent},'\

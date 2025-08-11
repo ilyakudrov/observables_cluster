@@ -24,12 +24,12 @@ mu_arr = ['/']
 #additional_parameters_arr = ['steps_2000/copies=1', 'steps_330/copies=1']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
 #conf_size_arr = ['nt16', 'nt18', 'nt20']
-conf_size_arr = ['16^4']
+conf_size_arr = ['32^4']
 #conf_size_arr = ['nt16', 'nt18', 'nt20']
 #additional_parameters_arr = ['steps_25/copies=4', 'steps_50/copies=4', 'steps_100/copies=4',
 #                             'steps_200/copies=4', 'steps_500/copies=4', 'steps_1000/copies=4','steps_2000/copies=4']
 #additional_parameters_arr = ['steps_100/copies=20/0.01']
-additional_parameters_arr = ['steps_100/copies=100']
+additional_parameters_arr = ['steps_0/copies=100']
 #additional_parameters_arr = ['steps_25/copies=4', 'steps_50/copies=4',
 #                             'steps_100/copies=4', 'steps_200/copies=4', 'steps_500/copies=4',
 #                             'steps_1000/copies=4', 'steps_2000/copies=4']
@@ -62,10 +62,10 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
     #padding = 4
     #conf_name = "conf_gaugefixed_"
 
-    #chains = {'/': [1, 500]}
-    #chains = {'s1': [1, 1000]}
-    #jobs = distribute_jobs(chains, number_of_jobs)
-    jobs = distribute_jobs(data['chains'], number_of_jobs)
+    #chains = {'/': [547, 1000]}
+    chains = {'s1': [1, 500]}
+    jobs = distribute_jobs(chains, number_of_jobs)
+    #jobs = distribute_jobs(data['chains'], number_of_jobs)
 
     for job in jobs:
         log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/Landau_gauge_U1xU1/{conf_type}/{conf_size}/{beta}/{mu}/'\

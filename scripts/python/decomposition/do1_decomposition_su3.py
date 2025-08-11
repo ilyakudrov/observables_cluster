@@ -14,15 +14,15 @@ theory_type = "su3"
 
 compensate = 1
 calculate_absent="false"
-parallel = 0
-gauge_copies = 100
+parallel = 1
+gauge_copies = 0
 #additional_parameters_arr = ['steps_0/copies=1', 'steps_2/copies=1', 
 #                             'steps_10/copies=1', 'steps_25/copies=4', 
 #                             'steps_50/copies=4', 'steps_100/copies=4', 
 #                             'steps_200/copies=4', 'steps_500/copies=4']
-additional_parameters_arr = ['steps_100/copies=100']
+additional_parameters_arr = ['steps_100/copies=20']
 
-number_of_jobs = 500
+number_of_jobs = 1000
 
 arch = "rrcmpi-a"
 #beta_arr = ['/']
@@ -32,7 +32,7 @@ mu_arr = ['/']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
 #conf_size_arr = ['nt16', 'nt18', 'nt20']
 #conf_size_arr = ['32^3x64']
-conf_size_arr = ['16^4']
+conf_size_arr = ['24^4']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
                additional_parameters_arr]
@@ -60,7 +60,7 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
     #padding = 4
     #conf_name = "conf_Landau_gaugefixed_"
 
-    #chains = {'/': [1, 1]}
+    #chains = {'/': [1, 1000]}
     #chains = {'s1': [1, 500]}
     #jobs = distribute_jobs(chains, number_of_jobs)
     jobs = distribute_jobs(data['chains'], number_of_jobs)

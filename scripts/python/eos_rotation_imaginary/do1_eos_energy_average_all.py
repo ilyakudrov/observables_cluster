@@ -53,7 +53,9 @@ df_data = pd.read_csv(data_summary_path, dtype=str)
 df_data = df_data[~((df_data['lattice_dir'].str.contains('nt4p_im1_global_vm48')) | (df_data['lattice_dir'].str.contains('nt4p_im2_global_vm48')) |
                     (df_data['lattice_dir'].str.contains('nt4p_re2_global_vm48')) | (df_data['lattice_dir'].str.contains('nt4p_full_local')) |
                     (df_data['lattice_dir'].str.contains('nt4p_im1_local')) | (df_data['lattice_dir'].str.contains('nt4p_im2_local')) |
-                    (df_data['lattice_dir'].str.contains('nt4p_re2_local')))]
+                    (df_data['lattice_dir'].str.contains('nt4p_re2_local')) | (df_data['lattice_dir'].str.contains('nt4p_im2_local_v0')) |
+                    (df_data['lattice_dir'].str.contains('nt4o_rs24_tc_test_v0')) | (df_data['lattice_dir'].str.contains('nt4p_full_local_v0')) |
+                    (df_data['lattice_dir'].str.contains('nt4p_re2_local_v0')) | (df_data['lattice_dir'].str.contains('nt4p_rs24_intermediate_v0')))]
 df_data['beta1'] = pd.to_numeric(df_data['beta'], errors='coerce')
 df_data = df_data[~df_data['beta1'].isnull()]
 df_data = df_data.drop(labels='beta1', axis=1)
@@ -64,5 +66,5 @@ bins = [i//bin_size for i in range(data_size)]
 df_data['bins'] = bins
 spec_additional_path = '/home/clusters/rrcmpi/kudrov/observables/data/eos_rotation_imaginary'
 bin_test = False
-#for program_name in ['average_distribution', 'average_observables_rings', 'average_observables']:
-df_data.groupby('bins').apply(queue_job, spec_additional_path, bin_test, 'average_polyakov')
+#for program_name in ['average_distribution', 'average_observables_rings', 'average_observables', 'average_polyakov_distribution', 'average_polyakov', 'average_polyakov_rings']:
+df_data.groupby('bins').apply(queue_job, spec_additional_path, bin_test, 'average_polyakov_rings')
