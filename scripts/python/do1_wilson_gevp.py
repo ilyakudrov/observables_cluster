@@ -75,9 +75,11 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
     L_time = data['t_size']
     T_min = 1
     T_max = L_time//2
+    #T_max = 4
     #T_max = L_time
     R_min = 1
     R_max = L_spat//2
+    #R_max = 4
     if wilson_type != 'original':
         conf_path_start_wilson = conf_path_start_wilson + \
             f'/{additional_parameters}'

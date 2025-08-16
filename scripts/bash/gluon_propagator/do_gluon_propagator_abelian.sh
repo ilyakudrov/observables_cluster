@@ -50,8 +50,8 @@ fi
 
 if [[ ! -f "${output_abelian}" ]] || [[ ! -f "${output_monopole}" ]] || [[ ! -f "${output_photon}" ]] || [ ! $calculate_absent -eq 1 ] ; then
 
-parameters="--conf_format ${conf_format} --conf_path ${conf_path1} --bytes_skip ${bytes_skip} --convert ${convert} --file_precision ${file_precision}\
-    --output_path ${output_abelian} --output_path ${output_monopole} --output_path ${output_photon} --L_spat ${L_spat} --L_time ${L_time} --beta ${beta}"
+parameters="--conf_format ${conf_format} --conf_path ${conf_path1} --bytes_skip ${bytes_skip} --convert ${convert} --file_precision ${file_precision} --path_inverse_laplacian ${path_inverse_laplacian}\
+    --output_path_abelian ${output_abelian} --output_path_monopole ${output_monopole} --output_path_photon ${output_photon} --L_spat ${L_spat} --L_time ${L_time} --beta ${beta}"
 
 /home/clusters/rrcmpi/kudrov/general_code/apps/observables/gluon_propagator/gluon_propagator_abelian_${arch} $parameters
 
