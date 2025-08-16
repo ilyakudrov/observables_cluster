@@ -33,6 +33,7 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
         f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_mag.json')
     data = json.load(f)
     conf_format = data['conf_format']
+    file_precision = data['file_precision']
     bytes_skip = data['bytes_skip']
     matrix_type = data['matrix_type']
     conf_path_start = data['conf_path_start']
@@ -69,11 +70,11 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
             pass
         path_conf_monopole = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/monopole/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}/{job[0]}'
         path_conf_monopoless = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/monopoless/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}/{job[0]}'
-        path_inverse_laplacian = f'/home/clusters/rrcmpi/kudrov/soft/inverse_laplacian/ALPHA{L_spat}x{L_time}_d.LAT'
+        path_inverse_laplacian = f'/home/clusters/rrcmpi/kudrov/soft/inverse_laplacian/inverse_laplacian_{L_spat}x{L_time}'
         # qsub -q mem8gb -l nodes=1:ppn=4
         bashCommand = f'qsub -q long -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bytes_skip={bytes_skip},'\
             f'path_conf_monopole={path_conf_monopole},path_conf_monopoless={path_conf_monopoless},path_inverse_laplacian={path_inverse_laplacian},'\
-            f'L_spat={L_spat},L_time={L_time},'\
+            f'file_precision={file_precision},L_spat={L_spat},L_time={L_time},'\
             f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch}'\
             f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../../bash/decomposition/do_decomposition_su2.sh'
         # print(bashCommand)

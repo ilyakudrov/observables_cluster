@@ -41,6 +41,7 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
         f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_mag.json')
     data = json.load(f)
     conf_format = data['conf_format']
+    file_precision = data['file_precision']
     bytes_skip = data['bytes_skip']
     L_spat = data['x_size']
     L_time = data['t_size']
@@ -70,7 +71,7 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
         # for nt8 and bigger
         # qsub -q mem4gb -l nodes=1:ppn=2
         bashCommand = f'qsub -q mem4gb -l nodes=1:ppn=2 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bytes_skip={bytes_skip},'\
-            f'path_functional_output={path_functional_output},arch={arch},theory_type={theory_type},'\
+            f'path_functional_output={path_functional_output},arch={arch},theory_type={theory_type},file_precision={file_precision},'\
             f'L_spat={L_spat},L_time={L_time},chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\
             f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../bash/do_mag_functional.sh'
         # print(bashCommand)

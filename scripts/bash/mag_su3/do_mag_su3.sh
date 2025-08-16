@@ -5,7 +5,7 @@ echo ${conf_format}
 if [[ ${conf_format} == "ildg" ]]; then
 conf_format="ILDG"
 fi
-if [[ ${conf_format} == "double_qc2dstag" ]]; then
+if [[ ${conf_format} == "qcdstag" ]]; then
 conf_format="QCDSTAG"
 fi
 

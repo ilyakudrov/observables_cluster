@@ -44,12 +44,12 @@ fi
 
 if [[ ! -f "${output_wilson}" ]] || [ ! $calculate_absent -eq 1 ] ; then
 
-parameters="-conf_format_wilson ${conf_format_wilson} -conf_path_wilson ${conf_path_wilson1} -bytes_skip_wilson ${bytes_skip_wilson} -convert_wilson ${convert_wilson}\
-    -HYP_alpha1 ${HYP_alpha1} -HYP_alpha2 ${HYP_alpha2} -HYP_alpha3 ${HYP_alpha3} -representation ${representation}\
-    -APE_alpha ${APE_alpha} -HYP_enabled ${HYP_enabled} -path_wilson ${output_wilson}\
-    -APE_steps ${APE_steps} -HYP_steps ${HYP_steps} -L_spat ${L_spat} -L_time ${L_time}\
-    -T_min ${T_min} -T_max ${T_max} -R_min ${R_min} -R_max ${R_max} -calculation_step_APE ${calculation_step_APE}\
-    -calculation_APE_start ${calculation_APE_start} -N_dir ${N_dir}"
+parameters="--conf_format_wilson ${conf_format_wilson} --conf_path_wilson ${conf_path_wilson1} --bytes_skip_wilson ${bytes_skip_wilson} --convert_wilson ${convert_wilson}\
+    --HYP_alpha1 ${HYP_alpha1} --HYP_alpha2 ${HYP_alpha2} --HYP_alpha3 ${HYP_alpha3} --representation ${representation}\
+    --APE_alpha ${APE_alpha} --HYP_enabled ${HYP_enabled} --path_wilson ${output_wilson} --file_precision_wilson ${file_precision_wilson}\
+    --APE_steps ${APE_steps} --HYP_steps ${HYP_steps} --L_spat ${L_spat} --L_time ${L_time}\
+    --T_min ${T_min} --T_max ${T_max} --R_min ${R_min} --R_max ${R_max} --calculation_step_APE ${calculation_step_APE}\
+    --calculation_APE_start ${calculation_APE_start} --N_dir ${N_dir}"
 
 /home/clusters/rrcmpi/kudrov/general_code/apps/smearing/smearing_wilson_gevp_${matrix_type_wilson}_${arch} $parameters
 

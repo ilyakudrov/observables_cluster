@@ -36,7 +36,7 @@ for beta, mu, conf_size in itertools.product(*iter_arrays):
 
     if conf_format == 'ildg':
         conf_format = 'ILDG'
-    elif conf_format == 'double_qc2dstag':
+    elif conf_format == 'qc2dstag':
         conf_format = 'QCDSTAG'
 
     chains = {'/': [661, 661]}

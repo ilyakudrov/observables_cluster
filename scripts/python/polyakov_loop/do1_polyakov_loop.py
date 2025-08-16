@@ -52,6 +52,7 @@ for beta, mu, conf_size, additional_parameters, decomposition_type, smearing in 
         f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_{decomposition_type}.json')
     data = json.load(f)
     conf_format = data['conf_format']
+    file_precision = data['file_precision']
     bytes_skip = data['bytes_skip']
     matrix_type = data['matrix_type']
     conf_path_start = data['conf_path_start']
@@ -92,7 +93,7 @@ for beta, mu, conf_size, additional_parameters, decomposition_type, smearing in 
 
         #-q mem8gb -l nodes=1:ppn=4
         bashCommand = f'qsub -q mem8gb -l nodes=1:ppn=4 -v conf_format={conf_format},'\
-            f'bytes_skip={bytes_skip},convert={convert},matrix_type={matrix_type},'\
+            f'bytes_skip={bytes_skip},convert={convert},matrix_type={matrix_type},file_precision={file_precision},'\
             f'conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
             f'padding={padding},L_spat={L_spat},L_time={L_time},arch={arch},'\
             f'output_path={output_path},chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\

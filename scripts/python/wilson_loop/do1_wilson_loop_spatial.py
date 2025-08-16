@@ -72,6 +72,7 @@ for beta, mu, conf_size, additional_parameters, decomposition_type in itertools.
         f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_{decomposition_type}.json')
     data = json.load(f)
     conf_format = data['conf_format']
+    file_precision = data['file_precision']
     bytes_skip = data['bytes_skip']
     matrix_type = data['matrix_type']
     conf_path_start = data['conf_path_start']
@@ -110,7 +111,7 @@ for beta, mu, conf_size, additional_parameters, decomposition_type in itertools.
         # 8gb for 48^4 su2
         # 8gb for nt6 and bigger
         # 16gb for nt10 and bigger
-        bashCommand = f'qsub -q long -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
+        bashCommand = f'qsub -q long -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},file_precision={file_precision},'\
             f'conf_format={conf_format},bytes_skip={bytes_skip},path_wilson={path_wilson},convert={convert},'\
             f'padding={padding},calculate_absent={calculate_absent},representation={representation},APE_step={APE_step},'\
             f'APE_start={APE_start},APE_end={APE_end},alpha={alpha},gauge_copies={gauge_copies},'\

@@ -36,6 +36,7 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
         f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_mag.json')
     data = json.load(f)
     conf_format = data['conf_format']
+    file_precision = data['file_precision']
     bytes_skip = data['bytes_skip']
     L_spat = data['x_size']
     L_time = data['t_size']
@@ -66,7 +67,7 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
         # qsub -q mem8gb -l nodes=1:ppn=4
         bashCommand = f'qsub -q long -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},matrix_type={matrix_type},conf_format={conf_format},bytes_skip={bytes_skip},'\
             f'output_path_functional={output_path_functional},output_path_confs_gaugefixed={output_path_confs_gaugefixed},'\
-            f'L_spat={L_spat},L_time={L_time},'\
+            f'file_precision={file_precision},L_spat={L_spat},L_time={L_time},'\
             f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch}'\
             f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../../bash/Landau_gauge/do_Landau_U1_fixation.sh'
         # print(bashCommand)

@@ -46,9 +46,9 @@ path_output_windings="${output_path}/windings/windings_`printf %04d $i`_${copy}"
 path_output_monopoles="${output_path}/monopoles/monopoles_`printf %04d $i`_${copy}"
 fi
 
-parameters="-conf_format ${conf_format} -path_conf $path_conf -conf_format ${conf_format} -bytes_skip ${bytes_skip} -convert ${convert} \
-    -path_output_clusters_unwrapped ${path_output_clusters_unwrapped} -path_output_windings ${path_output_windings} -path_output_monopoles ${path_output_monopoles} \
-    -path_output_clusters_wrapped ${path_output_clusters_wrapped} -x_size ${L_spat} -y_size ${L_spat} -z_size ${L_spat} -t_size ${L_time}"
+parameters="--conf_format ${conf_format} --path_conf $path_conf --conf_format ${conf_format} --bytes_skip ${bytes_skip} --convert ${convert} --file_precision ${file_precision}\
+    --path_output_clusters_unwrapped ${path_output_clusters_unwrapped} --path_output_windings ${path_output_windings} --path_output_monopoles ${path_output_monopoles} \
+    --path_output_clusters_wrapped ${path_output_clusters_wrapped} --x_size ${L_spat} --y_size ${L_spat} --z_size ${L_spat} --t_size ${L_time}"
 
 
 /home/clusters/rrcmpi/kudrov/general_code/apps/monopoles_su3/monopoles_su3_${arch} $parameters

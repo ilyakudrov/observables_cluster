@@ -44,8 +44,8 @@ fi
 
 if [[ ! -f "${output}" ]] || [ ! $calculate_absent -eq 1 ] ; then
 
-parameters="-conf_format ${conf_format} -conf_path ${conf_path1} -bytes_skip ${bytes_skip} -convert ${convert}\
-    -output_path ${output} -L_spat ${L_spat} -L_time ${L_time} -beta ${beta}"
+parameters="--conf_format ${conf_format} --conf_path ${conf_path1} --bytes_skip ${bytes_skip} --convert ${convert}\
+    --file_precision ${file_precision} --output_path ${output} --L_spat ${L_spat} --L_time ${L_time} --beta ${beta}"
 
 /home/clusters/rrcmpi/kudrov/general_code/apps/observables/gluon_propagator/gluon_propagator_${matrix_type}_${arch} $parameters
 

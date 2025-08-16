@@ -56,6 +56,7 @@ for beta, mu, conf_size, T_step in itertools.product(*iter_arrays):
         f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_original.json')
     data = json.load(f)
     conf_format = data['conf_format']
+    file_precision = data['file_precision']
     bytes_skip = data['bytes_skip']
     L_spat = data['x_size']
     L_time = data['t_size']
@@ -83,7 +84,7 @@ for beta, mu, conf_size, T_step in itertools.product(*iter_arrays):
         output_path_confs_gaugefixed = f'/home/clusters/rrcmpi/kudrov/mag/conf_mag/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/T_step={T_step}/{job[0]}'
         # qsub -q mem8gb -l nodes=1:ppn=4
         bashCommand = f'qsub -q long -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},matrix_type={matrix_type},conf_format={conf_format},bytes_skip={bytes_skip},'\
-            f'T_step={T_step},T_init={T_init},T_final={T_final},OR_steps={OR_steps},thermalization_steps={thermalization_steps},'\
+            f'T_step={T_step},T_init={T_init},T_final={T_final},OR_steps={OR_steps},thermalization_steps={thermalization_steps},file_precision={file_precision},'\
             f'output_path_functional={output_path_functional},output_path_conf_spin={output_path_conf_spin},output_path_confs_gaugefixed={output_path_confs_gaugefixed},'\
             f'tolerance_maximal={tolerance_maximal},tolerance_average={tolerance_average},tolerance_digits={tolerance_digits},gauge_copies={gauge_copies},is_new_trial={is_new_trial},'\
             f'is_final={is_final},is_compare={is_compare},is_compare_spins={is_compare_spins},is_functional_save={is_functional_save},L_spat={L_spat},L_time={L_time},'\

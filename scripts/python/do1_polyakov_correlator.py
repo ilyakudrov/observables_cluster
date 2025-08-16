@@ -70,6 +70,7 @@ for beta, mu, conf_size, additional_parameters, decomposition_type, smearing in 
         f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_{decomposition_type}.json')
     data = json.load(f)
     conf_format = data['conf_format']
+    file_precision = data['file_precision']
     bytes_skip = data['bytes_skip']
     matrix_type = data['matrix_type']
     conf_path_start = data['conf_path_start']
@@ -115,7 +116,7 @@ for beta, mu, conf_size, additional_parameters, decomposition_type, smearing in 
         # 8gb since nt16
         bashCommand = f'qsub -q mem16gb -l nodes=1:ppn=8 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
             f'conf_format={conf_format},bytes_skip={bytes_skip},path_output_correlator={path_output_correlator},'\
-            f'padding={padding},calculate_absent={calculate_absent},correlator_type={correlator_type},'\
+            f'padding={padding},calculate_absent={calculate_absent},correlator_type={correlator_type},file_precision={file_precision},'\
             f'L_spat={L_spat},L_time={L_time},D_max={D_max},matrix_type={matrix_type},'\
             f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch},'\
             f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../bash/do_polyakov_correlator.sh'

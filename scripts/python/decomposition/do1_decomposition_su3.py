@@ -12,13 +12,11 @@ conf_type = "gluodynamics"
 #conf_type = "QCD/140MeV"
 theory_type = "su3"
 
-compensate = 1
 calculate_absent="false"
-parallel = 1
 gauge_copies = 1
-#additional_parameters_arr = ['steps_0/copies=1', 'steps_2/copies=1', 
-#                             'steps_10/copies=1', 'steps_25/copies=4', 
-#                             'steps_50/copies=4', 'steps_100/copies=4', 
+#additional_parameters_arr = ['steps_0/copies=1', 'steps_2/copies=1',
+#                             'steps_10/copies=1', 'steps_25/copies=4',
+#                             'steps_50/copies=4', 'steps_100/copies=4',
 #                             'steps_200/copies=4', 'steps_500/copies=4']
 additional_parameters_arr = ['steps_0/copies=100']
 
@@ -41,6 +39,7 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
         f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_mag_Landau.json')
     data = json.load(f)
     conf_format = data['conf_format']
+    file_precision = data['file_precision']
     bytes_skip = data['bytes_skip']
     matrix_type = data['matrix_type']
     conf_path_start = data['conf_path_start']
@@ -80,7 +79,7 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
         # qsub -q mem8gb -l nodes=1:ppn=4
         bashCommand = f'qsub -q long -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bytes_skip={bytes_skip},'\
             f'path_conf_monopole={path_conf_monopole},path_conf_monopoless={path_conf_monopoless},path_inverse_laplacian={path_inverse_laplacian},'\
-            f'L_spat={L_spat},L_time={L_time},parallel={parallel},compensate={compensate},gauge_copies={gauge_copies},'\
+            f'L_spat={L_spat},L_time={L_time},gauge_copies={gauge_copies},file_precision={file_precision},'\
             f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch},calculate_absent={calculate_absent}'\
             f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../../bash/decomposition/do_decomposition_su3.sh'
         # print(bashCommand)

@@ -36,6 +36,7 @@ for beta, mu, conf_size, additional_parameters, decomposition_type in itertools.
         f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_{decomposition_type}.json')
     data = json.load(f)
     conf_format = data['conf_format']
+    file_precision = data['file_precision']
     bytes_skip = data['bytes_skip']
     matrix_type = data['matrix_type']
     conf_path_start = data['conf_path_start']
@@ -62,7 +63,7 @@ for beta, mu, conf_size, additional_parameters, decomposition_type in itertools.
             pass
         # qsub -q mem8gb -l nodes=1:ppn=4
         # qsub -q long
-        bashCommand = f'qsub -q long -v convert={convert},'\
+        bashCommand = f'qsub -q long -v convert={convert},file_precision={file_precision},'\
             f'conf_path_start={conf_path_start},conf_path_end={conf_path_end},'\
             f'conf_format={conf_format},bytes_skip={bytes_skip},conf_name={conf_name},'\
             f'padding={padding},calculate_absent={calculate_absent},'\

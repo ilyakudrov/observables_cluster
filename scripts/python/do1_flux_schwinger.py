@@ -43,6 +43,7 @@ for beta, mu, conf_size, decomposition_type_plaket, decomposition_type_wilson, s
         f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_{decomposition_type_plaket}.json')
     data_plaket = json.load(f)
     conf_format_plaket = data_plaket['conf_format']
+    file_precision_plaket = data_plaket['file_precision']
     bytes_skip_plaket = data_plaket['bytes_skip']
     matrix_type_plaket = data_plaket['matrix_type']
     conf_path_start_plaket = data_plaket['conf_path_start']
@@ -72,6 +73,7 @@ for beta, mu, conf_size, decomposition_type_plaket, decomposition_type_wilson, s
         f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_{decomposition_type_wilson}.json')
     data_wilson = json.load(f)
     conf_format_wilson = data_wilson['conf_format']
+    file_precision_wilson = data_wilson['file_precision']
     bytes_skip_wilson = data_wilson['bytes_skip']
     matrix_type_wilson = data_wilson['matrix_type']
     conf_path_start_wilson = data_wilson['conf_path_start']
@@ -107,7 +109,7 @@ for beta, mu, conf_size, decomposition_type_plaket, decomposition_type_wilson, s
             f'/{smearing}/{job[0]}'
         # -q mem8gb -l nodes=1:ppn=4
         bashCommand = f'qsub -q mem8gb -l nodes=1:ppn=4 -v conf_format_plaket={conf_format_plaket},conf_format_wilson={conf_format_wilson},bytes_skip_plaket={bytes_skip_plaket},'\
-            f'bytes_skip_wilson={bytes_skip_wilson},matrix_type_plaket={matrix_type_plaket},matrix_type_wilson={matrix_type_wilson},'\
+            f'bytes_skip_wilson={bytes_skip_wilson},matrix_type_plaket={matrix_type_plaket},matrix_type_wilson={matrix_type_wilson},file_precision_wilson={file_precision_wilson},file_precision_plaket={file_precision_plaket},'\
             f'conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
             f'padding_plaket={padding_plaket},padding_wilson={padding_wilson},convert_plaket={convert_plaket},convert_wilson={convert_wilson},'\
             f'R_min={R_min},R_max={R_max},T_min={T_min},T_max={T_max},x_trans={x_trans},d_ouside={d_ouside},d_max={d_max},L_spat={L_spat},L_time={L_time},'\

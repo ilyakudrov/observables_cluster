@@ -64,6 +64,7 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
         f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_{wilson_type}.json')
     data = json.load(f)
     conf_format_wilson = data['conf_format']
+    file_precision_wilson = data['file_precision']
     bytes_skip_wilson = data['bytes_skip']
     matrix_type_wilson = data['matrix_type']
     conf_path_start_wilson = data['conf_path_start']
@@ -112,7 +113,7 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
         # su3:
         # original: 24^4: 2GB, 28^4: 4GB, 32^4: 8GB, 36^4: 8GB, 40^4: 16GB
         # abelian: 28^4: 2GB, 32^4: 4GB, 36^4: 4GB, 40^4: 8GB
-        bashCommand = f'qsub -q mem4gb -l nodes=1:ppn=2 -v convert_wilson={convert_wilson},'\
+        bashCommand = f'qsub -q mem4gb -l nodes=1:ppn=2 -v convert_wilson={convert_wilson},file_precision_wilson={file_precision_wilson},'\
             f'conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
             f'conf_format_wilson={conf_format_wilson},bytes_skip_wilson={bytes_skip_wilson},representation={representation},'\
             f'padding_wilson={padding_wilson},calculate_absent={calculate_absent},'\

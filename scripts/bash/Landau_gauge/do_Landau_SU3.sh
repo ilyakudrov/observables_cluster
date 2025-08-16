@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if [[ ${conf_format} == "ildg" ]]; then
+conf_format="ILDG"
+fi
+if [[ ${conf_format} == "qcdstag" ]]; then
+conf_format="QCDSTAG"
+fi
+
 for((i=${conf_start};i<=${conf_end};i++))
 do
 

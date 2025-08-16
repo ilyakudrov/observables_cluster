@@ -44,9 +44,9 @@ echo output_path ${output_path}
 mkdir -p ${output_path}
 output_path1=${output_path_plaket}
 
-parameters="-conf_format ${conf_format} -conf_path $conf_path\
-  -bytes_skip ${bytes_skip} -convert ${convert} -path ${output_path1}\
-  -L_spat ${L_spat} -L_time ${L_time}"
+parameters="--conf_format ${conf_format} --conf_path $conf_path --file_precision ${file_precision}\
+  --bytes_skip ${bytes_skip} --convert ${convert} --path ${output_path1}\
+  --L_spat ${L_spat} --L_time ${L_time}"
 
 /home/clusters/rrcmpi/kudrov/general_code/apps/observables/plaket/plaket_${matrix_type}_${arch} $parameters
 

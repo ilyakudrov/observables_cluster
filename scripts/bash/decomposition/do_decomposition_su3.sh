@@ -43,9 +43,9 @@ if [ -f ${path_conf} ] && [ -s ${path_conf} ] && [ -f ${path_inverse_laplacian} 
 mkdir -p ${path_conf_monopole}
 mkdir -p ${path_conf_monopoless}
 
-parameters="-conf_format ${conf_format} -path_conf $path_conf -conf_format ${conf_format} -bytes_skip ${bytes_skip} \
-    -path_conf_monopole ${path_conf_monopole1} -path_conf_monopoless ${path_conf_monopoless1} -path_inverse_laplacian ${path_inverse_laplacian}\
-    -x_size ${L_spat} -y_size ${L_spat} -z_size ${L_spat} -t_size ${L_time} -parallel ${parallel} -compensate_dirac ${compensate}"
+parameters="--conf_format ${conf_format} --path_conf $path_conf --conf_format ${conf_format} --bytes_skip ${bytes_skip} --file_precision ${file_precision}\
+    --path_conf_monopole ${path_conf_monopole1} --path_conf_monopoless ${path_conf_monopoless1} --path_inverse_laplacian ${path_inverse_laplacian}\
+    --x_size ${L_spat} --y_size ${L_spat} --z_size ${L_spat} --t_size ${L_time}"
 
 /home/clusters/rrcmpi/kudrov/general_code/apps/monopole_decomposition_su3/decomposition_su3_${arch} $parameters
 

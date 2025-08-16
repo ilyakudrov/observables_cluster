@@ -101,14 +101,15 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
     f = open(
         f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_{wilson_type}.json')
     data = json.load(f)
-    conf_format_wilson = data['conf_format']
-    bytes_skip_wilson = data['bytes_skip']
-    matrix_type_wilson = data['matrix_type']
-    conf_path_start_wilson = data['conf_path_start']
-    conf_path_end_wilson = data['conf_path_end']
-    padding_wilson = data['padding']
-    conf_name_wilson = data['conf_name']
-    convert_wilson = data['convert']
+    conf_format = data['conf_format']
+    file_precision = data['file_precision']
+    bytes_skip = data['bytes_skip']
+    matrix_type = data['matrix_type']
+    conf_path_start = data['conf_path_start']
+    conf_path_end = data['conf_path_end']
+    padding = data['padding']
+    conf_name = data['conf_name']
+    convert = data['convert']
     L_spat = data['x_size']
     L_time = data['t_size']
     T_min = 1
@@ -119,41 +120,6 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
     if wilson_type != 'original':
         conf_path_start_wilson = conf_path_start_wilson + \
             f'/{additional_parameters}'
-
-    if plaket_type == 'original':
-        f = open(
-            f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_{plaket_type}.json')
-        data = json.load(f)
-        conf_format_plaket = data['conf_format']
-        bytes_skip_plaket = data['bytes_skip']
-        matrix_type_plaket = data['matrix_type']
-        conf_path_start_plaket = data['conf_path_start']
-        conf_path_end_plaket = data['conf_path_end']
-        padding_plaket = data['padding']
-        conf_name_plaket = data['conf_name']
-        convert_plaket = data['convert']
-    else:
-        conf_format_plaket = 'double'
-        bytes_skip_plaket = 0
-        if plaket_type == 'monopoless':
-            if theory_type == 'su2':
-                matrix_type_plaket = 'su2'
-            elif theory_type == 'su3':
-                matrix_type_wilson = 'su3'
-            else:
-                print('wrong theory type')
-        elif plaket_type == 'monopole':
-            if theory_type == 'su2':
-                matrix_type_plaket = 'abelian'
-            elif theory_type == 'su3':
-                matrix_type_wilson = 'su3_abelian'
-            else:
-                print('wrong theory type')
-        conf_path_start_plaket = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/'\
-            f'{wilson_type}/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}'
-        conf_path_end_plaket = '/'
-        padding_plaket = 4
-        conf_name_plaket = f'conf_{plaket_type}_'
 
     if HYP_enabled == 0:
         smearing_str = f'HYP0_APE_alpha={APE_alpha}'
@@ -173,16 +139,13 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
         #     f'T_step={T_step}/T_final={T_final}/OR_steps={OR_steps}/{smearing_str}/{job[0]}'
         log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/smearing/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\
             f'{wilson_type}_{plaket_type}/{smearing_str}/{additional_parameters}/{job[0]}'
-        conf_path_start_wilson1 = f'{conf_path_start_wilson}/{job[0]}/{conf_name_wilson}'
-        conf_path_start_plaket1 = f'{conf_path_start_plaket}/{job[0]}/{conf_name_plaket}'
+        conf_path_start1 = f'{conf_path_start}/{job[0]}/{conf_name}'
         try:
             os.makedirs(log_path)
         except:
             pass
         path_wilson_loop = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/smearing/wilson_loop/fundamental/on-axis/{theory_type}/'\
             f'{conf_type}/{conf_size}/{beta}/{mu}/{wilson_type}/{smearing_str}/{additional_parameters}/{job[0]}'
-        path_flux_tube = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/smearing/flux_tube/{theory_type}/'\
-            f'{conf_type}/{conf_size}/{beta}/{mu}/{wilson_type}_{plaket_type}/{smearing_str}/{additional_parameters}/{job[0]}'
         path_polyakov_correlator = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/smearing/polyakov_correlator/{theory_type}/'\
             f'{conf_type}/{conf_size}/{beta}/{mu}/{wilson_type}/{smearing_str}/{additional_parameters}/{polyakov_correlator_type}/{job[0]}'
         path_polyakov_loop = f'/home/clusters/rrcmpi/kudrov/observables_cluster/result/smearing/polyakov_loop/{theory_type}/'\
@@ -196,20 +159,17 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
         # 8gb for 48^4 su2
         # 8gb for nt6 and bigger
         # 16gb for nt10 and bigger
-        bashCommand = f'qsub -q long -v conf_path_start_plaket={conf_path_start_plaket1},conf_path_end_plaket={conf_path_end_plaket},'\
-            f'conf_format_plaket={conf_format_plaket},bytes_skip_plaket={bytes_skip_plaket},convert_wilson={convert_wilson},'\
-            f'conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
-            f'conf_format_wilson={conf_format_wilson},bytes_skip_wilson={bytes_skip_wilson},convert_plaket={convert_plaket},'\
-            f'padding_wilson={padding_wilson},padding_plaket={padding_plaket},calculate_absent={calculate_absent},save_conf={save_conf},conf_path_output={conf_path_output},'\
+        bashCommand = f'qsub -q long -v convert={convert},conf_path_start={conf_path_start1},conf_path_end={conf_path_end},file_precision={file_precision},'\
+            f'conf_format={conf_format},bytes_skip={bytes_skip},padding={padding},calculate_absent={calculate_absent},save_conf={save_conf},conf_path_output={conf_path_output},'\
             f'HYP_alpha1={HYP_alpha1},HYP_alpha2={HYP_alpha2},HYP_alpha3={HYP_alpha3},'\
             f'APE_alpha={APE_alpha},APE_enabled={APE_enabled},HYP_enabled={HYP_enabled},'\
             f'APE_steps={APE_steps},HYP_steps={HYP_steps},calculation_step_APE={calculation_step_APE},calculation_APE_start={calculation_APE_start},'\
             f'calculation_step_HYP={calculation_step_HYP},calculation_HYP_start={calculation_HYP_start},polyakov_correlator_D={polyakov_correlator_D},'\
-            f'path_wilson={path_wilson_loop},path_flux={path_flux_tube},path_polyakov_correlator={path_polyakov_correlator},polyakov_correlator_type={polyakov_correlator_type},'\
+            f'path_wilson={path_wilson_loop},path_polyakov_correlator={path_polyakov_correlator},polyakov_correlator_type={polyakov_correlator_type},'\
             f'wilson_enabled={wilson_enabled},flux_enabled={flux_enabled},polyakov_correlator_enabled={polyakov_correlator_enabled},'\
             f'path_polyakov_loop={path_polyakov_loop},polyakov_loop_enabled={polyakov_loop_enabled},'\
             f'L_spat={L_spat},L_time={L_time},T_min={T_min},T_max={T_max},R_min={R_min},R_max={R_max},gauge_copies={gauge_copies},'\
-            f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch},matrix_type_plaket={matrix_type_plaket},matrix_type_wilson={matrix_type_wilson}'\
+            f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch}'\
             f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../bash/do_smearing.sh'
         # print(bashCommand)
         process = subprocess.Popen(bashCommand.split())

@@ -40,10 +40,10 @@ fi
 
 if [[ ! -f ${output_path} ]] || [ ! $calculate_absent -eq 0 ] ; then
 
-parameters="-conf_format ${conf_format} -conf_path ${conf_path1} -bytes_skip ${bytes_skip} -convert ${convert}\
-    -L_spat ${L_spat} -L_time ${L_time} -representation ${representation} -APE_start ${APE_start} -APE_end ${APE_end} -APE_step ${APE_step} -alpha ${alpha}\
-    -path_wilson ${path_wilson}/wilson_loop_`printf %04d $i`\
-    -T_min ${T_min} -T_max ${T_max} -R_min ${R_min} -R_max ${R_max}"
+parameters="--conf_format ${conf_format} --conf_path ${conf_path1} --bytes_skip ${bytes_skip} --convert ${convert} --file_precision ${file_precision}\
+    --L_spat ${L_spat} --L_time ${L_time} --representation ${representation} --APE_start ${APE_start} --APE_end ${APE_end} --APE_step ${APE_step} --alpha ${alpha}\
+    --path_wilson ${path_wilson}/wilson_loop_`printf %04d $i`\
+    --T_min ${T_min} --T_max ${T_max} --R_min ${R_min} --R_max ${R_max}"
 
 /home/clusters/rrcmpi/kudrov/general_code/apps/observables/wilson_loops_spatial/wilson_loops_spatial_${matrix_type}_${arch} $parameters
 

@@ -34,6 +34,7 @@ for wilson_type in ['original']:
                 f'/home/clusters/rrcmpi/kudrov/conf/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/parameters_{wilson_type}.json')
             data = json.load(f)
             conf_format = data['conf_format']
+            file_precision = data['file_precision']
             bytes_skip = data['bytes_skip']
             L_spat = data['x_size']
             L_time = data['t_size']
@@ -64,7 +65,7 @@ for wilson_type in ['original']:
                 # qsub -q mem8gb -l nodes=1:ppn=4
                 bashCommand = f'qsub -q long -v conf_format={conf_format},'\
                     f'bytes_skip={bytes_skip},convert={convert},matrix_type={matrix_type},arch={arch},gauge_copies={gauge_copies},'\
-                    f'conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
+                    f'conf_path_start={conf_path_start1},conf_path_end={conf_path_end},file_precision={file_precision},'\
                     f'padding={padding},L_spat={L_spat},L_time={L_time},calculate_absent={calculate_absent},'\
                     f'output_path={output_path},chain={job[0]},conf_start={job[1]},conf_end={job[2]}'\
                     f' -o {log_path}/{job[1]:04}-{job[2]:04}.o -e {log_path}/{job[1]:04}-{job[2]:04}.e ../bash/do_plaket.sh'

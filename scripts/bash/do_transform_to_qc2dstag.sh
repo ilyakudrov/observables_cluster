@@ -40,8 +40,8 @@ echo "conf_path_output" "${conf_path_output}"
 
 if [[ ! "${conf_path_output}" ]] || [ ! $calculate_absent -eq 1 ] ; then
 
-parameters="-conf_format ${conf_format} -conf_path ${conf_path} -bytes_skip ${bytes_skip} -convert ${convert}\
-    -L_spat ${L_spat} -L_time ${L_time} -conf_path_output ${conf_path_output}"
+parameters="--conf_format ${conf_format} --conf_path ${conf_path} --bytes_skip ${bytes_skip} --convert ${convert} --file_precision ${file_precision}\
+    --L_spat ${L_spat} --L_time ${L_time} --conf_path_output ${conf_path_output}"
 
 /home/clusters/rrcmpi/kudrov/general_code/apps/conf_transform/transform_to_qc2dstag_${matrix_type}_${arch} $parameters
 

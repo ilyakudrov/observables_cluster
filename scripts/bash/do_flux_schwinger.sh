@@ -34,15 +34,15 @@ output_path_electric_trans_tr="${output_path}/transversal/electric_tr_`printf %0
 output_path_magnetic_trans_l="${output_path}/transversal/magnetic_l_`printf %04d $i`"
 output_path_magnetic_trans_tr="${output_path}/transversal/magnetic_tr_`printf %04d $i`"
 
-parameters="-conf_format_plaket $conf_format_plaket -conf_format_wilson ${conf_format_wilson} -conf_path_plaket $conf_path_plaket\
-   -conf_path_wilson ${conf_path_wilson} -bytes_skip_plaket ${bytes_skip_plaket} -bytes_skip_wilson ${bytes_skip_wilson}\
-   -matrix_type_plaket ${matrix_type_plaket} -matrix_type_wilson ${matrix_type_wilson}\
-   -output_path_electric_long_l ${output_path_electric_long_l} -output_path_electric_long_tr ${output_path_electric_long_tr}\
-   -output_path_magnetic_long_l ${output_path_magnetic_long_l} -output_path_magnetic_long_tr ${output_path_magnetic_long_tr}\
-   -output_path_electric_trans_l ${output_path_electric_trans_l} -output_path_electric_trans_tr ${output_path_electric_trans_tr}\
-   -output_path_magnetic_trans_l ${output_path_magnetic_trans_l} -output_path_magnetic_trans_tr ${output_path_magnetic_trans_tr}\
-   -output_path_electric_trans ${output_path_electric_trans} -convert_plaket ${convert_plaket} -convert_wilson ${convert_wilson}\
-   -T_min ${T_min} -T_max ${T_max} -R_min ${R_min} -R_max ${R_max} -d_ouside ${d_ouside} -d_max ${d_max} -L_spat ${L_spat} -L_time ${L_time} -x_trans ${x_trans}"
+parameters="--conf_format_plaket $conf_format_plaket --conf_format_wilson ${conf_format_wilson} --conf_path_plaket $conf_path_plaket\
+   --conf_path_wilson ${conf_path_wilson} --bytes_skip_plaket ${bytes_skip_plaket} --bytes_skip_wilson ${bytes_skip_wilson}\
+   --matrix_type_plaket ${matrix_type_plaket} --matrix_type_wilson ${matrix_type_wilson} --file_precision_wilson ${file_precision_wilson} --file_precision_plaket ${file_precision_plaket}\
+   --output_path_electric_long_l ${output_path_electric_long_l} --output_path_electric_long_tr ${output_path_electric_long_tr}\
+   --output_path_magnetic_long_l ${output_path_magnetic_long_l} --output_path_magnetic_long_tr ${output_path_magnetic_long_tr}\
+   --output_path_electric_trans_l ${output_path_electric_trans_l} --output_path_electric_trans_tr ${output_path_electric_trans_tr}\
+   --output_path_magnetic_trans_l ${output_path_magnetic_trans_l} --output_path_magnetic_trans_tr ${output_path_magnetic_trans_tr}\
+   --output_path_electric_trans ${output_path_electric_trans} --convert_plaket ${convert_plaket} --convert_wilson ${convert_wilson}\
+   --T_min ${T_min} --T_max ${T_max} --R_min ${R_min} --R_max ${R_max} --d_ouside ${d_ouside} --d_max ${d_max} --L_spat ${L_spat} --L_time ${L_time} --x_trans ${x_trans}"
 
 /home/clusters/rrcmpi/kudrov/general_code/apps/observables/flux_tube/flux_tube_schwinger_${matrix_type_plaket}_${matrix_type_wilson}_${arch} $parameters
 
