@@ -16,7 +16,7 @@ theory_type = "su3"
 #wilson_type_array = ['original']
 #wilson_type_array = ['monopole', 'abelian', 'photon']
 #wilson_type_array = ['monopoless', 'offdiagonal']
-wilson_type_array = ['abelian']
+wilson_type_array = ['monopole']
 #wilson_type_array = ['abelian', 'monopole', 'monopoless', 'offdiagonal', 'photon']
 #representation = 'adjoint'
 representation = 'fundamental'
@@ -93,8 +93,8 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
     #chains = {'/': [1, 1000]}
     chains = {'s1': [1, 500]}
     #chains = {'s2': [1, 1424], 's3': [1, 6000], 's4': [1, 6000]}
-    jobs = distribute_jobs(chains, number_of_jobs)
-    #jobs = distribute_jobs(data['chains'], number_of_jobs)
+    #jobs = distribute_jobs(chains, number_of_jobs)
+    jobs = distribute_jobs(data['chains'], number_of_jobs)
 
     for job in jobs:
         # log_path = f'/home/clusters/rrcmpi/kudrov/observables_cluster/logs/smearing/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/'\

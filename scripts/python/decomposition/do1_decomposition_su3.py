@@ -13,14 +13,14 @@ conf_type = "gluodynamics"
 theory_type = "su3"
 
 calculate_absent="false"
-gauge_copies = 1
+gauge_copies = 100
 #additional_parameters_arr = ['steps_0/copies=1', 'steps_2/copies=1',
 #                             'steps_10/copies=1', 'steps_25/copies=4',
 #                             'steps_50/copies=4', 'steps_100/copies=4',
 #                             'steps_200/copies=4', 'steps_500/copies=4']
 additional_parameters_arr = ['steps_0/copies=100']
 
-number_of_jobs = 1
+number_of_jobs = 500
 
 arch = "rrcmpi-a"
 #beta_arr = ['/']
@@ -60,9 +60,9 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
     #conf_name = "conf_Landau_gaugefixed_"
 
     #chains = {'/': [1, 1000]}
-    #chains = {'s1': [1, 500]}
-    #jobs = distribute_jobs(chains, number_of_jobs)
-    jobs = distribute_jobs(data['chains'], number_of_jobs)
+    chains = {'s1': [1, 500]}
+    jobs = distribute_jobs(chains, number_of_jobs)
+    #jobs = distribute_jobs(data['chains'], number_of_jobs)
 
     for job in jobs:
 
@@ -75,9 +75,9 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
             pass
         path_conf_monopole = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/monopole/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}/{job[0]}'
         path_conf_monopoless = f'/home/clusters/rrcmpi/kudrov/decomposition/confs_decomposed/monopoless/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{additional_parameters}/{job[0]}'
-        path_inverse_laplacian = f'/home/clusters/rrcmpi/kudrov/soft/inverse_laplacian/ALPHA{L_spat}x{L_time}_d.LAT'
+        path_inverse_laplacian = f'/home/clusters/rrcmpi/kudrov/inverse_laplacian/inverse_laplacian_{L_spat}x{L_time}'
         # qsub -q mem8gb -l nodes=1:ppn=4
-        bashCommand = f'qsub -q long -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bytes_skip={bytes_skip},'\
+        bashCommand = f'qsub -q mem16gb -l nodes=1:ppn=8 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bytes_skip={bytes_skip},'\
             f'path_conf_monopole={path_conf_monopole},path_conf_monopoless={path_conf_monopoless},path_inverse_laplacian={path_inverse_laplacian},'\
             f'L_spat={L_spat},L_time={L_time},gauge_copies={gauge_copies},file_precision={file_precision},'\
             f'chain={job[0]},conf_start={job[1]},conf_end={job[2]},arch={arch},calculate_absent={calculate_absent}'\
