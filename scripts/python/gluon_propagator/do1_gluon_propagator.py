@@ -8,8 +8,8 @@ sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
 
-#conf_type = "su2_suzuki"
-conf_type = "gluodynamics"
+conf_type = "su2_suzuki"
+#conf_type = "gluodynamics"
 #conf_type = "QCD/140MeV"
 #conf_type = "qc2dstag"
 theory_type = "su2"
@@ -18,18 +18,18 @@ decomposition_type_array = ['original']
 calculate_absent = 0
 gauge_copies = 0
 
-number_of_jobs = 1000
+number_of_jobs = 87
 
 arch = "rrcmpi-a"
 
 #beta_arr = ['beta2.6', 'beta2.779']
-beta_arr = ['beta2.701']
-beta_num = 2.701
+beta_arr = ['beta2.6']
+beta_num = 2.4
 #beta_arr = ['/']
 #mu_arr = ['mu0.15']
 #mu_arr = ['mu0.00', 'mu0.05', 'mu0.10', 'mu0.15', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.33', 'mu0.35', 'mu0.37', 'mu0.40', 'mu0.45', 'mu0.50']
 mu_arr = ['/']
-conf_size_arr = ['66^3x8']
+conf_size_arr = ['48^4']
 #conf_size_arr = ['32^3x8', '32^3x16', '32^3x20', '32^3x24', '32^3x28', '32^3x32']
 #conf_size_arr = ['32^3x64']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14', 'nt16', 'nt18', 'nt20']
@@ -75,7 +75,7 @@ for beta, mu, conf_size, additional_parameters, decomposition_type in itertools.
             f'{conf_type}/{conf_size}/{beta}/{mu}/{decomposition_type}/{additional_parameters}/{job[0]}'
         # qsub -q mem8gb -l nodes=1:ppn=4
         # qsub -q long
-        bashCommand = f'qsub -q long -v convert={convert},file_precision={file_precision},'\
+        bashCommand = f'qsub -q mem16gb -l nodes=1:ppn=8 -v convert={convert},file_precision={file_precision},'\
             f'conf_path_start={conf_path_start1},conf_path_end={conf_path_end},'\
             f'conf_format={conf_format},bytes_skip={bytes_skip},beta={beta_num},'\
             f'padding={padding},calculate_absent={calculate_absent},'\

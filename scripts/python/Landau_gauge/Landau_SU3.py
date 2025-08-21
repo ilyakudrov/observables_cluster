@@ -14,7 +14,7 @@ from iterate_confs import distribute_jobs
 conf_type = "QCD/140MeV"
 theory_type = "su3"
 
-number_of_jobs = 100
+number_of_jobs = 20
 
 arch = "rrcmpi"
 
@@ -27,8 +27,8 @@ mu_arr = ['/']
 # mu_arr = ['mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
 # mu_arr = ['mu0.00']
 # conf_size_arr = ['24^4']
-# conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
-conf_size_arr = ['nt4']
+conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14', 'nt16', 'nt18', 'nt20']
+#conf_size_arr = ['nt4']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
                additional_parameters_arr]
