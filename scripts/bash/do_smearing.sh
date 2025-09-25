@@ -74,9 +74,8 @@ parameters="--conf_format ${conf_format} --conf_path ${conf_path1} --bytes_skip 
     --polyakov_correlator_D ${polyakov_correlator_D} --calculation_step_HYP ${calculation_step_HYP} --calculation_HYP_start ${calculation_HYP_start}\
     --calculation_APE_start ${calculation_APE_start} --save_conf ${save_conf} --conf_path_output ${output_smeared}"
 
-/home/clusters/rrcmpi/kudrov/general_code/apps/smearing/smearing_${matrix_type_wilson}_${matrix_type_plaket}_${arch} $parameters
+/home/clusters/rrcmpi/kudrov/general_code/apps/smearing/smearing_${matrix_type}_${arch} $parameters
 
-fi
 fi
 fi
 

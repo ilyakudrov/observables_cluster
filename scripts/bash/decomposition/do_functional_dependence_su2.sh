@@ -50,6 +50,8 @@ parameters="--conf_format ${conf_format} --path_conf $path_conf --bytes_skip ${b
     --APE_alpha ${APE_alpha} --APE_steps ${APE_steps} --calculation_step_APE ${calculation_step_APE} --calculation_APE_start ${calculation_APE_start} --HYP_steps ${HYP_steps} \
     --x_size ${L_spat} --y_size ${L_spat} --z_size ${L_spat} --t_size ${L_time}"
 
+echo $parameters
+
 /home/clusters/rrcmpi/kudrov/general_code/apps/monopole_decomposition_su2/functional_dependence_${arch} $parameters
 
 fi

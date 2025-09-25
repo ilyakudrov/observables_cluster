@@ -22,18 +22,18 @@ T_min = 0.001
 tolerance = '1e-15'
 #doSA = 0
 save_each = 0
-save_best = 0
+save_best = 1
 
-number_of_jobs = 80
+number_of_jobs = 160
 
-beta_arr = ['beta6.257']
+beta_arr = ['beta6.1']
 #beta_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
 mu_arr = ['/']
 #conf_size_arr = ['nt16', 'nt18', 'nt20']
-conf_size_arr = ['48^3x12']
+conf_size_arr = ['36^4']
 #steps_arr = [25, 50, 100, 200, 500, 1000, 2000]
-steps_arr = [0]
+steps_arr = [100]
 #steps_arr = [62, 125, 250]
 #steps_arr = [0, 2, 10]
 
@@ -67,7 +67,7 @@ for beta, mu, conf_size, steps in itertools.product(*iter_arrays):
     #conf_name = 'conf.SP_gaugefixed_'
     #conf_path_end = '.ildg'
 
-    #chains = {'/': [1, 1000]}
+    #chains = {'/': [1, 1]}
     #chains = {'/': [1001, 1001]}
     #chains = {'s2': [1, 2000]}
     #chains = {'s1': [1, 500]}

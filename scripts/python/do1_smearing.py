@@ -38,7 +38,7 @@ HYP_alpha2 = "1"
 HYP_alpha3 = "0.5"
 APE_alpha = "0.5"
 APE_steps = "71"
-HYP_steps_array = ['10']
+HYP_steps_array = ['30']
 #HYP_steps_array = ['10']
 calculation_step_APE = 10
 calculation_APE_start = 1
@@ -49,7 +49,7 @@ wilson_enabled = 0
 flux_enabled = 0
 polyakov_correlator_enabled = 1
 polyakov_correlator_type = 'singlet'
-polyakov_loop_enabled = 0
+polyakov_loop_enabled = 1
 #polyakov_correlator_type = 'color_average'
 save_conf = 0
 
@@ -58,14 +58,19 @@ number_of_jobs = 50
 arch = "rrcmpi-a"
 
 #beta_arr = ['beta2.6', 'beta2.779']
-#beta_arr = ['beta6.0']
+#beta_arr = ['beta6.257']
 beta_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.20', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
+#mu_arr = ['mu0.00', 'mu0.05', 'mu0.10', 'mu0.15', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.33', 'mu0.35', 'mu0.37', 'mu0.40', 'mu0.45', 'mu0.50']
+#mu_arr = ['mu0.20', 'mu0.25']
 mu_arr = ['mu0.00', 'mu0.05', 'mu0.10', 'mu0.15', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.33', 'mu0.35', 'mu0.37', 'mu0.40', 'mu0.45', 'mu0.50']
+#mu_arr = ['mu0.15']
 #mu_arr = ['/']
 #conf_size_arr = ['24^4']
+#conf_size_arr = ['48^3x12']
+#conf_size_arr = ['32^3x16', '32^3x18', '32^3x20', '32^3x24', '32^3x28', '32^4', '32^3x36', '32^3x40']
+#conf_size_arr = ['32^3x24', '32^3x28', '32^4', '32^3x36', '32^3x40']
 conf_size_arr = ['40^4']
-#conf_size_arr = ['24^4']
 #conf_size_arr = ['32^3x64']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14', 'nt16', 'nt18', 'nt20']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
@@ -118,7 +123,7 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
     R_max = L_spat // 2
     polyakov_correlator_D = L_spat//2-1
     if wilson_type != 'original':
-        conf_path_start_wilson = conf_path_start_wilson + \
+        conf_path_start = conf_path_start + \
             f'/{additional_parameters}'
 
     if HYP_enabled == 0:
@@ -161,7 +166,7 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
         # 16gb for nt10 and bigger
         bashCommand = f'qsub -q long -v convert={convert},conf_path_start={conf_path_start1},conf_path_end={conf_path_end},file_precision={file_precision},'\
             f'conf_format={conf_format},bytes_skip={bytes_skip},padding={padding},calculate_absent={calculate_absent},save_conf={save_conf},conf_path_output={conf_path_output},'\
-            f'HYP_alpha1={HYP_alpha1},HYP_alpha2={HYP_alpha2},HYP_alpha3={HYP_alpha3},'\
+            f'HYP_alpha1={HYP_alpha1},HYP_alpha2={HYP_alpha2},HYP_alpha3={HYP_alpha3},matrix_type={matrix_type},'\
             f'APE_alpha={APE_alpha},APE_enabled={APE_enabled},HYP_enabled={HYP_enabled},'\
             f'APE_steps={APE_steps},HYP_steps={HYP_steps},calculation_step_APE={calculation_step_APE},calculation_APE_start={calculation_APE_start},'\
             f'calculation_step_HYP={calculation_step_HYP},calculation_HYP_start={calculation_HYP_start},polyakov_correlator_D={polyakov_correlator_D},'\

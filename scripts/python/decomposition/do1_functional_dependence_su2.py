@@ -28,17 +28,17 @@ mag_steps = 0
 
 #additional_parameters_arr = ['T_step=0.006', 'T_step=0.0125', 'T_step=0.025', 'T_step=0.05', 'T_step=0.1']
 # additional_parameters_arr = ['T_step=0.001']
-additional_parameters_arr = ['/']
+additional_parameters_arr = [f'steps={mag_steps}']
 
-number_of_jobs = 200
+number_of_jobs = 87
 
 arch = "rrcmpi-a"
-beta_arr = ['beta2.4']
+beta_arr = ['beta2.6']
 # beta_arr = ['/']
 mu_arr = ['/']
 #mu_arr = ['mu0.00', 'mu0.05', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.35', 'mu0.45']
 # mu_arr = ['mu0.15']
-conf_size_arr = ['24^4']
+conf_size_arr = ['48^4']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
                additional_parameters_arr]
@@ -62,14 +62,12 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
     R_min = 1
     R_max = L_spat//2
 
-    conf_path_start = conf_path_start + f'/{additional_parameters}'
-
     if HYP_enabled == 0 or HYP_steps == 0:
         smearing_str = f'HYP0_APE_alpha={APE_alpha}'
     else:
         smearing_str = f'HYP{HYP_steps}_alpha={HYP_alpha1}_{HYP_alpha2}_{HYP_alpha3}_APE_alpha={APE_alpha}'
 
-    #chains = {'/': [1, 5]}
+    #chains = {'/': [1, 10]}
     #chains = {'s0': [201, 201]}
     #jobs = distribute_jobs(chains, number_of_jobs)
     jobs = distribute_jobs(data['chains'], number_of_jobs)
@@ -109,8 +107,8 @@ for beta, mu, conf_size, additional_parameters in itertools.product(*iter_arrays
 
         path_inverse_laplacian = f'/home/clusters/rrcmpi/kudrov/inverse_laplacian/inverse_laplacian_{L_spat}x{L_time}'
         # qsub -q mem8gb -l nodes=1:ppn=4
-        bashCommand = f'qsub -q long -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bytes_skip={bytes_skip},'\
-            f'path_inverse_laplacian={path_inverse_laplacian},N_dir_gevp={N_dir_gevp},HYP_alpha1={HYP_alpha1},HYP_alpha2={HYP_alpha2},HYP_alpha3={HYP_alpha3},'\
+        bashCommand = f'qsub -q mem16gb -l nodes=1:ppn=8 -v conf_path_start={conf_path_start1},conf_path_end={conf_path_end},padding={padding},conf_format={conf_format},bytes_skip={bytes_skip},'\
+            f'path_inverse_laplacian={path_inverse_laplacian},N_dir_gevp={N_dir_gevp},HYP_alpha1={HYP_alpha1},HYP_alpha2={HYP_alpha2},HYP_alpha3={HYP_alpha3},copies_required={copies_required},'\
             f'path_functional={path_functional},path_wilson_loops_abelian={path_wilson_loops_abelian},path_wilson_loops_monopole={path_wilson_loops_monopole},'\
             f'path_clusters_unwrapped_abelian={path_clusters_unwrapped_abelian},path_clusters_unwrapped_monopole={path_clusters_unwrapped_monopole},path_clusters_unwrapped_monopoless={path_clusters_unwrapped_monopoless},'\
             f'path_clusters_wrapped_abelian={path_clusters_wrapped_abelian},path_clusters_wrapped_monopole={path_clusters_wrapped_monopole},path_clusters_wrapped_monopoless={path_clusters_wrapped_monopoless},'\

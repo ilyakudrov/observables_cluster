@@ -13,17 +13,17 @@ conf_type = "gluodynamics"
 #conf_type = "QCD/140MeV"
 #conf_type = "qc2dstag"
 theory_type = "su3"
-#wilson_type_array = ['original']
-#wilson_type_array = ['monopole', 'abelian', 'photon']
+wilson_type_array = ['offdiagonal']
+#wilson_type_array = ['monopole', 'abelian', 'photon', 'monopoless', 'offdiagonal']
 #wilson_type_array = ['monopoless', 'offdiagonal']
-wilson_type_array = ['monopole']
+#wilson_type_array = ['abelian']
 #wilson_type_array = ['abelian', 'monopole', 'monopoless', 'offdiagonal', 'photon']
-#representation = 'adjoint'
-representation = 'fundamental'
+representation = 'adjoint'
+#representation = 'fundamental'
 
 #calculate_absent = "true"
-calculate_absent = 0
-gauge_copies = 100
+calculate_absent = 1
+gauge_copies = 0
 
 HYP_enabled = 1
 HYP_alpha1 = "1"
@@ -54,7 +54,7 @@ conf_size_arr = ['32^4']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14']
 #conf_size_arr = ['nt16', 'nt18', 'nt20']
 #conf_size_arr = ['nt4']
-additional_parameters_arr = ['steps_0/copies=100']
+additional_parameters_arr = ['steps_0/copies=20']
 #additional_parameters_arr = ['/']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
@@ -91,7 +91,7 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
         smearing_str = f'HYP{HYP_steps}_alpha={HYP_alpha1}_{HYP_alpha2}_{HYP_alpha3}_APE_alpha={APE_alpha}'
 
     #chains = {'/': [1, 1000]}
-    chains = {'s1': [1, 500]}
+    #chains = {'s1': [1, 500]}
     #chains = {'s2': [1, 1424], 's3': [1, 6000], 's4': [1, 6000]}
     #jobs = distribute_jobs(chains, number_of_jobs)
     jobs = distribute_jobs(data['chains'], number_of_jobs)
@@ -113,7 +113,7 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
         # su3:
         # original: 24^4: 2GB, 28^4: 4GB, 32^4: 8GB, 36^4: 8GB, 40^4: 16GB
         # abelian: 28^4: 2GB, 32^4: 4GB, 36^4: 4GB, 40^4: 8GB
-        bashCommand = f'qsub -q mem4gb -l nodes=1:ppn=2 -v convert_wilson={convert_wilson},file_precision_wilson={file_precision_wilson},'\
+        bashCommand = f'qsub -q mem8gb -l nodes=1:ppn=4 -v convert_wilson={convert_wilson},file_precision_wilson={file_precision_wilson},'\
             f'conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
             f'conf_format_wilson={conf_format_wilson},bytes_skip_wilson={bytes_skip_wilson},representation={representation},'\
             f'padding_wilson={padding_wilson},calculate_absent={calculate_absent},'\
