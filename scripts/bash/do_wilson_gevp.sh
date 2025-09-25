@@ -8,9 +8,7 @@ for((i=${conf_start};i<=${conf_end};i++))
 do
 
 if [[ ${conf_path_end_wilson} == "/" ]]; then
-
 conf_path_end_wilson=""
-
 fi
 
 if [[ ${gauge_copies} == 0 ]]; then
