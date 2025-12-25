@@ -13,31 +13,31 @@ conf_type = "gluodynamics"
 #conf_type = "QCD/140MeV"
 #conf_type = "qc2dstag"
 theory_type = "su3"
-wilson_type_array = ['offdiagonal']
+wilson_type_array = ['monopole']
 #wilson_type_array = ['monopole', 'abelian', 'photon', 'monopoless', 'offdiagonal']
-#wilson_type_array = ['monopoless', 'offdiagonal']
-#wilson_type_array = ['abelian']
+#wilson_type_array = ['monopoless', 'monopole']
+#wilson_type_array = ['original']
 #wilson_type_array = ['abelian', 'monopole', 'monopoless', 'offdiagonal', 'photon']
-representation = 'adjoint'
-#representation = 'fundamental'
+#representation = 'adjoint'
+representation = 'fundamental'
 
 #calculate_absent = "true"
-calculate_absent = 1
-gauge_copies = 0
+calculate_absent = 0
+gauge_copies = 20
 
 HYP_enabled = 1
 HYP_alpha1 = "1"
 HYP_alpha2 = "1"
 HYP_alpha3 = "0.5"
 APE_alpha = "0.5"
-APE_steps = "31"
+APE_steps = "121"
 #HYP_steps_array = ['0', '1']
 HYP_steps_array = ['0']
 calculation_step_APE = 10
 calculation_APE_start = 11
 N_dir = 4
 
-number_of_jobs = 500
+number_of_jobs = 1000
 
 arch = "rrcmpi-a"
 
@@ -47,7 +47,7 @@ beta_arr = ['beta6.0']
 #mu_arr = ['mu0.00', 'mu0.25', 'mu0.30', 'mu0.40']
 #mu_arr = ['mu0.00', 'mu0.05', 'mu0.10', 'mu0.15', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.33', 'mu0.35', 'mu0.37', 'mu0.40', 'mu0.45', 'mu0.50']
 mu_arr = ['/']
-conf_size_arr = ['32^4']
+conf_size_arr = ['24^4']
 #conf_size_arr = ['32^3x8', '32^3x16', '32^3x20', '32^3x24', '32^3x28', '32^3x32']
 #conf_size_arr = ['32^3x64']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14', 'nt16', 'nt18', 'nt20']
@@ -75,12 +75,12 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
     L_spat = data['x_size']
     L_time = data['t_size']
     T_min = 1
-    T_max = L_time//2
-    #T_max = 4
+    #T_max = L_time//2
+    T_max = L_time
     #T_max = L_time
     R_min = 1
-    R_max = L_spat//2
-    #R_max = 4
+    #R_max = L_spat//2
+    R_max = L_spat
     if wilson_type != 'original':
         conf_path_start_wilson = conf_path_start_wilson + \
             f'/{additional_parameters}'
@@ -113,7 +113,7 @@ for beta, mu, conf_size, additional_parameters, wilson_type, HYP_steps in iterto
         # su3:
         # original: 24^4: 2GB, 28^4: 4GB, 32^4: 8GB, 36^4: 8GB, 40^4: 16GB
         # abelian: 28^4: 2GB, 32^4: 4GB, 36^4: 4GB, 40^4: 8GB
-        bashCommand = f'qsub -q mem8gb -l nodes=1:ppn=4 -v convert_wilson={convert_wilson},file_precision_wilson={file_precision_wilson},'\
+        bashCommand = f'qsub -q long -v convert_wilson={convert_wilson},file_precision_wilson={file_precision_wilson},'\
             f'conf_path_start_wilson={conf_path_start_wilson1},conf_path_end_wilson={conf_path_end_wilson},'\
             f'conf_format_wilson={conf_format_wilson},bytes_skip_wilson={bytes_skip_wilson},representation={representation},'\
             f'padding_wilson={padding_wilson},calculate_absent={calculate_absent},'\

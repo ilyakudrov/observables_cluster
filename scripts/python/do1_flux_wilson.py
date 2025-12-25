@@ -7,16 +7,16 @@ sys.path.append(os.path.join(os.path.dirname(
     os.path.abspath(__file__)), "..", "..", "lib", "src", "python"))
 from iterate_confs import distribute_jobs
 
-conf_type = "su2_suzuki"
-#conf_type = "qc2dstag"
+#conf_type = "su2_suzuki"
+conf_type = "qc2dstag"
 #conf_type = "gluodynamics"
 theory_type = "su2"
 
-calculate_absent = 1
+calculate_absent = 0
 gauge_copies = 0
 
 arch="rrcmpi"
-number_of_jobs = 87
+number_of_jobs = 200
 
 #smearing_arr = ['HYP0_alpha=1_1_0.5_APE_alpha=0.5', 'HYP1_alpha=1_1_0.5_APE_alpha=0.5',
 #                'HYP2_alpha=1_1_0.5_APE_alpha=0.5', 'HYP3_alpha=1_1_0.5_APE_alpha=0.5']
@@ -25,12 +25,12 @@ smearing_arr = ['/']
 #decomposition_type_wilson_arr = ["original", "monopole", "monopoless", "abelian"]
 decomposition_type_plaket_arr = ["original"]
 decomposition_type_wilson_arr = ["original"]
-#beta_arr = ['/']
-beta_arr = ['beta2.6']
+beta_arr = ['/']
+#beta_arr = ['beta2.4']
 #mu_arr = ['mu0.00', 'mu0.20', 'mu0.30', 'mu0.35', 'mu0.40', 'mu0.45']
-mu_arr = ['/']
-#mu_arr = ['mu0.00', 'mu0.20']
-conf_size_arr = ['48^4']
+#mu_arr = ['/']
+mu_arr = ['mu0.40']
+conf_size_arr = ['32^3x64']
 additional_parameters_arr = ['/']
 
 iter_arrays = [beta_arr, mu_arr, conf_size_arr,
@@ -73,13 +73,6 @@ for beta, mu, conf_size, decomposition_type_plaket, decomposition_type_wilson, s
     conf_name_wilson = data_wilson['conf_name']
     convert_wilson = data_wilson['convert']
 
-    conf_path_start_wilson = f'/home/clusters/rrcmpi/kudrov/smearing/{theory_type}/{conf_type}/{conf_size}/{beta}/{mu}/{decomposition_type_wilson}/{smearing}/{additional_parameters}'
-    conf_name_wilson = 'smeared_'
-    conf_path_end_wilson = '/'
-    conf_format_wilson = 'double'
-    padding_wilson = 4
-    bytes_skip_wilson = 0
-    convert_wilson = 0
 
     #chains = {'/': [201, 201]}
     #jobs = distribute_jobs(chains, number_of_jobs)

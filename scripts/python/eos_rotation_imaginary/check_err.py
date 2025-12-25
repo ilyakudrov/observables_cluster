@@ -19,7 +19,7 @@ def get_dir_names(path):
 
 script_name = 'average_distribution'
 #for additional_dir in ['nt4p_im1_global_vm48', 'nt4p_im2_global_vm48', 'nt4p_re2_global_vm48']:
-for additional_dir in ['']
+for additional_dir in ['']:
     base_path = f"/home/clusters/rrcmpi/kudrov/observables_cluster/logs/eos_energy_average/{script_name}/{additional_dir}"
     lattice_dirs = get_dir_names(base_path)
     for lattice_size in lattice_dirs:

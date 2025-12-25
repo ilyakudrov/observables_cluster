@@ -1,4 +1,5 @@
 import itertools
+
 import sys
 import subprocess
 import os
@@ -27,10 +28,11 @@ script_name_arr = ['average_distribution', 'average_observables_rings', 'average
 additional_dir = '/'
 #lattice_size_arr = ['5x30x121sq', '6x36x145sq', '7x42x169sq']
 #lattice_size_arr = ['30x30x121sq', '36x36x145sq', '42x42x169sq', '5x30x121sq', '6x36x145sq', '7x42x169sq']
-lattice_size_arr = ['24x24x97sq', '30x30x121sq', '36x36x145sq', '42x42x169sq', '4x24x97sq', '5x30x121sq', '6x36x145sq', '7x42x169sq', '30x30x181sq', '5x30x181sq']
+lattice_size_arr = ['24x24x97sq', '30x30x121sq', '30x30x181sq', '36x36x145sq', '42x42x169sq', '4x24x97sq', '5x30x121sq', '5x30x181sq', '6x36x145sq', '7x42x169sq']
 #boundary_arr = ["PBC_cV"]
 #boundary_arr = ["OBCb_cV"]
-boundary_arr = ["OBCb_cV", "PBC_cV"]
+boundary_arr = ["OBC_cV"]
+#boundary_arr = ["OBCb_cV", "PBC_cV"]
 #base_path = "/home/clusters/rrcmpi/kudrov/eos_high_precision/result/logs"
 #base_path = '/lustre/rrcmpi/roenko/gluo_rotation_omp/results_hydra/EoS-Sym/logs'
 #base_path = '/lustre/rrcmpi/roenko/gluo_rotation_omp/results_hydra/EoS-Sym-ext/logs'
@@ -38,7 +40,7 @@ boundary_arr = ["OBCb_cV", "PBC_cV"]
 #base_path = '/home/clusters/rrcmpi/kudrov/eos_high_precision/results/EoS-Sym/logs'
 #base_path = '/lustre/rrcmpi/roenko/sychev_hydra/gluo_rotation/eos_run3_p3/nt7p_d2/logs'
 #base_path = '/lustre/rrcmpi/roenko/sychev_hydra/gluo_rotation/eos_run4/nt4p_re2_global_vm48/nt4p_re2_global_vm48/logs'
-base_path = '/lustre/rrcmpi/roenko/sychev_hydra/gluo_rotation/eos_run5/nt5lo_curative_set2_v0/logs'
+base_path = '/lustre/rrcmpi/roenko/gluo_rotation_omp/results/EoS-Sym-add2r'
 #base_path = '/home/clusters/rrcmpi/sychev/gluo_rotation/eos_run3/nt6p_v1/logs'
 spec_additional_path = '/home/clusters/rrcmpi/kudrov/observables/data/eos_rotation_imaginary'
 bin_test = False

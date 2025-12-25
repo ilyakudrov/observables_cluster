@@ -18,20 +18,19 @@ decomposition_type_array = ['original']
 calculate_absent = 0
 gauge_copies = 0
 
-number_of_jobs = 87
-
+number_of_jobs = 100
 arch = "rrcmpi-a"
 
 #beta_arr = ['beta2.6', 'beta2.779']
 beta_arr = ['beta2.6']
-beta_num = 2.4
+beta_num = 2.6
 #beta_arr = ['/']
 #mu_arr = ['mu0.15']
 #mu_arr = ['mu0.00', 'mu0.05', 'mu0.10', 'mu0.15', 'mu0.20', 'mu0.25', 'mu0.30', 'mu0.33', 'mu0.35', 'mu0.37', 'mu0.40', 'mu0.45', 'mu0.50']
 mu_arr = ['/']
-conf_size_arr = ['48^4']
+conf_size_arr = ['24^4']
 #conf_size_arr = ['32^3x8', '32^3x16', '32^3x20', '32^3x24', '32^3x28', '32^3x32']
-#conf_size_arr = ['32^3x64']
+#conf_size_arr = ['nt4']
 #conf_size_arr = ['nt4', 'nt6', 'nt8', 'nt10', 'nt12', 'nt14', 'nt16', 'nt18', 'nt20']
 # additional_parameters_arr = ['steps_100/copies=100']
 additional_parameters_arr = ['/']
